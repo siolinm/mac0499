@@ -1,0 +1,60 @@
+%!TeX root=../tcc.tex
+%("dica" para o editor de texto: este arquivo é parte de um documento maior)
+% para saber mais: https://tex.stackexchange.com/q/78101
+
+%% ------------------------------------------------------------------------- %%
+
+% "\chapter" cria um capítulo com número e o coloca no sumário; "\chapter*"
+% cria um capítulo sem número e não o coloca no sumário. A introdução não
+% deve ser numerada, mas deve aparecer no sumário. Por conta disso, este
+% modelo define o comando "\unnumberedchapter".
+\unnumberedchapter{Introdução}
+\label{cap:introducao}
+
+\enlargethispage{.5\baselineskip}
+
+Em Geometria Computacional visa-se desenvolver algoritmos que
+resolvam problemas geométricos de maneira eficiente. Há problemas,
+em que esses algoritmos podem ser usados, que advêm de outras áreas
+como: tráfego aéreo, computação gráfica, telefonia celular,
+movimento de partículas, entre outras. Para o desenvolvimento de
+tais algoritmos, são utilizados resultados de áreas como: geometria
+euclidiana, teoria dos grafos, combinatória, estruturas de dados e
+análise de algoritmos.
+
+Os objetos nos problemas podem representar entidades do mundo
+físico. Por exemplo, pontos podem representar pessoas, aviões,
+estabelecimentos, entre outras coisas, retas podem representar
+trajetórias.
+
+Quando é dado um conjunto de objetos geométricos fixo, e deseja-se
+saber informações de um determinado atributo desses objetos (como,
+por exemplo, em um conjunto dado de pontos, qual par de pontos
+possui distância mínima) dizemos que esse é um problema
+\textit{estático}.
+
+O mesmo problema pode ser formulado, porém sobre um conjunto
+mutável. Por exemplo, pontos poderiam ser inseridos e removidos ao
+longo do tempo. Queremos calcular o atributo sem ter que resolver do
+zero a nova instância do problema estático. Chamamos esse tipo de
+problema de \textit{dinâmico} ou \textit{on-line}.
+
+Em uma outra formulação, os pontos poderiam estar em movimento
+contínuo. Essa é a chamada versão \textit{cinética} do problema. É
+nesse contexto que entram as chamadas \textit{estruturas de dados
+cinéticas} (\emph{KDS - Kinetic Data Structures}).
+
+Essas estruturas nos permitem realizar consultas de um determinado
+atributo dos objetos, no instante atual. A garantia de que a
+estrutura permanece correta se dá através do uso de instrumentos
+chamados \textit{certificados}. Os certificados estabelecem que uma
+relação entre um objeto da estrutura e outro se mantém verdadeira
+até o seu vencimento e devem ajudar na manutenção da estrutura para
+permitir as consultas desejadas. Poderíamos usar certificados por
+exemplo entre alguns pares de pontos que, considerando suas
+trajetórias atuais, garantissem que, até o instante $t$, a ordenada
+de um dos pontos é maior que a ordenada do outro ponto. Ao
+atingirmos o instante $t$, o certificado vence, implicando em uma
+mudança estrutural no conjunto de pontos que pode afetar o resultado
+de futuras consultas, requerendo assim possíveis ajustes na
+estrutura de dados, e eventual cálculo de novos certificados.
