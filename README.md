@@ -6,3 +6,4 @@ Supervisionado do IME-USP.
 (https://www.ime.usp.br/~nina/)
 - Orientadora: Profª. Drª. Cristina Gomes Fernandes
 - Página da disciplina: https://www.ime.usp.br/~nina/mac0499
+- Página do trabalho: https://linux.ime.usp.br/~siolinm/mac0499/
