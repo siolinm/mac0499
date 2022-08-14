@@ -1,0 +1,4 @@
+*.o
+heap
+*.txt
+.vscode/
