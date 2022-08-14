@@ -1,0 +1,22 @@
+\begin{algorithm}
+    \caption{Função \textsc{change}.} \label{torn:change}
+\begin{algorithmic}[1]
+    \Function{change}{$j, v$}
+        \State $x_0$[$j$] $\leftarrow x_0$[$j$]
+        $+~($\speed[$j$] $-~v)~\cdot~$\now;
+        \State \speed[$j$] $\leftarrow v$
+        \State $i \leftarrow $ \indt[$j$]
+        \State \Call{update}{$i$}
+        \While{$i < n$}
+            \If{$\torneio[i] = \torneio[2i]$}
+                \State $i \leftarrow 2i$
+            \Else
+                \State $i \leftarrow 2i + 1$
+            \EndIf
+            \State $k \leftarrow 2\cdot \floor{\frac{i}{2}}
+            + ((i + 1)\mod2)$ \Comment{adversário}
+            \State \Call{update}{$k$}
+        \EndWhile
+    \EndFunction
+\end{algorithmic}
+\end{algorithm}

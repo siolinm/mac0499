@@ -1,0 +1,17 @@
+\begin{algorithm}
+    \caption{Função \textsc{update}.} \label{torneio:update}
+    \begin{algorithmic}[1]
+        \Function{update}{$i$}
+            \If{$i = 1$}
+                \State $t \leftarrow \infty$
+            \EndIf
+            \If{$1 < i \leq 2n - 1$}
+                \State $t \leftarrow $
+                \Call{expire}{\torneio$[\floor{\frac{i}{2}}]$,
+                \torneio$[i]$}
+            \EndIf
+            \State $j \leftarrow$ \torneio$[i]$
+            \State \Call{updatePQ}{$Q,j,t$}
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
