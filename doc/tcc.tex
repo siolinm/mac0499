@@ -288,18 +288,18 @@ texto texto texto texto. Preencher mais tarde.
 %%%%% Listas criadas automaticamente
 
 % Você pode escolher se quer ou não permitir a quebra de página
-%\listoffigures
-\disablenewpage{\listoffigures}
+\listoffigures
+% \disablenewpage{\listoffigures}
 
 % Você pode escolher se quer ou não permitir a quebra de página
-%\listoftables
-\disablenewpage{\listoftables}
+\listoftables
+% \disablenewpage{\listoftables}
 
 % Esta lista é criada "automaticamente" pela package float quando
 % definimos o novo tipo de float "program" (em utils.tex)
 % Você pode escolher se quer ou não permitir a quebra de página
-%\listof{program}{\programlistname}
-\disablenewpage{\listof{algorithm}{\programlistname}}
+\listof{algorithm}{\programlistname}
+% \disablenewpage{\listof{algorithm}{\programlistname}}
 
 % Sumário (obrigatório)
 \tableofcontents
@@ -340,6 +340,7 @@ texto texto texto texto. Preencher mais tarde.
 
 \input{conteudo/introducao}
 \input{conteudo/ordenacao/ordenacao}
+\input{conteudo/maximo/maximo}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% APÊNDICES E ANEXOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
