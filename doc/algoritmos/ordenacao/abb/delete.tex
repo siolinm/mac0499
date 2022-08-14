@@ -1,0 +1,13 @@
+\begin{algorithm}
+    \caption{Função \textsc{delete}.} \label{abb:delete}
+    \begin{algorithmic}[1]
+        \Function{delete}{$i$}
+            \State $e \leftarrow$ \Call{getObject}{$i$}
+            \State $e' \leftarrow e.next$
+            \State \raiz~$\leftarrow$ \Call{deleteKey}{$root, e$}
+            \State \Call{deleteObject}{$e$}
+            \State \Call{deletePQ}{$Q, e$}
+            \State \Call{update}{$e'$}
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}

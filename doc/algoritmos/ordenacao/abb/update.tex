@@ -1,0 +1,13 @@
+\begin{algorithm}
+    \caption{Função \textsc{update}.} \label{abb:update}
+\begin{algorithmic}[1]
+    \Function{update}{$e$}
+        \If{$e \neq$ NULL}
+            \State $e'\leftarrow e.next$
+            \State $t \leftarrow $ \Call{expire}{$e,e'$}
+            \State \Call{updatePQ}{$Q,e,t$}
+        \EndIf
+    \EndFunction
+    \LineComment{\Call{expire}{$e,e'$} calcula a validade do certificado entre os elementos $e$ e $e'$, se $e'$ é NULL retorna $+\infty$}
+\end{algorithmic}
+\end{algorithm}
