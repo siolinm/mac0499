@@ -1,0 +1,29 @@
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[thick]
+    \node[label={1},circle,draw,minimum size=1cm] (1) at (0,0) {$9$};
+    \node[label={2},circle,draw,minimum size=1cm] (2) at (-2,-2) {$2$};
+    \node[label={3},circle,draw,minimum size=1cm] (3) at (2,-2) {$7$};
+    \node[label={4},circle,draw,minimum size=1cm] (4) at (-3,-4) {$5$};
+    \node[label={5},circle,draw,minimum size=1cm] (5) at (-1,-4) {$6$};
+    \node[label={6},circle,draw,minimum size=1cm] (6) at (1,-4) {$3$};
+    \node[label={7},circle,draw,minimum size=1cm] (7) at (3,-4) {$8$};
+    \node[label={8},circle,draw,minimum size=1cm] (8) at (-4,-6) {$4$};
+    \node[label={9},circle,draw,minimum size=1cm] (9) at (-2,-6) {$1$};
+        \tikzstyle{cert}=[<-, dashed, red]
+        \draw[thick] (1) -- (2);
+        \draw[thick] (1) -- (3);
+        \draw[cert] (2) -- (4);
+        \draw[thick] (2) -- (5);
+        \draw[thick] (3) -- (6);
+        \draw[thick] (3) -- (7);
+        \draw[thick] (4) -- (8);
+        \draw[thick] (4) -- (9);
+        % \draw[->, color=red] (2) -- (3);
+        % \draw[->] (3) -- (4);
+        % \draw[->] (4) -- (5);
+        % \draw[->] (1) edge (2) (2) edge (3) (3) edge (4) (4) edge (5)
+    \end{tikzpicture}
+    \caption[Certificado expirado]{\cert[$4$] expirou.}
+    \label{fig:maxdevent}
+\end{figure}

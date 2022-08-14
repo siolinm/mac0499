@@ -1,0 +1,19 @@
+\begin{algorithm}
+    \caption{Função \textsc{event}.} \label{max:evento}
+\begin{algorithmic}[1]
+    \Function{event}{}
+        \State $i \leftarrow  $ \Call{minPQ}{$Q$}
+        \While{\cert[$i$] = \now}
+            \State \heap[$i$] $\leftrightarrow$
+            \heap$[\floor{\frac{i}{2}}]$
+            \State \Call{update}{$i$}
+            \State \Call{update}{$\floor{\frac{i}{2}}$}
+            \State \Call{update}{$2\cdot
+            \floor{\frac{i}{2}} + ((i + 1)~mod~2)$}
+            \State \Call{update}{$2i$}
+            \State \Call{update}{$2i + 1$}
+            \State $i \leftarrow  $ \Call{minPQ}{$Q$}
+        \EndWhile
+    \EndFunction
+\end{algorithmic}
+\end{algorithm}

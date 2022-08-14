@@ -1,0 +1,13 @@
+\begin{algorithm}
+    \caption{Função \textsc{change}.} \label{max:advance}
+\begin{algorithmic}[1]
+    \Function{change}{$j, v$}
+        \State $x_0$[$j$] $\leftarrow x_0$[$j$]
+        $+~($\speed[$j$] - $v)~\cdot~$\now;
+        \State \speed[$j$] $\leftarrow v$
+        \State \Call{update}{$i$}
+        \State \Call{update}{$2i$}
+        \State \Call{update}{$2i + 1$}
+    \EndFunction
+\end{algorithmic}
+\end{algorithm}
