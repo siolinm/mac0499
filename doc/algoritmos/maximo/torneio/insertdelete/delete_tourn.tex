@@ -1,0 +1,24 @@
+\begin{algorithm}
+    \caption{Função \textsc{deleteTourn}.} \label{torneioi:deletetourn}
+    \begin{algorithmic}[1]
+        \Function{deleteTourn}{$e$}
+            \State $i \leftarrow $ \Call{substitute}{$e$}
+            \State $k \leftarrow 2\cdot \floor{i/2} + ((i + 1)\mod2)$
+            \While{$i > 1$}
+                \If{\Call{compare}{$k, i$}}
+                    \State $i \leftrightarrow k$
+                \EndIf
+                \State $\torneio[\floor{i/2}] \leftarrow \torneio[i]$
+                \State $\torneio[k].\lastmatch \leftarrow k$
+                \State \Call{update}{$\torneio[k]$}
+                \State $i \leftarrow \floor{i/2}$
+                \State $k \leftarrow 2\cdot \floor{i/2} + ((i + 1)\mod2)$
+                \Comment{adversário}
+            \EndWhile
+            \State $\torneio[1].\lastmatch \leftarrow 1$
+                \State \Call{update}{$\torneio[1]$}
+        \EndFunction
+        \LineComment{\Call{compare}{$i, j$} retorna se o valor de
+        $i$ é maior que o valor de $j$.}
+    \end{algorithmic}
+\end{algorithm}

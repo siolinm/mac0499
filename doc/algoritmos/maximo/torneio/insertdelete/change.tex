@@ -1,0 +1,22 @@
+\begin{algorithm}
+    \caption{Função \textsc{change}.} \label{torneioi:change}
+    \begin{algorithmic}[1]
+        \Function{change}{$j, v$}
+            \State $e \leftarrow$ \Call{getObject}{$j$}
+            \State $e.x_0 \leftarrow e.x_0+~(e.\speed -~v)~\cdot~\now$;
+            \State $e.\speed \leftarrow v$
+            \State $i \leftarrow e.\lastmatch$
+            \State \Call{update}{$e$}
+            \While{$i < n$}
+                \If{$\torneio[i] = \torneio[2i]$}
+                    \State $i \leftarrow 2i$
+                \Else
+                    \State $i \leftarrow 2i + 1$
+                \EndIf
+                \State $k \leftarrow 2\cdot \floor{\frac{i}{2}}
+                + ((i + 1)\mod2)$ \Comment{adversário}
+                \State \Call{update}{$\torneio[k]$}
+            \EndWhile
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}

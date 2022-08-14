@@ -127,99 +127,32 @@ utilizaremos a rotina \textsc{update}$(e)$, do algoritmo
 certificado do elemento $e$, e chama a rotina $\textsc{updatePQ}(Q,
 e, t)$.
 
-\begin{algorithm}
-    \caption{Função \textsc{update}.} \label{torneioi:update}
-\begin{algorithmic}[1]
-    \Function{update}{$e$}
-        \If{$e \neq$ NULL}
-            \State $e'\leftarrow \torneio[(e.\lastmatch)/2]$
-            \State $t \leftarrow $ \Call{expire}{$e, e'$}
-            \State \Call{updatePQ}{$Q,e,t$}
-        \EndIf
-    \EndFunction
-    \LineComment{Em expire$(e, e')$, $e'$ pode ser nulo e
-    nesse caso o retorno é $+\infty$.}
-    % \LineComment{\Call{expire}{$e,e'$} calcula a validade do certificado entre os elementos $e$ e $e'$, se $e'$ é NULL retorna $+\infty$}
-\end{algorithmic}
-\end{algorithm}
-\begin{algorithm}
-    \caption{Função \textsc{event}.} \label{torneioi:evento}
-\begin{algorithmic}[1]
-    \Function{event}{\null}
-        \State $e \leftarrow  $ \Call{minPQ}{$Q$}
-        \While{$e.\cert$ = \now}
-            \State $j \leftarrow e.\lastmatch$
-            \State $k \leftarrow 2\cdot \floor{\frac{j}{2}}
-            + ((j + 1)\mod2)$ \Comment{adversário}
-            \While{$j > 1$ \AND \Call{compare}{$j, k$}}
-                \State \torneio[$\floor{\frac{j}{2}}$]
-                $\leftarrow~$\torneio[$j$]
-                \State $\torneio[k].\lastmatch$ $\leftarrow k$
-                \State \Call{update}{$\torneio[k]$}
-                \State $j \leftarrow \floor{\frac{j}{2}}$
-                \State $k \leftarrow 2\cdot \floor{\frac{j}{2}}
-                + ((j + 1)\mod2)$ \Comment{adversário}
-            \EndWhile
-            \State $\torneio[j].\lastmatch \leftarrow j$
-            \State \Call{update}{$\torneio[j]$}
-            \State $e \leftarrow  $ \Call{minPQ}{$Q$}
-        \EndWhile
-            % \LineComment{swapHeap$(i, \floor{\frac{i}{2}})$ troca \heap[$i$] por \heap$\left[\floor{\frac{i}{2}}\right]$}
-    \EndFunction
-    \LineComment{\Call{compare}{$i, j$} retorna se o valor
-    de $i$ é maior que o valor de $j$.}
-\end{algorithmic}
-\end{algorithm}
+\input{algoritmos/maximo/torneio/insertdelete/update}
 
-No trecho das linhas 5 - 11 do código \ref{torneioi:evento},
-o resultado da partida entre o elemento~$j$ e seu adversário
-que se encontra na posição $k$ de \torneio~é recalculado, e o
-certificado correspondente é atualizado. Caso o resultado da
-partida tenha sido alterado, a verificação se propaga para o
-nível de cima.
+\input{algoritmos/maximo/torneio/insertdelete/event}
 
-A operação \textsc{query\_max}$()$, no algoritmo \ref{torneioi:query},
-consiste em devolver \torneio$[1]$, enquanto que a
-operação \textsc{change}$(j, v)$ consiste em recuperar o elemento~$j$,
-alterar seu atributo \initv~para $x_0+(\mathit{speed}-v)\cdot now$,
-\textit{speed} para \textit{v} e recalcular os eventuais
-certificados de que $j$ participa. Para tanto, a partir da
-posição $i$ mais alta em que $j$ se encontra no vetor \torneio,
-podemos recalcular \textit{cert}$[j]$ e então continuamos visitando
-as partidas em que $j$ participou para atualizar os certificados
-daqueles que perderam de $j$, acionando a rotina \textsc{updatePQ}
-para fazer os devidos acertos em $Q$ correspondentes a estas
-modificações.
-\begin{algorithm}
-    \caption{Função \textsc{query\_max}.} \label{torneioi:query}
-\begin{algorithmic}[1]
-    \Function{query\_max}{\null}
-        \State \Return \torneio$[1]$
-    \EndFunction
-\end{algorithmic}
-\end{algorithm}
-\begin{algorithm}
-    \caption{Função \textsc{change}.} \label{torneioi:change}
-\begin{algorithmic}[1]
-    \Function{change}{$j, v$}
-        \State $e \leftarrow$ \Call{getObject}{$j$}
-        \State $e.x_0 \leftarrow e.x_0+~(e.\speed -~v)~\cdot~\now$;
-        \State $e.\speed \leftarrow v$
-        \State $i \leftarrow e.\lastmatch$
-        \State \Call{update}{$e$}
-        \While{$i < n$}
-            \If{$\torneio[i] = \torneio[2i]$}
-                \State $i \leftarrow 2i$
-            \Else
-                \State $i \leftarrow 2i + 1$
-            \EndIf
-            \State $k \leftarrow 2\cdot \floor{\frac{i}{2}}
-            + ((i + 1)\mod2)$ \Comment{adversário}
-            \State \Call{update}{$\torneio[k]$}
-        \EndWhile
-    \EndFunction
-\end{algorithmic}
-\end{algorithm}
+No trecho das linhas 5 - 11 do código \ref{torneioi:evento}, o
+resultado da partida entre o elemento~$j$ e seu adversário que se
+encontra na posição $k$ de \torneio~é recalculado, e o certificado
+correspondente é atualizado. Caso o resultado da partida tenha sido
+alterado, a verificação se propaga para o nível de cima.
+
+A operação \textsc{query\_max}$()$, no algoritmo
+\ref{torneioi:query}, consiste em devolver \torneio$[1]$, enquanto
+que a operação \textsc{change}$(j, v)$ consiste em recuperar o
+elemento~$j$, alterar seu atributo \initv~para
+$x_0+(\mathit{speed}-v)\cdot now$, \textit{speed} para \textit{v} e
+recalcular os eventuais certificados de que $j$ participa. Para
+tanto, a partir da posição $i$ mais alta em que $j$ se encontra no
+vetor \torneio, podemos recalcular \textit{cert}$[j]$ e então
+continuamos visitando as partidas em que $j$ participou para
+atualizar os certificados daqueles que perderam de $j$, acionando a
+rotina \textsc{updatePQ} para fazer os devidos acertos em $Q$
+correspondentes a estas modificações.
+
+\input{algoritmos/maximo/torneio/insertdelete/query_max}
+
+\input{algoritmos/maximo/torneio/insertdelete/change}
 
 A operação \textsc{insert}$(v, x_t)$ consiste em criar um novo elemento,
 inicializando seus atributos com os devidos valores,
@@ -229,193 +162,31 @@ Uma importante observação é que se \now~$\neq 0$, então $x_t
 \neq$~\initv. Para calcular \initv, podemos utilizar a relação
 $x_t = now\cdot speed + x_0 \Rightarrow x_0 = x_t - speed\cdot
 now$.
-\begin{algorithm}
-\caption{Função \textsc{insert}.} \label{torneioi:insert}
-\begin{algorithmic}[1]
-    \Function{insert}{$v, x_t$}
-        \State $e.speed \leftarrow v$
-        \State $e.x_0 \leftarrow x_t - now\cdot v$
-        \State \raiz~$\leftarrow$ \Call{insertObject}{$root, e$}
-        \State \Call{insertTourn}{$e$}
-        \State \Call{newCert}{$e$}
-        \State \Call{insertPQ}{$Q, e$}
-    \EndFunction
-\end{algorithmic}
-\end{algorithm}
+
+\input{algoritmos/maximo/torneio/insertdelete/insert}
 
 A operação \textsc{delete}$(i)$ consiste em recuperar o
 elemento~$i$, removê-lo da fila de prioridade, do torneio e da
 estrutura que usamos para recuperá-lo depois.
-\begin{algorithm}
-\caption{Função \textsc{delete}.} \label{torneioi:delete}
-\begin{algorithmic}[1]
-    \Function{delete}{$i$}
-        \State $e \leftarrow$ \Call{getObject}{$i$}
-        \State \Call{deletePQ}{$Q, e$}
-        \State \Call{deleteTourn}{$e$}
-        \State \Call{deleteObject}{$e$}
-    \EndFunction
-\end{algorithmic}
-\end{algorithm}
 
-A função auxiliar \textsc{insertTourn}$(e)$, do
-algoritmo \ref{torneioi:insert}, consiste de criar uma
-nova partida, usando o elemento que está na posição $n$ para
-completar a partida, depois subimos para o nível de cima no
-torneio, corrigindo os vencedores das partidas e atualizando os
-certificados correspondentes. O certificado do elemento inserido
-não será calculado nessa função, será calculado posteriormente. Na
-implementação do algoritmo \ref{torneioi:inserttourn},
-$\textsc{resize}()$ checa se \torneio~é capaz de suportar a
-inserção de novos elementos e, se não for, redimensiona \torneio.
-\begin{algorithm}
-\caption{Função \textsc{insertTourn}.} \label{torneioi:inserttourn}
-\begin{algorithmic}[1]
-    \Function{insertTourn}{$e$}
-        \State \Call{resize}{\null}
-        \State $n \leftarrow n + 1$
-        \State $i \leftarrow 2n - 1$
-        \State $\torneio[i] \leftarrow e$
-        \State $\torneio[i - 1] \leftarrow \torneio[\floor{i/2}]$
-        \State $k \leftarrow i - 1$
-        \While{$i > 1$ \AND \Call{compare}{$i, k$}}
-            \State $\torneio[\floor{i/2}] \leftarrow \torneio[i]$
-            \State $\torneio[k].\lastmatch \leftarrow k$
-            \State \Call{update}{$\torneio[k]$}
-            \State $i \leftarrow \floor{i/2}$
-            \State $k \leftarrow 2\cdot \floor{i/2} +
-            ((i + 1)\mod2)$ \Comment{adversário}
-        \EndWhile
-        \State $\torneio[1].\lastmatch \leftarrow 1$
-    \EndFunction
-    \LineComment{\Call{compare}{$i, j$} retorna se o
-    valor de $i$ é maior que o valor de $j$.}
-\end{algorithmic}
-\end{algorithm}
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[thick]
-        \node[label={1},circle,draw,minimum size=1cm]
-            (1) at (0,0) {$3$};
-        \node[label={2},circle,draw,minimum size=1cm]
-            (2) at (-4,-2) {$3$};
-        \node[label={3},circle,draw,minimum size=1cm]
-            (3) at (4,-2) {$6$};
-        \node[label={4},circle,draw,minimum size=1cm]
-            (4) at (-6,-4) {$1$};
-        \node[label={5},circle,draw,minimum size=1cm]
-            (5) at (-2,-4) {$3$};
-        \node[label={6},circle,draw,minimum size=1cm]
-            (6) at (2,-4) {$6$};
-        \node[label={7},circle,draw,minimum size=1cm]
-            (7) at (6,-4) {$7$};
-        \node[label={8},circle,draw,minimum size=1cm]
-            (8) at (-7,-6) {$1$};
-        \node[label={9},circle,draw,minimum size=1cm]
-            (9) at (-5,-6) {$2$};
-        \node[label={10},circle,draw,minimum size=1cm]
-            (10) at (-3,-6) {$3$};
-        \node[label={11},circle,draw,minimum size=1cm]
-            (11) at (-1,-6) {$4$};
-        \node[label={12},circle,draw,minimum size=1cm]
-            (12) at (1,-6) {$5$};
-        \node[label={13},circle,draw,minimum size=1cm]
-            (13) at (3,-6) {$6$};
-        \node[label={14},circle,draw,minimum size=1cm]
-            (14) at (5,-6) {$7$};
-        \node[label={15},circle,draw,minimum size=1cm]
-            (15) at (7,-6) {$8$};
-        % \node[label={16},circle,draw,minimum size=1cm] (16) at (-8,-8) {$8$};
-        % \node[label={17},circle,draw,minimum size=1cm] (17) at (-6,-8) {$9$};
-        \tikzstyle{cert}=[<-, line width=\thickness, red]
+\input{algoritmos/maximo/torneio/insertdelete/delete}
 
-        \draw[thick] (1) -- (2);
-        \draw[cert] (2) -- (4);
-        \draw[thick] (4) -- (8);
-        \draw[cert] (4) -- (9);
-        % \draw[thick] (8) -- (16);
-        % \draw[thick] (8) -- (17);
-        \draw[thick] (2) -- (5);
-        \draw[thick] (5) -- (10);
-        \draw[cert] (5) -- (11);
-        \draw[cert] (1) -- (3);
-        \draw[thick] (3) -- (6);
-        \draw[cert] (3) -- (7);
-        \draw[cert] (6) -- (12);
-        \draw[thick] (6) -- (13);
-        \draw[thick] (7) -- (14);
-        \draw[cert] (7) -- (15);
-    \end{tikzpicture}
-    \caption{A figura mostra um torneio com $8$ elementos
-    e seus certificados representados pelas setas vermelhas,
-    mais grossas;
-    cada posição guarda um apontador para um elemento,
-    mas na figura apenas os \id's são mostrados.}
-    \label{fig:torneioi:cert}
-\end{figure}
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[thick]
-        \node[label={1},circle,draw,minimum size=1cm]
-            (1) at (0,0) {$3$};
-        \node[label={2},circle,draw,minimum size=1cm]
-            (2) at (-4,-2) {$3$};
-        \node[label={3},circle,draw,minimum size=1cm]
-            (3) at (4,-2) {$6$};
-        \node[label={4},circle,draw,minimum size=1cm]
-            (4) at (-6,-4) {$9$};
-        \node[label={5},circle,draw,minimum size=1cm]
-            (5) at (-2,-4) {$3$};
-        \node[label={6},circle,draw,minimum size=1cm]
-            (6) at (2,-4) {$6$};
-        \node[label={7},circle,draw,minimum size=1cm]
-            (7) at (6,-4) {$7$};
-        \node[label={8},circle,draw,minimum size=1cm]
-            (8) at (-7,-6) {$9$};
-        \node[label={9},circle,draw,minimum size=1cm]
-            (9) at (-5,-6) {$2$};
-        \node[label={10},circle,draw,minimum size=1cm]
-            (10) at (-3,-6) {$3$};
-        \node[label={11},circle,draw,minimum size=1cm]
-            (11) at (-1,-6) {$4$};
-        \node[label={12},circle,draw,minimum size=1cm]
-            (12) at (1,-6) {$5$};
-        \node[label={13},circle,draw,minimum size=1cm]
-            (13) at (3,-6) {$6$};
-        \node[label={14},circle,draw,minimum size=1cm]
-            (14) at (5,-6) {$7$};
-        \node[label={15},circle,draw,minimum size=1cm]
-            (15) at (7,-6) {$8$};
-        \node[label={16},circle,draw,minimum size=1cm]
-            (16) at (-8,-8) {$1$};
-        \node[label={17},circle,draw,minimum size=1cm]
-            (17) at (-6,-8) {$9$};
-        \tikzstyle{cert}=[<-, line width=\thickness, red]
-        \tikzstyle{upt}=[<-, line width=\thickness, blue, dotted]
+A função auxiliar \textsc{insertTourn}$(e)$, do algoritmo
+\ref{torneioi:insert}, consiste de criar uma nova partida, usando o
+elemento que está na posição $n$ para completar a partida, depois
+subimos para o nível de cima no torneio, corrigindo os vencedores
+das partidas e atualizando os certificados correspondentes. O
+certificado do elemento inserido não será calculado nessa função,
+será calculado posteriormente. Na implementação do algoritmo
+\ref{torneioi:inserttourn}, $\textsc{resize}()$ checa se \torneio~é
+capaz de suportar a inserção de novos elementos e, se não for,
+redimensiona \torneio.
 
-        \draw[thick] (1) -- (2);
-        \draw[cert, dashed] (2) -- (4);
-        \draw[thick] (4) -- (8);
-        \draw[upt] (4) -- (9);
-        \draw[upt] (8) -- (16);
-        \draw[thick] (8) -- (17);
-        \draw[thick] (2) -- (5);
-        \draw[thick] (5) -- (10);
-        \draw[cert] (5) -- (11);
-        \draw[cert] (1) -- (3);
-        \draw[thick] (3) -- (6);
-        \draw[cert] (3) -- (7);
-        \draw[cert] (6) -- (12);
-        \draw[thick] (6) -- (13);
-        \draw[thick] (7) -- (14);
-        \draw[cert] (7) -- (15);
-    \end{tikzpicture}
-    \caption{A figura mostra o torneio da figura
-    \ref{fig:torneioi:cert} após a inserção de um elemento com
-    \id~$9$. A seta tracejada representa o certificado criado e as
-    setas azuis pontilhadas representam os certificados atualizados.}
-    \label{fig:torneioi:insert}
-\end{figure}
+\input{algoritmos/maximo/torneio/insertdelete/insert_tourn}
+
+\input{figuras/maximo/torneio/insertdelete/exemplo}
+
+\input{figuras/maximo/torneio/insertdelete/insert}
 
 A função auxiliar \textsc{deleteTourn}$(e)$, do algoritmo
 \ref{torneioi:delete}, consiste de usar o perdedor
@@ -434,91 +205,7 @@ veja o exemplo da figura \ref{fig:torneioi:delete}. Na implementação,
 no algoritmo \ref{torneioi:deletetourn}, \textsc{substitute}$(e)$ faz a
 substituição citada retornando a posição da primeira partida
 de que $e$ participou.
-\begin{algorithm}[H]
-\caption{Função \textsc{deleteTourn}.} \label{torneioi:deletetourn}
-\begin{algorithmic}[1]
-    \Function{deleteTourn}{$e$}
-        \State $i \leftarrow $ \Call{substitute}{$e$}
-        \State $k \leftarrow 2\cdot \floor{i/2} + ((i + 1)\mod2)$
-        \While{$i > 1$}
-            \If{\Call{compare}{$k, i$}}
-                \State $i \leftrightarrow k$
-            \EndIf
-            \State $\torneio[\floor{i/2}] \leftarrow \torneio[i]$
-            \State $\torneio[k].\lastmatch \leftarrow k$
-            \State \Call{update}{$\torneio[k]$}
-            \State $i \leftarrow \floor{i/2}$
-            \State $k \leftarrow 2\cdot \floor{i/2} + ((i + 1)\mod2)$
-            \Comment{adversário}
-        \EndWhile
-        \State $\torneio[1].\lastmatch \leftarrow 1$
-            \State \Call{update}{$\torneio[1]$}
-    \EndFunction
-    \LineComment{\Call{compare}{$i, j$} retorna se o valor de
-    $i$ é maior que o valor de $j$.}
-\end{algorithmic}
-\end{algorithm}
 
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[thick]
-        \node[label={1},circle,draw,minimum size=1cm]
-            (1) at (0,0) {$4$};
-        \node[label={2},circle,draw,minimum size=1cm]
-            (2) at (-4,-2) {$4$};
-        \node[label={3},circle,draw,minimum size=1cm]
-            (3) at (4,-2) {$6$};
-        \node[label={4},circle,draw,minimum size=1cm]
-            (4) at (-6,-4) {$1$};
-        \node[label={5},circle,draw,minimum size=1cm]
-            (5) at (-2,-4) {$4$};
-        \node[label={6},circle,draw,minimum size=1cm]
-            (6) at (2,-4) {$6$};
-        \node[label={7},circle,draw,minimum size=1cm]
-            (7) at (6,-4) {$7$};
-        \node[label={8},circle,draw,minimum size=1cm]
-            (8) at (-7,-6) {$1$};
-        \node[label={9},circle,draw,minimum size=1cm]
-            (9) at (-5,-6) {$2$};
-        \node[label={10},circle,draw,minimum size=1cm]
-            (10) at (-3,-6) {$8$};
-        \node[label={11},circle,draw,minimum size=1cm]
-            (11) at (-1,-6) {$4$};
-        \node[label={12},circle,draw,minimum size=1cm]
-            (12) at (1,-6) {$5$};
-        \node[label={13},circle,draw,minimum size=1cm]
-            (13) at (3,-6) {$6$};
-        % \node[label={14},circle,draw,minimum size=1cm] (14) at (5,-6) {$7$};
-        % \node[label={15},circle,draw,minimum size=1cm] (15) at (7,-6) {$8$};
-        % \node[label={16},circle,draw,minimum size=1cm] (16) at (-8,-8) {$8$};
-        % \node[label={17},circle,draw,minimum size=1cm] (17) at (-6,-8) {$9$};
-        \tikzstyle{cert}=[<-, line width=\thickness, red]
-        \tikzstyle{upt}=[<-, line width=\thickness, blue, dotted]
+\input{algoritmos/maximo/torneio/insertdelete/delete_tourn}
 
-        \draw[thick] (1) -- (2);
-        \draw[upt] (2) -- (4);
-        \draw[thick] (4) -- (8);
-        \draw[cert] (4) -- (9);
-        % \draw[thick] (8) -- (16);
-        % \draw[thick] (8) -- (17);
-        \draw[thick] (2) -- (5);
-        \draw[upt] (5) -- (10);
-        \draw[thick] (5) -- (11);
-        \draw[upt] (1) -- (3);
-        \draw[thick] (3) -- (6);
-        \draw[cert] (3) -- (7);
-        \draw[cert] (6) -- (12);
-        \draw[thick] (6) -- (13);
-        % \draw[thick] (7) -- (14);
-        % \draw[cert] (7) -- (15);
-    \end{tikzpicture}
-    \caption{A figura mostra o torneio da figura
-    \ref{fig:torneioi:cert} após a remoção do elemento com
-    \id~$3$. O elemento $8$ que era o perdedor da partida entre
-    os elementos que ocupam a última posição foi usado para
-    substituir a posição que o elemento $3$ ocupava. Todas
-    partidas até o topo foram recalculadas com os devidos
-    certificados atualizados. As setas azuis pontilhadas
-    representam os certificados atualizados.}
-    \label{fig:torneioi:delete}
-\end{figure}
+\input{figuras/maximo/torneio/insertdelete/delete}

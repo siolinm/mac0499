@@ -1,0 +1,15 @@
+\begin{algorithm}
+    \caption{Função \textsc{update}.} \label{torneioi:update}
+    \begin{algorithmic}[1]
+        \Function{update}{$e$}
+            \If{$e \neq$ NULL}
+                \State $e'\leftarrow \torneio[(e.\lastmatch)/2]$
+                \State $t \leftarrow $ \Call{expire}{$e, e'$}
+                \State \Call{updatePQ}{$Q,e,t$}
+            \EndIf
+        \EndFunction
+        \LineComment{Em expire$(e, e')$, $e'$ pode ser nulo e
+        nesse caso o retorno é $+\infty$.}
+        % \LineComment{\Call{expire}{$e,e'$} calcula a validade do certificado entre os elementos $e$ e $e'$, se $e'$ é NULL retorna $+\infty$}
+    \end{algorithmic}
+\end{algorithm}

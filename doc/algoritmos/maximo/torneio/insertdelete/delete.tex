@@ -1,0 +1,11 @@
+\begin{algorithm}
+    \caption{Função \textsc{delete}.} \label{torneioi:delete}
+    \begin{algorithmic}[1]
+        \Function{delete}{$i$}
+            \State $e \leftarrow$ \Call{getObject}{$i$}
+            \State \Call{deletePQ}{$Q, e$}
+            \State \Call{deleteTourn}{$e$}
+            \State \Call{deleteObject}{$e$}
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}

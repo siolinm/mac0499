@@ -1,0 +1,28 @@
+\begin{algorithm}
+    \caption{Função \textsc{event}.} \label{torneioi:evento}
+    \begin{algorithmic}[1]
+        \Function{event}{\null}
+            \State $e \leftarrow  $ \Call{minPQ}{$Q$}
+            \While{$e.\cert$ = \now}
+                \State $j \leftarrow e.\lastmatch$
+                \State $k \leftarrow 2\cdot \floor{\frac{j}{2}}
+                + ((j + 1)\mod2)$ \Comment{adversário}
+                \While{$j > 1$ \AND \Call{compare}{$j, k$}}
+                    \State \torneio[$\floor{\frac{j}{2}}$]
+                    $\leftarrow~$\torneio[$j$]
+                    \State $\torneio[k].\lastmatch$ $\leftarrow k$
+                    \State \Call{update}{$\torneio[k]$}
+                    \State $j \leftarrow \floor{\frac{j}{2}}$
+                    \State $k \leftarrow 2\cdot \floor{\frac{j}{2}}
+                    + ((j + 1)\mod2)$ \Comment{adversário}
+                \EndWhile
+                \State $\torneio[j].\lastmatch \leftarrow j$
+                \State \Call{update}{$\torneio[j]$}
+                \State $e \leftarrow  $ \Call{minPQ}{$Q$}
+            \EndWhile
+                % \LineComment{swapHeap$(i, \floor{\frac{i}{2}})$ troca \heap[$i$] por \heap$\left[\floor{\frac{i}{2}}\right]$}
+        \EndFunction
+        \LineComment{\Call{compare}{$i, j$} retorna se o valor
+        de $i$ é maior que o valor de $j$.}
+    \end{algorithmic}
+\end{algorithm}
