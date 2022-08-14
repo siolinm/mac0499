@@ -299,7 +299,7 @@ texto texto texto texto. Preencher mais tarde.
 % definimos o novo tipo de float "program" (em utils.tex)
 % Você pode escolher se quer ou não permitir a quebra de página
 %\listof{program}{\programlistname}
-\disablenewpage{\listof{program}{\programlistname}}
+\disablenewpage{\listof{algorithm}{\programlistname}}
 
 % Sumário (obrigatório)
 \tableofcontents
@@ -310,20 +310,20 @@ texto texto texto texto. Preencher mais tarde.
 % pois o índice é opcional). É comum colocar esses itens no final do documento,
 % junto com o comando \printindex, mas em alguns casos isso torna necessário
 % executar texindy (ou makeindex) mais de uma vez, então colocar aqui é melhor.
-\index{Inglês|see{Língua estrangeira}}
-\index{Figuras|see{Floats}}
-\index{Tabelas|see{Floats}}
-\index{Código-fonte|see{Floats}}
-\index{Subcaptions|see{Subfiguras}}
-\index{Sublegendas|see{Subfiguras}}
-\index{Equações|see{Modo matemático}}
-\index{Fórmulas|see{Modo matemático}}
-\index{Rodapé, notas|see{Notas de rodapé}}
-\index{Captions|see{Legendas}}
-\index{Versão original|see{Tese/Dissertação, versões}}
-\index{Versão corrigida|see{Tese/Dissertação, versões}}
-\index{Palavras estrangeiras|see{Língua estrangeira}}
-\index{Floats!Algoritmo|see{Floats, ordem}}
+% \index{Inglês|see{Língua estrangeira}}
+% \index{Figuras|see{Floats}}
+% \index{Tabelas|see{Floats}}
+% \index{Código-fonte|see{Floats}}
+% \index{Subcaptions|see{Subfiguras}}
+% \index{Sublegendas|see{Subfiguras}}
+% \index{Equações|see{Modo matemático}}
+% \index{Fórmulas|see{Modo matemático}}
+% \index{Rodapé, notas|see{Notas de rodapé}}
+% \index{Captions|see{Legendas}}
+% \index{Versão original|see{Tese/Dissertação, versões}}
+% \index{Versão corrigida|see{Tese/Dissertação, versões}}
+% \index{Palavras estrangeiras|see{Língua estrangeira}}
+% \index{Floats!Algoritmo|see{Floats, ordem}}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CAPÍTULOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -339,7 +339,7 @@ texto texto texto texto. Preencher mais tarde.
 \singlespacing
 
 \input{conteudo/introducao}
-\input{conteudo/ordenacao}
+\input{conteudo/ordenacao/ordenacao}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% APÊNDICES E ANEXOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -418,6 +418,6 @@ texto texto texto texto. Preencher mais tarde.
   heading=bibintoc, % Inclui a bibliografia no sumário
 ]
 
-% \printindex % imprime o índice remissivo no documento (opcional)
+\printindex % imprime o índice remissivo no documento (opcional)
 
 \end{document}

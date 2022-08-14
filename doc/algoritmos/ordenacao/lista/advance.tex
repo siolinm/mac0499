@@ -1,0 +1,15 @@
+\begin{algorithm}
+    \caption{Função \textsc{advance}.} \label{lista:advance}
+\begin{algorithmic}[1]
+    \Function{advance}{$t$}
+        \If{$t < $ \now}
+            \State \Return
+        \EndIf
+        \While{$t \geq$ \cert[\Call{minPQ}{$Q$}]}
+            \State \now $~\leftarrow$ \cert[\Call{minPQ}{$Q$}]
+            \State \Call{event}
+        \EndWhile
+        \State \now $~\leftarrow$ $t$
+    \EndFunction
+\end{algorithmic}
+\end{algorithm}

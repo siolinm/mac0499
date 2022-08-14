@@ -1,4 +1,4 @@
-%!TeX root=../tcc.tex
+%!TeX root=../../tcc.tex
 
 %% ------------------------------------------------------------------------- %%
 \chapter{Ordenação cinética}
@@ -14,16 +14,9 @@ $\left(6, -\frac{1}{2}\right)$, $(5, 0)$, $\left(3,
 \frac{1}{4}\right)$ e $\left(0, \frac{4}{3}\right)$, podemos
 representar essa coleção como na figura \ref{fig:ordenacao:exemplo}.
 
-\begin{figure}[H]
-    \centering
-    \input{../figuras/ordenacao/exemplo}
-    \caption[Exemplo ordenação cinética]{O segundo maior valor no
-            instante $t = 0$ é do elemento $2$, e no instante $t =
-            3$ é do elemento $1$. O menor valor da coleção no
-            instante $t = 3$ é do elemento $3$, e no instante $t =
-            5$ é do elemento $1$.}
-    \label{fig:ordenacao:exemplo}
-\end{figure}
+\input{../figuras/ordenacao/exemplo}
+
+\newpage
 
 Queremos dar suporte às seguintes operações:
 \begin{itemize}
@@ -34,3 +27,5 @@ Queremos dar suporte às seguintes operações:
     \item \textsc{query\_kth}$(i)$ $\rightarrow$ devolve o
     elemento cujo valor é o $i$-ésimo maior no instante atual.
 \end{itemize}
+
+\input{conteudo/ordenacao/listaordenada}
