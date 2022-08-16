@@ -1,0 +1,53 @@
+\begin{algorithm}
+    \caption{Função \textsc{horizontalEvent}.}
+    \label{parcinetico:eventohorizontal}
+\begin{algorithmic}[1]
+    \Function{horizontalEvent}{$p,q, dir$}
+        \If{$q = \Call{owner}{p.hitsUp(dir)}$}
+            \State $t \leftarrow$ \Call{predecessor}{$p, \Cands(q, dir), U$}
+            \If{$t = \Null$}
+                \State $t \leftarrow$ \Call{owner}{$q.hitsUp(dir)$}
+            \EndIf
+            \State $newCands \leftarrow$ \Call{split}{$\Null, t, Cands(q,
+            dir)$}
+            \State \Call{join}{$Cands(p, dir), newCands$}
+            \State \Call{delete}{$p, \Hits_{up}(q, dir)$}
+            \If{$t \neq \Null$}
+                \State \Call{insert}{$p, \Hits_{up}(t, dir)$}
+            \EndIf
+
+            \State $w \leftarrow \Call{owner}{q.hitsLow(dir)}$
+
+            \If{$w \neq \Null$}
+                \State \Call{delete}{$q, \Hits_{low}(w, dir)$}
+            \EndIf
+
+            \State \Call{insert}{$q, \Hits_{low}(p, dir)$}
+        \Else
+            \If{$p = \Call{owner}{q.hitsLow(p, dir)}$}
+                \State $t \leftarrow$ \Call{predecessor}{$q, \Cands(p, dir), D$}
+                \If{$t = \Null$}
+                    \State $t \leftarrow$ \Call{owner}{$p.hitsLow(dir)$}
+                \EndIf
+                \State $newCands \leftarrow \Call{split}{t, \Null, Cands(p,
+                dir)}$
+                \State \Call{join}{$Cands(q, dir), newCands$}
+                \State \Call{delete}{$q, \Hits_{low}(p, dir)$}
+                \If{$t \neq \Null$}
+                    \State \Call{insert}{$q, \Hits_{low}(t, dir)$}
+                \EndIf
+                \State $w \leftarrow \Call{owner}{p.hitsUp(dir)}$
+                \If{$w \neq \Null$}
+                    \State \Call{delete}{$p, \Hits_{up}(w, dir)$}
+                \EndIf
+                \State \Call{insert}{$p, Hits_{up}(q, dir)$}
+            \EndIf
+        \EndIf
+        \State $v \leftarrow \Call{owner}{p.cands(dir)}$
+        \State $v' \leftarrow \Call{owner}{q.cands(dir)}$
+        \If{$v = v'$}
+            \State \Call{updateLcand}{$v, dir$}
+        \EndIf
+    \EndFunction
+\end{algorithmic}
+\end{algorithm}

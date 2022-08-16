@@ -1,0 +1,43 @@
+\begin{algorithm}
+    \caption{Função \textsc{upEvent}.}
+    \label{parcinetico:eventoup}
+\begin{algorithmic}[1]
+    \Function{upEvent}{$p, q, dir$}
+        \If{$q = \Call{owner}{p.hitsLow(dir)}$}
+            \State $v \leftarrow \Call{owner}{q.cands(dir)}$
+            \If{$v \neq \Null$}
+                \State \Call{delete}{$q, Cands(v, dir)$}
+            \EndIf
+            \State \Call{insert}{$q, Cands(p, dir)$}
+            \State $t \leftarrow \Call{successor}{p, \Hits_{up}(q, dir), H}$
+            \If{$t = \Null$}
+                \State $t \leftarrow \Call{owner}{q.hitsLow(dir)}$
+            \EndIf
+            \State $newHits \leftarrow \Call{split}{\Null, t, \Hits_{up}(q, dir)}$
+            \State $\Call{join}{\Hits_{up}(p, dir), newHits}$
+            \State $\Call{delete}{p, \Hits_{low}(q, dir)}$
+            \If{$t \neq \Null$}
+                \State \Call{insert}{$p, \Hits_{low}(t, dir)$}
+            \EndIf
+        \Else
+            \If{$p = \Call{owner}{q.cands(dir)}$}
+                \State $t \leftarrow \Call{owner}{p.hitsLow(dir)}$
+                \If{$t \neq \Null$}
+                    \State \Call{delete}{$p, \Hits_{low}(t, dir)$}
+                \EndIf
+                \State $\Call{insert}{p, \Hits_{low}(q, dir)}$
+                \State $v \leftarrow \Call{predecessor}{q, \Hits_{up}(p, dir), U}$
+                \If{$v = \Null$}
+                    \State $v \leftarrow \Call{owner}{p.cands(dir)}$
+                \EndIf
+                \State $newHits \leftarrow \Call{split}{v, \Null, \Hits_{up}(p,dir)}$
+                \State $\Call{join}{newHits, \Hits_{up}(q, dir)}$
+                \State \Call{delete}{$q, Cands(p, dir)$}
+                \If{$v \neq \Null$}
+                    \State \Call{insert}{$q, Cands(v, dir)$}
+                \EndIf
+            \EndIf
+        \EndIf
+    \EndFunction
+\end{algorithmic}
+\end{algorithm}

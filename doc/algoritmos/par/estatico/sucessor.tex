@@ -1,0 +1,23 @@
+\begin{algorithm}
+    \caption{Função \textsc{successor}$(p)$.}
+    \label{parestatico:successor}
+\begin{algorithmic}[1]
+    \Function{successor}{$p$}
+        \State $x \leftarrow \raiz$
+        \State $up \leftarrow NULL$
+        \While{$x \neq NULL$}
+            \State $y \leftarrow x$
+            \If{$\Call{checkLine}{p, x.key, \pi/6}= -1$}
+                \State $x \leftarrow x.right$
+            \Else
+                \State $up \leftarrow x$
+                \State $x \leftarrow x.left$
+            \EndIf
+        \EndWhile
+        \If{$y \neq NULL$} \Comment{dá \textsc{splay} no último nó visitado}
+            \State \Call{splay}{$y$}
+        \EndIf
+        \State \Return{$up$}
+    \EndFunction
+\end{algorithmic}
+\end{algorithm}
