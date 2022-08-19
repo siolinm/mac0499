@@ -2,11 +2,11 @@
 
 %% ------------------------------------------------------------------------- %%
 
-\section{Lista Ordenada Cinética}
+\section{Lista ordenada cinética}
 \label{lista:secao}
-Um jeito natural de resolver o problema da lista ordenada cinética é
-manter um vetor com os elementos da lista em ordem decrescente do
-valor no instante atual.
+Um jeito natural de resolver o problema da ordenação cinética é por
+meio de uma lista ordenada cinética, que é manter um vetor com os
+elementos dados em ordem decrescente do valor no instante atual.
 
 Inicialmente o vetor começa com os valores dos elementos no instante
 $t = 0$, ou seja, com o valor $x_0$ de cada elemento, e este vetor é
@@ -37,7 +37,7 @@ elementos ordenados pelo seu valor e consequentemente em alguns
 certificados.
 
 Esses $n - 1$ certificados são colocados em uma fila com
-prioridades, com o prazo de validade determinando a prioridade.
+prioridades, com seu prazo de validade determinando a prioridade.
 Estamos interessados nos certificados com menor prazo de validade.
 Ou seja, a fila com prioridades pode ser implementada com um heap de
 mínimo que usa os prazos de validade como chave.
@@ -46,31 +46,34 @@ Para descrever a implementação das três operações, precisamos
 estabelecer o nome das variáveis usadas. São elas:
 \begin{enumerate}
     \item $n$: o número de elementos dados;
-    \item $x_0$ e \textit{speed}: vetores com o valor e a
-    velocidade inicial de cada um dos $n$ elementos;
-    \item \now: instante atual;
-    \item \textit{sorted}: vetor com os índices dos $n$
-    elementos em ordem decrescente do seu valor no instante
-    \textit{now};
-    \item \textit{indS}: vetor de $n$ posições; \textit{indS}[$i$]
-    guarda a posição em \textit{sorted} do elemento $i$;
+    \item $x_0$ e \textit{speed}: vetores com o valor e a velocidade
+    inicial de cada um dos $n$ elementos;
+    \item \now: instante atual. A variável \now será tratada como
+    global, ou seja, será utilizada nas rotinas sem ser passada como
+    argumento;
+    \item \textit{sorted}: vetor com os índices dos $n$ elementos em
+    ordem decrescente do seu valor no instante \textit{now};
+    \item \textit{indS}: vetor de $n$ posições; \textit{indS}[$j$]
+    guarda a posição em \textit{sorted} do elemento $j$;
     \item \textit{cert}: vetor com os $n-1$ certificados;
     \textit{cert}$[i]$ guarda o certificado entre $\sorted[i]$ e
-    ${\sorted[i+1]}$, para~$1~\leq~i~<~n$;
-    \item \textit{Q}: fila com prioridades para os certificados.
+    ${\sorted[i+1]}$, para~$1\leq i < n$;
+    \item \textit{Q}: fila que guarda os inteiros $1, \dots, n-1$,
+    sendo \textit{cert}[$i$] a prioridade de cada elemento da fila.
 \end{enumerate}
 
 A interface da fila com prioridades que utilizaremos inclui as duas
 seguintes operações:
 \begin{enumerate}
-    \item \textsc{minPQ}$(Q)$: devolve o certificado $(i, t)$
-    com chave $t$ mínima em $Q$;
+    \item \textsc{minPQ}$(Q)$: devolve $i$ tal que
+    \textit{cert}[$i$] é mínimo;
     \item \textsc{updatePQ}$(Q, i, t)$: altera a chave do
     $i$-ésimo certificado para $t$ e ajusta $Q$ de acordo.
 \end{enumerate}
+
 O vetor $\textit{indS}$ nos permite implementar a operação
 \textsc{change} de maneira eficiente, pois, dado um elemento $j$,
-precisamos saber a posição $i$ do elemento $j$ em $\sorted$ para
+precisamos saber a posição do elemento $j$ em $\sorted$ para
 recalcular os certificados relacionados com a posição $i$.
 
 Para implementar a operação \textsc{updatePQ}$(Q, i, t)$ em tempo
@@ -78,37 +81,38 @@ logarítmico no número de elementos na fila $Q$, é necessário
 utilizar um vetor adicional \textit{indQ} que guarda em
 \textit{indQ}$[i]$ a posição do $i$-ésimo certificado em $Q$.
 
-Com isso, a operação \textsc{advance}$(t)$ segue uma ideia bem
-simples: enquanto $t$ for maior que o prazo de validade do próximo
-evento, avançamos \textit{now} para esse prazo de validade e
-tratamos esse evento. Nos problemas seguintes, a operação
-\textsc{advance}$(t)$ será sempre a mesma; as únicas mudanças
-ocorrerão no tratamento de um evento. Um evento está associado a um
-certificado $(i, t)$ que expira quando $\now = t$. O tratamento do
-evento correspondente ao certificado $(i, t)$ consiste em trocar de
-lugar os índices das posições $i$ e $i + 1$ do vetor
-\textit{sorted}, recalcular o prazo de validade do $(i-1)$-ésimo
-certificado se $i > 1$, e do $(i + 1)$-ésimo certificado se $i < n -
-1$. O $i$-ésimo certificado também deve ser ajustado para $+\infty$.
-Finalmente, é necessário fazer ajustes em $Q$, alterando a chave dos
-certificados que sofreram alteração.
+Com isso, a operação \textsc{advance}$(t)$, implementada no
+Algoritmo \ref{lista:advance}, segue uma ideia bem simples: enquanto
+$t$ for maior que o prazo de validade do próximo evento, avançamos
+\textit{now} para esse prazo de validade e tratamos esse evento. Nos
+problemas seguintes, a operação \textsc{advance}$(t)$ será sempre a
+mesma; as únicas mudanças ocorrerão no tratamento de um evento. Um
+evento está associado a um certificado $(i, t)$ que expira quando
+$\now = t$. O tratamento do evento correspondente ao certificado
+$(i, t)$ consiste em trocar de lugar os índices das posições $i$ e
+$i + 1$ do vetor \textit{sorted}, recalcular o prazo de validade do
+$(i-1)$-ésimo certificado se $i > 1$, e do $(i + 1)$-ésimo
+certificado se $i < n - 1$. O $i$-ésimo certificado também deve ser
+ajustado para $+\infty$. Finalmente, é necessário fazer ajustes em
+$Q$, alterando a chave dos certificados que sofreram alteração.
 
 \input{algoritmos/ordenacao/lista/advance}
 
-Na implementação da operação \textsc{event}, utilizaremos a rotina
+Na implementação da operação \textsc{event} utilizaremos a rotina
 \textsc{update}$(i)$ para calcular a nova validade $t$ do $i$-ésimo
 certificado, se $1 \leq i < n$, e fazer os devidos ajustes em $Q$.
-Para calcular $t$, utilizaremos uma rotina chamada
-\textsc{expire}$(i, j)$, que calcula a validade dos certificados
-entre os elementos $i$ e $j$. A rotina auxiliar \textsc{expire}$(i,
-j)$ não mudará para outros problemas, mantendo a mesma definição.
+Ambas as implementações podem ser encontradas nos Algoritmos
+\ref{lista:evento} e \ref{lista:update}, respectivamente. Para
+calcular $t$, utilizaremos uma rotina chamada \textsc{expire}$(i,
+j)$, que calcula a validade dos certificados entre os elementos $i$
+e $j$ no instante \now. A rotina auxiliar \textsc{expire}$(i, j)$
+não mudará para outros problemas, mantendo a mesma definição. As
+Figuras \ref{fig:lista:expire} e \ref{fig:lista:update} ilustram as
+atualizações feitas por essas rotinas.
 
 \input{algoritmos/ordenacao/lista/update}
 
 \input{algoritmos/ordenacao/lista/event}
-
-As figuras \ref{fig:lista:expire} e \ref{fig:lista:update} ilustram
-o tratamento do evento de expiração do segundo certificado.
 
 \input{figuras/ordenacao/lista/expire}
 
@@ -118,18 +122,20 @@ o tratamento do evento de expiração do segundo certificado.
 
 \input{algoritmos/ordenacao/lista/change}
 
-A operação \textsc{query\_kth}$(i)$ consiste em devolver
-\textit{sorted}$[i]$, enquanto que a operação \textsc{change}$(j,
-v)$ consiste em alterar a posição $x_0[j]$ para $x_0[j] +
-(\mathit{speed}[j] - v)\cdot now$, a posição \textit{speed}[j] para
-\textit{v} e recalcular os eventuais certificados de que $j$
-participa. O novo valor da posição $x_0[j]$ corresponde à posição
-inicial do elemento caso ele tivesse começado com essa velocidade e
-estivesse na posição atual agora. Para tanto, a partir da posição
-$i$ em que $j$ se encontra no vetor \textit{sorted}, podemos
-recalcular \textit{cert}$[i - 1]$ se $i > 1$ e \textit{cert}$[i]$ se
-$i < n$, como ilustrado na figura \ref{fig:lista:after}, acionando
-a rotina \textsc{updatePQ} para fazer os devidos acertos em~$Q$
-correspondentes a estas modificações.
+A operação \textsc{query\_kth}$(i)$, implementada no Algoritmo
+\ref{lista:query}, consiste em devolver \textit{sorted}$[i]$,
+enquanto que a operação \textsc{change}$(j, v)$ consiste em alterar
+a posição $x_0[j]$ para $x_0[j] + (\mathit{speed}[j] - v)\cdot now$,
+a posição \textit{speed}[j] para \textit{v} e recalcular os
+eventuais certificados de que $j$ participa. O novo valor da posição
+$x_0[j]$ corresponde à posição inicial do elemento caso ele tivesse
+começado com essa velocidade e estivesse na posição atual agora.
+Para tanto, a partir da posição $i$ em que $j$ se encontra no vetor
+\textit{sorted}, podemos recalcular \textit{cert}$[i - 1]$ se $i >
+1$ e \textit{cert}$[i]$ se $i < n$, como ilustrado na Figura
+\ref{fig:lista:after}, acionando a rotina \textsc{update} para fazer
+os devidos acertos em~$Q$ correspondentes a estas modificações. As
+instruções executadas pela operação \textsc{change} estão descritas
+no Algoritmo \ref{lista:change}.
 
 \input{figuras/ordenacao/lista/after}

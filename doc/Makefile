@@ -34,7 +34,7 @@ ALL_TARGETS := $(basename $(wildcard *.tex))
 
 # Por default, compila o primeiro arquivo .tex encontrado
 #DEFAULT_TARGET: $(word 1, $(ALL_TARGETS)).pdf
-DEFAULT_TARGET: tese.pdf
+DEFAULT_TARGET: tcc.pdf
 
 #SHOW_PDF_AFTER_COMPILATION := true
 SHOW_PDF_AFTER_COMPILATION := false

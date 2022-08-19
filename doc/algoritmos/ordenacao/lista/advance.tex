@@ -5,9 +5,11 @@
         \If{$t < $ \now}
             \State \Return
         \EndIf
-        \While{$t \geq$ \cert[\Call{minPQ}{$Q$}]}
-            \State \now $~\leftarrow$ \cert[\Call{minPQ}{$Q$}]
-            \State \Call{event}
+        \State $i \leftarrow \Call{minPQ}{$Q$}$
+        \While{$t \geq$ \cert[$i$]}
+            \State \now $~\leftarrow$ \cert[i]
+            \State $\Call{event}$
+            \State $i \leftarrow \Call{minPQ}{$Q$}$
         \EndWhile
         \State \now $~\leftarrow$ $t$
     \EndFunction
