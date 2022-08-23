@@ -17,11 +17,18 @@
         \draw[filho] (2) -- (4);
         \draw[filho] (3) -- (5);
         \draw[filho] (3) -- (6);
-        \draw[pred] (6) edge[out=30,in=0] (3);
-        \draw[pred] (3) edge[out=190,in=120] (5);
-        \draw[pred] (5) edge[out=170,in=285] (1);
-        \draw[pred] (1) edge[out=180,in=120] (2);
-        \draw[pred] (2) edge[out=180,in=120] (4);
+        \draw[pred] (6) edge[out=30,in=0] node[above=10pt, red] {$2$} (3);
+        % \node[red] at (4,-3) {$2$};
+        \draw[pred] (3) edge[out=190,in=120]
+            node[above=10pt, red] {$+\infty$} (5);
+        \draw[pred] (5) edge[out=170,in=285]
+            node[above=10pt, red] {$1$} (1);
+        \draw[pred] (1) edge[out=180,in=120]
+            node[above=10pt, red] {$+\infty$} (2);
+        \draw[pred] (2) edge[out=180,in=120]
+            node[above=10pt, red] {$2$} (4);
+        \draw[pred] (4) edge[out=180,in=40]
+            node[above=10pt, red] {$+\infty$} (-4.5, -4);
     \end{tikzpicture}
     \qquad
     \qquad

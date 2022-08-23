@@ -19,18 +19,24 @@
         \draw[filho] (2) -- (4);
         \draw[filho] (3) -- (5);
         \draw[filho] (3) -- (6);
-        \draw[pred] (6) edge[out=30,in=0] (3);
+        \draw[pred] (6) edge[out=30,in=0]
+            node[above=10pt] {$2$} (3);
         \draw[sucessor] (3) edge[out=280,in=180] (6);
-        \draw[pred] (3) edge[out=190,in=120] (5);
+        \draw[pred] (3) edge[out=190,in=120]
+            node[above=10pt] {$+\infty$} (5);
         \draw[sucessor] (5) edge[out=0,in=260] (3);
-        \draw[pred, red] (5) edge[out=170,in=285] (1);
+        \draw[pred, red] (5) edge[out=170,in=285]
+            node[red, above=10pt] {$1$} (1);
         \draw[sucessor] (1) edge[out=270,in=200] (5);
-        \draw[pred] (1) edge[out=180,in=120] (2);
+        \draw[pred] (1) edge[out=180,in=120]
+            node[above=10pt] {$+\infty$} (2);
         \draw[sucessor] (2) edge[out=100,in=200] (1);
-        \draw[pred] (2) edge[out=180,in=120] (4);
+        \draw[pred] (2) edge[out=180,in=120]
+            node[above=10pt] {$2$} (4);
         \draw[sucessor] (4) edge[out=100,in=200] (2);
+        \draw[pred] (4) edge[out=180,in=40]
+            node[above=10pt] {$+\infty$} (-4.5, -4);
     \end{tikzpicture}
-    \qquad
     \begin{tabular}{|c|c|c|c|c|}
         \hline
             & & & $\now = 0$ & $\now = 1$ \\
