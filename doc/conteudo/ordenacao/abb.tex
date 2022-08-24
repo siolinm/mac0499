@@ -187,9 +187,9 @@ de até três certificados:
 \end{itemize}
 
 Na implementação da operação \textsc{event}, Algoritmo
-\ref{abb:evento}, utilizaremos a rotina \textsc{update}$(e)$ que
+\ref{abb:evento}, utilizaremos a rotina $\textsc{update}(e)$ que
 calcula a nova validade $t$ do certificado do elemento $e$, e chama
-a rotina \textsc{updatePQ}$(Q, e, t)$. A função \textsc{swap}$(e_1,
+a rotina~$\textsc{updatePQ}(Q, e, t)$. A função $\textsc{swap}(e_1,
 e_2)$ troca a posição de $e_1$ e $e_2$ na árvore binária balanceada
 de busca e na lista ligada.
 
@@ -202,25 +202,41 @@ de busca e na lista ligada.
 \input{figuras/ordenacao/abb/after}
 
 A operação \textsc{query\_kth}$(i)$ consiste em devolver o $i$-ésimo
-maior elemento da lista ligada. Para tal, usaremos a árvore binária
-balanceada de busca. Estando em um determinado nó \no~da árvore,
-sabemos que todos os nós na subárvore direita tem valor maior que o
-nó atual e que os nós da subárvore esquerda. Portanto, se $i \leq
-node.right.\children$, a nossa resposta com certeza está na
-subárvore direita do nó. Caso contrário temos duas opções: \no~é a
-resposta ou a resposta está na subárvore esquerda. Para checar se
-\no~é a resposta, devemos perceber que \no~tem valor maior que os nós
-de sua subárvore esquerda, então se $i = node.right.\children + 1$,
-\no~é a resposta. Se $i > node.right.\children + 1$, então a nossa
-resposta está na subárvore esquerda e queremos o $[i -
-(node.right.\children + 1)]$-ésimo elemento da subárvore esquerda.
-Podemos repetir esse processo até encontrar a nossa resposta. O
-Algoritmo \ref{abb:query} utiliza a rotina auxiliar
-\textsc{rsize}$(r)$, que devolve o valor de \textit{size} de
-$r.right$ caso este seja não nulo, caso contrário devolve $0$.
-% Se, dada uma raiz, soubermos a quantidade de filhos direitos,~\raiz$.rsize$, comparamos com o valor de $i$ e podemos ter três conclusões: se~$i > root.rsize$, significa que o $i$-ésimo elemento com certeza não está na subárvore direita, pois todos elementos da subárvore direita estão a frente de \raiz~e da subárvore esquerda. Nesse caso, calculamos $i - root.rsize$, se esse valor é igual a $1$, então \raiz~é o $i-ésimo$ elemento da coleção, pois \raiz~é o próximo elemento após todos elementos na subárvore direita. Se $root.rsize - i \neq 1$, então devemos
+maior elemento da lista ligada. Para tal, percorreremos a árvore
+binária balanceada de busca utilizando o atributo $\children$ para,
+a cada iteração, decidir em qual subárvore o $i$-ésimo está. O
+Algoritmo \ref{abb:query} implementa esta operação e a Figura
+\ref{fig:abb:queryexecution} simula a execução em um exemplo.
+
+
+% Estando em um determinado nó \no~da árvore, sabemos que todos os nós
+% na subárvore direita tem valor maior que o nó atual e que os nós da
+% subárvore esquerda. Portanto, se $i \leq node.right.\children$, a
+% nossa resposta com certeza está na subárvore direita do nó. Caso
+% contrário temos duas opções: \no~é a resposta ou a resposta está na
+% subárvore esquerda. Para checar se \no~é a resposta, devemos
+% perceber que \no~tem valor maior que os nós de sua subárvore
+% esquerda, então se $i = node.right.\children + 1$, \no~é a resposta.
+% Se $i > node.right.\children + 1$, então a nossa resposta está na
+% subárvore esquerda e queremos o $[i - (node.right.\children +
+% 1)]$-ésimo elemento da subárvore esquerda. Podemos repetir esse
+% processo até encontrar a nossa resposta. O Algoritmo \ref{abb:query}
+% utiliza a rotina auxiliar \textsc{rsize}$(r)$, que devolve o valor
+% de \textit{size} de $r.right$ caso este seja não nulo, caso
+% contrário devolve $0$.
+% Se, dada uma raiz, soubermos a quantidade de filhos
+% direitos,~\raiz$.rsize$, comparamos com o valor de $i$ e podemos
+% ter três conclusões: se~$i > root.rsize$, significa que o
+% $i$-ésimo elemento com certeza não está na subárvore direita, pois
+% todos elementos da subárvore direita estão a frente de \raiz~e da
+% subárvore esquerda. Nesse caso, calculamos $i - root.rsize$, se
+% esse valor é igual a $1$, então \raiz~é o $i-ésimo$ elemento da
+% coleção, pois \raiz~é o próximo elemento após todos elementos na
+% subárvore direita. Se $root.rsize - i \neq 1$, então devemos
 
 \input{algoritmos/ordenacao/abb/query_kth}
+
+\input{figuras/ordenacao/abb/query_structure}
 
 \input{figuras/ordenacao/abb/query}
 
@@ -239,13 +255,13 @@ $e.next.cert$, se $e.next$ existe.
 
 A operação \textsc{insert}$(v, x_t)$ consiste em criar um novo
 elemento, inicializando seus atributos com os devidos valores,
-inseri-lo na árvore binária balanceada de busca e na estrutura
-que usamos para recuperá-lo depois, calcular o seu certificado
-e inseri-lo na fila com prioridades e, por fim, atualizar o
-certificado de seu sucessor, caso exista. Uma importante o
-bservação é que se \now~$\neq 0$, então $x_t \neq$~\initv.
-Para calcular \initv, podemos utilizar a relação $x_t = now\cdot
-speed + x_0 \Rightarrow x_0 = x_t - speed\cdot now$.
+inseri-lo na árvore binária balanceada de busca e na estrutura que
+usamos para recuperá-lo depois, calcular o seu certificado e
+inseri-lo na fila com prioridades e, por fim, atualizar o
+certificado de seu sucessor, caso exista. Uma importante observação
+é que se \now~$\neq 0$, então $x_t \neq$~\initv. Para calcular
+\initv, podemos utilizar a relação $x_t = now\cdot speed + x_0$, que
+implica que $x_0 = x_t - speed\cdot now$.
 
 \input{algoritmos/ordenacao/abb/insert}
 
