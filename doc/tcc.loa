@@ -8,7 +8,7 @@
 \contentsline {algorithm}{\numberline {2.8}{\ignorespaces Função \textsc {query\_kth}.\relax }}{12}{algorithm.caption.23}%
 \contentsline {algorithm}{\numberline {2.9}{\ignorespaces Função \textsc {change}.\relax }}{13}{algorithm.caption.26}%
 \contentsline {algorithm}{\numberline {2.10}{\ignorespaces Função \textsc {insert}.\relax }}{14}{algorithm.caption.29}%
-\contentsline {algorithm}{\numberline {2.11}{\ignorespaces Função \textsc {delete}.\relax }}{15}{algorithm.caption.31}%
+\contentsline {algorithm}{\numberline {2.11}{\ignorespaces Função \textsc {delete}.\relax }}{14}{algorithm.caption.31}%
 \contentsline {algorithm}{\numberline {1.1}{\ignorespaces Função \textsc {update}.\relax }}{20}{algorithm.caption.35}%
 \contentsline {algorithm}{\numberline {1.2}{\ignorespaces Função \textsc {event}.\relax }}{20}{algorithm.caption.36}%
 \contentsline {algorithm}{\numberline {1.3}{\ignorespaces Função \textsc {query\_max}.\relax }}{20}{algorithm.caption.37}%

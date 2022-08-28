@@ -1,6 +1,6 @@
 \begin{figure}
     \centering
-    \begin{tikzpicture}
+    \begin{tikzpicture}[baseline=-2.25cm]
         \node[circle,draw,minimum size=1cm] (1) at (0,0)  {$1$};
         \node[circle,draw,minimum size=1cm] (2) at (-2,-2){$3$};
         \node[circle,draw,minimum size=1cm] (3) at (2,-2) {$4$};
@@ -35,6 +35,24 @@
         \draw[pred] (4) edge[out=180,in=40]
             node[above=10pt] {$+\infty$} (-4.5, -4);
     \end{tikzpicture}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+            & & & $\now = 1$ \\
+        $i$ & $x_0$ & $v$ & $\cert[i]$ \\
+        \hline
+        $1$ & $6$ & $2$ & $+\infty$ \\
+
+        $2$ & $3$ & $5$ & $+\infty$ \\
+
+        $3$ & $2$ & $1$ & $2$ \\
+
+        $4$ & $7$ & $4$ & $4$ \\
+
+        $5$ & $-2$ & $3$ & $+\infty$ \\
+
+        $6$ & $14$ & $0.5$ & $2$ \\
+        \hline
+    \end{tabular}
     \caption[ABB após atualização]{Em $\now = 1$, o elemento $1$ e o
     elemento $2$ foram trocados e os certificados do elemento $1$,
     elemento $2$ e elemento $4$ foram atualizados.}

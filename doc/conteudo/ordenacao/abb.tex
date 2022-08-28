@@ -240,12 +240,13 @@ Algoritmo \ref{abb:query} implementa esta operação e a Figura
 
 \input{figuras/ordenacao/abb/query}
 
-A operação \textsc{change}$(j, v)$ consiste em recuperar o
-elemento $e$ com identificador $j$, alterar seu atributo
-\initv~para $x_0 + (\mathit{speed} - v)\cdot now$,
-\textit{speed} para \textit{v} e recalcular os eventuais
-certificados de que $j$ participa, que seriam $e.cert$ e
-$e.next.cert$, se $e.next$ existe.
+A operação \textsc{change}$(j, v)$, como implementada no Algoritmo
+\ref{abb:change}, consiste em recuperar o elemento $e$ com
+identificador $j$, alterar seu atributo \initv~para $x_0 +
+(\mathit{speed} - v)\cdot now$, \textit{speed} para \textit{v} e
+recalcular os eventuais certificados de que $j$ participa, que
+seriam $e.cert$ e $e.next.cert$, se $e.next$ existe. A Figura
+\ref{fig:abb:change} ilustra um exemplo com os elementos afetados.
 
 \input{algoritmos/ordenacao/abb/change}
 
@@ -253,15 +254,17 @@ $e.next.cert$, se $e.next$ existe.
 
 \input{figuras/ordenacao/abb/insert}
 
-A operação \textsc{insert}$(v, x_t)$ consiste em criar um novo
-elemento, inicializando seus atributos com os devidos valores,
-inseri-lo na árvore binária balanceada de busca e na estrutura que
-usamos para recuperá-lo depois, calcular o seu certificado e
-inseri-lo na fila com prioridades e, por fim, atualizar o
-certificado de seu sucessor, caso exista. Uma importante observação
-é que se \now~$\neq 0$, então $x_t \neq$~\initv. Para calcular
-\initv, podemos utilizar a relação $x_t = now\cdot speed + x_0$, que
-implica que $x_0 = x_t - speed\cdot now$.
+A operação \textsc{insert}$(v, x_t)$, como ilustrado na Figura
+\ref{fig:abb:insert}, consiste em criar um novo elemento,
+inicializando seus atributos com os devidos valores, inseri-lo na
+árvore binária balanceada de busca e na estrutura que usamos para
+recuperá-lo depois, calcular o seu certificado e inseri-lo na fila
+com prioridades e, por fim, atualizar o certificado de seu sucessor,
+caso exista. Uma importante observação é que se \now~$\neq 0$, então
+$x_t \neq$~\initv. Para calcular \initv, podemos utilizar a relação
+$x_t = now\cdot speed + x_0$, que implica que $x_0 = x_t -
+speed\cdot now$. O Algoritmo \ref{abb:insert} implementa esta
+operação.
 
 \input{algoritmos/ordenacao/abb/insert}
 
@@ -271,6 +274,7 @@ A operação \textsc{delete}$(i)$ consiste em recuperar o elemento
 $i$, removê-lo da árvore binária balanceada de busca e da estrutura
 que usamos para recuperá-lo, e depois removê-lo da fila com
 prioridades. Após isso, basta atualizar o certificado de seu
-sucessor, caso exista.
+sucessor, caso exista. Essa operação é ilustrada na Figura
+\ref{fig:abb:delete} e implementada no Algoritmo \ref{abb:delete}.
 
 \input{algoritmos/ordenacao/abb/delete}
