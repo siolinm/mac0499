@@ -1,0 +1,92 @@
+%!TeX root=./maximo.tex
+
+\section{Heap Cinético}
+\label{heap:secao}
+Um bom jeito de resolver o problema do máximo cinético é manter uma
+fila de prioridades com os elementos da coleção tendo como
+prioridade o valor corrente do elemento. Dessa maneira, o elemento
+que se encontra na raiz da fila será o que possui o maior valor da
+coleção. Para implementar a fila utilizaremos um vetor organizado
+como um heap.
+
+Inicialmente o vetor começa com os índices dos elementos e
+reorganizamos como um heap usando como chave o valor de cada
+elemento no instante $t = 0$, ou seja, o valor $x_0$ de cada
+elemento.
+
+Uma vez montado o heap, construímos um certificado para cada par
+$($filho, pai$)$ no heap. O $i$-ésimo certificado, que se refere ao
+par das posições $i$ e $\floor{\frac{i}{2}}$, consiste no instante
+de tempo em que o $i$-ésimo elemento passará a ter um valor maior
+que o valor do $\floor{\frac{i}{2}}$-ésimo elemento do vetor, se
+esse instante for maior que o instante atual. Do contrário, o
+certificado consiste em $+\infty$.
+
+Esses $n - 1$ certificados são colocados em uma fila com prioridades
+$Q$, com o prazo de validade como chave. Estamos interessados nos
+certificados com menor prazo de validade.
+
+Para descrever a implementação das três operações, precisamos
+estabelecer o nome das novas variáveis usadas. São elas:
+\begin{enumerate}
+    \item \textit{heap}: vetor com os índices dos $n$ elementos
+    formando um heap de acordo com o seu valor no instante
+    \textit{now};
+    \item \textit{cert}: vetor com os certificados, onde
+    \textit{cert}$[i]$ guarda o certificado entre $i$ e
+    $\floor{\frac{i}{2}}$, para $1 < i \leq n$.
+\end{enumerate}
+
+A interface da fila com prioridades que utilizaremos não se altera.
+
+Um evento está associado a um certificado $(i, t)$ que expira no
+instante $t$, como pode ser visto na Figura \ref{fig:maxdevent}. O
+tratamento do evento correspondente ao certificado $(i, t)$ consiste
+em trocar de lugar os índices armazenados nas posições $i$ e
+$\floor{\frac{i}{2}}$ do vetor \heap, e recalcular o prazo de
+validade de até cinco certificados, ilustrados na Figura
+\ref{fig:max:update}:
+\begin{itemize}
+    \item do $\floor{\frac{i}{2}}$-ésimo certificado, se $i > 1$;
+    \item do $j$-ésimo certificado, se $i > 1$ e $j \leq n$,
+    onde $j = 2\cdot \floor{\frac{i}{2}} + ((i + 1)\mod2)$
+    é o irmão de $i$;
+    \item do $(2i)$-ésimo certificado, se $2i \leq n$;
+    \item do $(2i + 1)$-ésimo certificado, se $2i + 1 \leq n$.
+\end{itemize}
+
+\input{conteudo/capitulos/maximo/figuras/heap/updateandexpire}
+
+O $i$-ésimo certificado também deve ser ajustado para $+\infty$.
+Finalmente, é necessário fazer ajustes em $Q$, alterando a chave dos
+certificados que sofreram alteração.
+
+Novamente, na implementação da operação \textsc{event}, no Algoritmo
+\ref{max:evento}, utilizaremos a rotina \textsc{update}$(i)$, do
+Algoritmo \ref{max:update}, que calcula a nova validade $t$ do
+$i$-ésimo certificado, se $1 < i \leq n$, e chama a rotina
+\textsc{updatePQ}$(Q, i, t)$.
+
+\input{conteudo/capitulos/maximo/algoritmos/heap/update}
+
+\input{conteudo/capitulos/maximo/algoritmos/heap/event}
+
+A operação \textsc{query\_max}$()$, no Algoritmo
+\ref{max:heap:querymax}, consiste em devolver \textit{heap}$[1]$,
+enquanto que a operação \textsc{change}$(j, v)$, no Algoritmo
+\ref{max:heap:change}, consiste em alterar a posição $x_0[j]$ para
+${x_0[j] + (\mathit{speed}[j] - v)\cdot now}$, a posição
+\textit{speed}[j] para \textit{v} e recalcular os eventuais
+certificados de que $j$ participa. Para tanto, a partir da posição
+$i$ em que $j$ se encontra no vetor \textit{heap}, podemos
+recalcular \textit{cert}$[i]$ se $i > 1$, \textit{cert}$[2i]$ se $2i
+\leq n$ e \textit{cert}$[2i + 1]$ se $2i + 1 \leq n$, acionando a
+rotina \textsc{update} para fazer os devidos acertos em $Q$
+correspondentes a estas modificações. Veja a Figura
+\ref{fig:predeventheap}.
+
+\input{conteudo/capitulos/maximo/algoritmos/heap/query_max}
+
+\input{conteudo/capitulos/maximo/algoritmos/heap/change}
+
+\input{conteudo/capitulos/maximo/figuras/heap/after}

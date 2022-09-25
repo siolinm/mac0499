@@ -1,0 +1,231 @@
+%!TeX root=./par.tex
+
+\FloatBarrier
+\section{Algoritmo Cinético}
+
+Para ``cinetizar'' o algoritmo estático utilizaremos certificados,
+para assegurar que as nossas estruturas permanecerão corretas.
+Primeiramente, teremos os certificados das três \textit{listas
+ordenadas cinéticas}, seção \ref{lista:secao}, que guardarão a ordem
+dos pontos de acordo com os eixos $x$, $x + 60^\circ$ e $x -
+60^\circ$.
+
+Para garantir qual, dentre os pares $(p, \lcand(p))$, é o par mais
+próximo usaremos um \textit{torneio cinético com inserção e
+remoção}, seção \ref{trni:secao}, com respeito ao mínimo em vez de
+ao máximo. Temos um total de $3n$ pares, pois consideraremos também
+os pares $(p, \lcand(p))$ em que $\lcand(p)$ é nulo e os
+certificados destes serão $+\infty$.
+
+Também precisaremos manter informação guardada para atualizar com
+eficiência mudanças provocadas por trocas na ordem dos pontos em
+relação a um dos três eixos. Por exemplo, uma troca na ordem dos
+pontos pode acarretar na mudança nos conjuntos $\Cands(p)$ e
+$\Cands(q)$. Mudanças nesses conjuntos ocorrerão quando $q =
+\up(p)$, $q = \low(p)$ ou $q \in \Cands(p)$. Portanto, para que
+consigamos manter $\lcand(p)$ de maneira eficiente cada ponto terá
+três árvores binárias de busca associadas a ele com os conjuntos
+$\Cands(p)$, $\Hits_{up}(p)$ e $\Hits_{low}(p)$. A árvore
+$\Cands(p)$ guarda os pontos que pertencem ao conjunto $\Cands(p)$
+ordenados pela coordenada $y$. A árvore $\Hits_{up}(p)$ guarda os
+pontos $q$ tais que $\up(q) = p$, ordenados pela coordenada $x$.
+Similarmente, a árvore $\Hits_{low}(p)$ guarda os pontos $q$ tais
+que $\low(q) = p$, ordenados pela coordenada $x$. Utilizaremos uma
+árvore $\Cands(p)$, $\Hits_{up}(p)$ e $\Hits_{low}(p)$ para cada um
+dos eixos, logo, para cada ponto $p$, haverão nove \textit{splay
+trees} no total.
+
+Cada uma das três árvores têm sua raiz apontando para o nó $p$, e
+cada nó das árvores aponta para o seu nó pai. Na árvore $\Cands(p)$
+cada nó deve apontar para o descendente que contém o ponto mais à
+esquerda na ordenação horizontal. Na nossa implementação as árvores
+serão \textit{splay trees}. Essas estruturas contém toda a
+informação necessária para que mantenhamos nossas estruturas
+atualizadas e, consequentemente, o par mais próximo do conjunto.
+
+Na implementação do algoritmo inicialmente inserimos os pontos nas
+três listas ordenadas. Uma vez que as listas estejam montadas,
+percorremos os pontos da direita para a esquerda preenchendo as
+estruturas $\Cands(p)$, $\Hits_{up}(p)$ e $\Hits_{low}(p)$ para cada
+ponto $p$ e para cada um dos eixos. Esta etapa é feita da mesma
+forma que foi apresentada na seção sobre o algoritmo estático.
+
+A medida que as estruturas $\Cands(p)$ são inicializadas inserimos o
+par $(p, \lcand(p))$ no torneio. Quando todos os pares forem
+inseridos no torneio realizamos as partidas e calculamos os
+certificados, o par $(p, q)$ da partida que possuir menor distância
+é considerado o vencedor.
+
+Todos os certificados são colocados em uma fila de prioridade $Q$.
+Os certificados inseridos na fila possuem quatro informações:
+\begin{itemize}
+    \item $t~\rightarrow$ instante de tempo em que o certificado
+    expira. É utilizado como chave para a fila de prioridade.
+    Desempates são tratados de maneira especial e serão explicados
+    mais adiante;
+    \item $p~\rightarrow$ um dos pontos envolvidos no evento
+    representado pelo certificado. Caso seja um certificado de troca
+    na ordenação, $p$ é o ponto mais a direita naquela ordenação;
+    \item $q~\rightarrow$ o outro ponto envolvido no evento
+    representado pelo certificado. Caso seja um certificado de troca
+    na ordenação, $q$ é o ponto mais a esquerda naquela ordenação;
+    \item tipo $ \rightarrow$ o tipo de evento que o certificado
+    representa. Pode representar uma troca em uma das três
+    ordenações, denominadas por \textit{H} (horizontal =
+    $0^\circ$-ordem), \textit{U} (up = $+60^\circ$-ordem) e
+    \textit{D} (down = $-60^\circ$-ordem) ou pode representar a
+    vitória do par $(p, q)$ em uma partida do torneio.
+\end{itemize}
+% Falar sobre a chave e fazer o gancho para os casos degenerados. Terminar
+% os pseudocódigos e se possível melhorar as subfiles.
+
+Vamos agora falar de um evento em que ocorre uma mudança na ordem
+horizontal. No primeiro caso, $p$ se encontra à esquerda e abaixo de
+$q$, veja a figura \ref{fig:parcinetico:eventohorizontalabaixo}. O
+caso em que $q$ está à esquerda de $p$ será tratado de maneira
+parecida. O algoritmo \ref{parcinetico:eventohorizontal} implementa
+a sequência de operações referentes à esse tipo de evento.
+
+\input{conteudo/capitulos/par/figuras/cinetico/eventohorizontalabaixo}
+
+Se $p$ está em $\Hits_{up}(q)$, como demonstrado na figura
+\ref{fig:parcinetico:eventohorizontalabaixo}, então parte de
+$\Cands(q)$ terá de passar para $\Cands(p)$. Para tal, buscamos pelo
+novo $t = \up(p)$ em $\Cands(q)$ e chamamos a rotina \textit{splay}
+para o nó que contém $t$. Após o \textit{splay}, chamamos um
+\textit{split} na subárvore esquerda desse nó e unimos ela a
+$\Cands(p)$. Se $t$ não for encontrado em $\Cands(q)$, então $t =
+\up(q)$ e todos os pontos de $\Cands(q)$ devem ser transferidos para
+$\Cands(p)$. Não podemos esquecer de remover $p$ de $\Hits_{up}(q)$
+e adicioná-lo em $\Hits_{up}(t)$, além de remover $q$ de
+$\Hits_{low}(w)$ e adicioná-lo em $\Hits_{low}(p)$. Se $p$ não está
+em $\Hits_{up}(q)$, então não haverão mudanças, veja a figura
+\ref{fig:parcinetico:eventohorizontalabaixosemmudancas}.
+
+\input{conteudo/capitulos/par/figuras/cinetico/eventohorizontalabaixosemmudancas}
+
+Similarmente, se $q$ está em $\Hits_{low}(p)$, como demonstrado na
+figura \ref{fig:parcinetico:eventohorizontalabaixo}, parte de
+$\Cands(p)$ passará para $\Cands(q)$. Para realizar tal operação,
+buscamos pelo novo $t = low(q)$ em $Cands(p)$, damos um
+\textit{splay} no nó que o contém, separamos a subárvore direita
+desse nó e unimos ela à $Cands(q)$. Se $t$ não for encontrado em
+$Cands(p)$, então $t = low(p)$ e todos os pontos de $Cands(p)$ devem
+ser passados para $Cands(q)$. Devemos também remover $q$ de
+$Hits_{low}(p)$ e inseri-lo em $Hits_{low}(t)$, além de remover $p$
+de $Hits_{up}(w)$ e adicioná-lo em $Hits_{up}(q)$. Se $q$ não está
+em $Hits_{low}(p)$, então não haverão mudanças, veja a figura
+\ref{fig:parcinetico:eventohorizontalabaixosemmudancas}.
+
+\input{conteudo/capitulos/par/algoritmos/cinetico/eventohorizontal}
+
+No caso de um evento em que ocorre uma mudança na $60^\circ$-ordem,
+que é a ordem dos pontos projetados no eixo $x + 60^\circ$, vamos
+assumir que $p$ é o ponto que está à esquerda e acima de $q$. O
+evento pode provocar a entrada ou saída do ponto $q$ de $\Cands(p)$,
+veja a figura \ref{fig:parcinetico:eventoup}. O algoritmo
+\ref{parcinetico:eventoup} implementa a sequência de operações
+referentes a este evento.
+
+Se $p$ está em $\Hits_{low}(q)$, ou seja, $q$ está entrando em
+$\Dom(p)$ como demonstrado na figura \ref{fig:parcinetico:eventoup}
+da esquerda para direita, então a troca na $60^\circ$-ordem afetará
+o ponto $v$ tal que $q$ está em $\Cands(v)$. Achamos esse ponto
+subindo em $\Cands(v)$, a partir do nó que contém $q$, até a raiz
+que aponta para $v$. Devemos então remover $q$ de $\Cands(v)$ e
+inseri-lo em $\Cands(p)$. A mudança também afetará todos os pontos
+que estão à esquerda de $p$ e estão em $\Hits_{up}(q)$. Para achar
+esses pontos, buscamos o ponto $t$ em $\Hits_{up}(q)$ mais à
+esquerda que está à direita de $p$. Chamamos \textit{splay} para o
+nó que contém $t$ e chamamos \textit{split} para a subárvore
+esquerda desse nó e juntamos essa árvore em $\Hits_{up}(p)$, pois
+são todos os pontos à esquerda de $p$ que tinham $q$ como $\up$ e
+agora seu novo $\up$ é $p$. Se esse ponto $t$ não existe, todos os
+pontos de $\Hits_{up}(q)$ devem ser transferidos para
+$\Hits_{up}(p)$, veja a figura
+\ref{fig:parcinetico:eventouptnaoexiste}, e buscamos pelo ponto $t$
+tal que $q$ está em $\Hits_{low}(t)$. Por fim, removemos o ponto $p$
+de $\Hits_{low}(q)$ e o inserimos em $\Hits_{low}(t)$. Se $p$ não
+está em $\Hits_{low}(q)$ não haverão mudanças.
+
+Se $q$ está em $\Cands(p)$, ou seja, $q$ está saindo de $\Dom(p)$
+como demonstrado na figura~ \ref{fig:parcinetico:eventoup} da
+direita para esquerda, então a troca afetará o ponto $t$ tal que $p$
+está em $\Hits_{low}(t)$. Se o ponto $t$ existe, removemos $p$ de
+$\Hits_{low}(t)$. Devemos agora inserir $p$ em $\Hits_{low}(q)$, já
+que $q$ é o novo $\low(p)$. A mudança também afetará os pontos de
+$\Hits_{up}(p)$ que agora deverão estar em $\Hits_{up}(q)$. Para
+achar esses pontos, buscamos pelo ponto $v$ em $\Hits_{up}(p)$ mais
+à direita que não deveria estar em $\Hits_{up}(q)$, chamamos
+\textit{splay} para o nó que contém $v$ e um \textit{split} para sua
+subárvore direita, essa nova árvore deve ser incorporada a
+$\Hits_{up}(q)$. Se tal ponto $v$ não existe, todos os nós de
+$\Hits_{up}(p)$ devem ser passados para $\Hits_{up}(q)$. Por fim,
+devemos achar o novo ponto $u$ tal que $q$ deve estar em
+$\Cands(u)$. Se o ponto $v$ descrito anteriormente existe, então $u
+= v$. Se $v$ não existe, então $u$ é o ponto tal que $p$ está em
+$\Cands(u)$. Dessa forma, retiramos $q$ de $\Cands(p)$ e o inserimos
+em $\Cands(u)$. Se $q$ não está em $\Cands(p)$, não haverão
+mudanças.
+
+\input{conteudo/capitulos/par/algoritmos/cinetico/eventoup}
+
+\input{conteudo/capitulos/par/figuras/cinetico/eventoup}
+
+\input{conteudo/capitulos/par/figuras/cinetico/eventoupnaoexiste}
+
+Um evento em que ocorre uma mudança na $-60^\circ$-ordem, a ordem
+dos pontos projetados no eixo $x - 60^\circ$, é simétrico a um
+evento na $60^\circ$-ordem. Os pontos envolvidos no evento serão $p$
+e $q$ e vamos assumir que $p$ é o ponto mais à esquerda e abaixo de
+$q$. O evento pode provocar a entrada ou saída do ponto $q$ de
+$Cands(p)$, veja a figura \ref{fig:parcinetico:eventodown}. O
+algoritmo \ref{fig:parcinetico:eventodown} implementa a sequência de
+operações referentes a esse evento.
+
+Se $p$ está em $\Hits_{up}(q)$ ($q$ está entrando em $Dom(p)$), como
+demonstrado na figura \ref{fig:parcinetico:eventodown}, então a
+troca na $-60^\circ$-ordem afetará o ponto $v$ tal que $q$ está em
+$Cands(v)$. Achamos esse ponto subindo em $Cands(v)$, a partir do nó
+que contém $q$, até a raiz que aponta para~$v$. Devemos então
+remover $q$ de $Cands(v)$ e inseri-lo em $Cands(p)$. A mudança
+também afetará todos os pontos que estão à esquerda de $p$ e estão
+em $\Hits_{low}(q)$. Para achar esses pontos buscamos o ponto $t$ em
+$\Hits_{low}(q)$ mais à esquerda que está a direita de $p$. Chamamos
+\textit{splay} para o nó que contém $t$ e \textit{split} para a nova
+subárvore esquerda desse nó e juntamos essa árvore em
+$\Hits_{low}(p)$, pois são todos pontos à esquerda de $p$ que tinham
+$q$ como $low$ e agora seu novo $low$ é $p$. Se esse ponto $t$ não
+existe, veja a figura \ref{fig:parcinetico:eventodowntnaoexiste},
+então buscamos pelo ponto $t$ tal que $q$ está em $\Hits_{up}(t)$.
+Por fim, removemos o ponto $p$ de $\Hits_{up}(q)$ e o inserimos em
+$\Hits_{up}(t)$. Se $p$ não está em $\Hits_{up}(q)$ não haverão
+mudanças.
+
+Se $q$ está em $Cands(p)$ ($q$ está saindo de $Dom(p)$), como
+demonstrado na figura \ref{fig:parcinetico:eventodown}, então a
+troca afetará o ponto $t$ tal que $p$ está em $\Hits_{up}(t)$. Se o
+ponto $t$ existe, removemos $p$ de $\Hits_{up}(t)$. Devemos agora
+inserir $p$ em $\Hits_{up}(q)$, já que $q$ é o novo $up(p)$. A
+mudança também afetará os pontos de $\Hits_{low}(p)$ que agora
+atingem $Dom(q)$. Para achar esses pontos, buscamos pelo ponto $v$
+em $\Hits_{low}(p)$ mais à direita que não atinge $Dom(q)$, chamamos
+\textit{splay} para o nó que contém $v$ e um \textit{split} para sua
+subárvore direita. Essa nova árvore deve ser incorporada a
+$\Hits_{low}(q)$. Se tal ponto $v$ não existe, todos os nós de
+$\Hits_{low}(p)$ devem ser passados para $\Hits_{low}(q)$. Por fim,
+devemos achar o novo ponto~$u$ tal que $q$ deve estar em $Cands(u)$.
+Se o ponto $v$ descrito anteriormente existe, então~$u = v$. Se $v$
+não existe, então $u$ é o ponto tal que $p$ está em $Cands(u)$.
+Dessa forma, retiramos $q$ de $Cands(p)$ e o inserimos em
+$Cands(u)$. Se $q$ não está em $Cands(p)$, não haverão mudanças.
+
+\input{conteudo/capitulos/par/algoritmos/cinetico/eventodown}
+
+\input{conteudo/capitulos/par/figuras/cinetico/eventodown}
+
+\input{conteudo/capitulos/par/figuras/cinetico/eventodown}
+
+\input{conteudo/capitulos/par/figuras/cinetico/eventodownnaoexiste}
+
+\input{conteudo/capitulos/par/cineticodegen}

@@ -1,0 +1,72 @@
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[thick]
+        \tikzstyle{triangle} = [regular polygon, regular polygon sides=3]
+        \node[
+            label=280:{14},
+            label=80:{$i = 7 \leq 7$},
+            very thick,
+            circle,
+            draw,
+            minimum size=1cm]
+            (1) at (0,0) {$2$};
+        \node[label=280:{6},triangle,draw,minimum size=1cm]
+            (2) at (-4,-2) {};
+
+        \node[label=280:{7},
+            label=80:{$i = 7 > 3$},
+            very thick,
+            circle,draw,minimum size=1cm]
+            (3) at (4,-2) {$4$};
+        % \node[label=320:{3},circle,draw,minimum size=1cm]
+        %     (4) at (-6,-4) {$3$};
+        % \node[label=280:{2},circle,draw,minimum size=1cm]
+        %     (5) at (-2,-4) {$11$};
+        \node[label=320:{3},
+            label=120:{$i = 3 > 1$},
+            very thick,
+            circle,draw,minimum size=1cm]
+            (6) at (2,-4) {$14$};
+
+        \node[label=320:{3},triangle,draw,minimum size=1cm]
+            (7) at (6,-4) {};
+        % \node[label=280:{1},circle,draw,minimum size=1cm]
+        %     (8) at (-7,-6) {$8$};
+        % \node[label=280:{1},circle,draw,minimum size=1cm]
+        %     (9) at (-5,-6) {$7$};
+        % \node[label=280:{1},circle,draw,minimum size=1cm]
+        %     (10) at (-3,-6) {$5$};
+        % \node[label={11},circle,draw,minimum size=1cm] (11) at (-1,-6) {$3$};
+        \node[label=280:{1},
+            label=120:{$i = 1 = 0 + 1$},
+            very thick,
+            circle,draw,minimum size=1cm]
+            (12) at (1,-6) {$6$};
+
+        \node[label=280:{1},triangle,draw,minimum size=1cm]
+            (13) at (3,-6) {};
+        % \node[label=280:{1},circle,draw,minimum size=1cm]
+        %     (14) at (5,-6) {$9$};
+        % \node[label=280:{1},circle,draw,minimum size=1cm]
+        %     (15) at (7,-6) {$10$};
+
+        \draw[thick] (1) -- (2);
+        % \draw[thick] (2) -- (4);
+        % \draw[thick] (4) -- (8);
+        % \draw[thick] (4) -- (9);
+        % \draw[thick] (2) -- (5);
+        % \draw[thick] (5) -- (10);
+        % \draw[thick] (5) -- (11);
+        \draw[very thick] (1) -- node[above, sloped] {$i = 7$} (3);
+        \draw[very thick] (3) -- node[above, sloped] {$i = 3$} (6);
+        \draw[thick] (3) -- (7);
+        \draw[very thick] (6) --  node[above, sloped] {$i = 1$} (12);
+        \draw[thick] (6) -- (13);
+        % \draw[thick] (7) -- (14);
+        % \draw[thick] (7) -- (15);
+    \end{tikzpicture}
+    \caption[Exemplo de busca pelo $i$-ésimo]{Exemplo de busca pelo
+    $7^\circ$ elemento da direita para a esquerda na árvore da
+    Figura \ref{fig:abb:query}.}
+    \label{fig:abb:queryexecution}
+\end{figure}

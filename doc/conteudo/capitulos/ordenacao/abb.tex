@@ -1,0 +1,290 @@
+%!TeX root=./ordenacao.tex
+
+\section{Árvore binária balanceada de busca} \label{abb}
+
+Manter um vetor ordenado é uma boa maneira de resolver o problema da
+lista ordenada cinética dando suporte às operações
+\textsc{advance}$(t)$, \textsc{change}$(j,v)$ e
+\textsc{query\_kth}$(i)$. Poderíamos também querer dar suporte, além
+das operações citadas, às seguintes operações:
+
+\begin{itemize}
+    \item \textsc{insert}$(v, x_t) \rightarrow$ insere um
+    elemento com velocidade $v$ e valor $x_t$ no instante \now;
+    \item \textsc{delete}$(i) \rightarrow$ remove o elemento
+    $i$ no instante \now.
+\end{itemize}
+
+Para inserir um elemento no vetor ordenado, antes teríamos de
+encontrar a posição que este deveria ocupar no vetor. Digamos que
+seja a posição $j$. Após encontrar a posição, movemos todos os
+elementos, a partir da posição $j$, uma posição à frente e colocamos
+o elemento na posição~$j$. Após isso, os certificados de $j$~até~$n
+- 1$ devem ser atualizados, pois esses elementos mudaram de posição
+no vetor, e um novo certificado será criado, o $n$-ésimo
+certificado, o total de elementos $n$ deve ser mudado para $n + 1$.
+O novo certificado também deve ser inserido na fila com prioridades.
+
+Só a operação de inserir um novo elemento no vetor já pode se tornar
+pouco eficiente com uma grande quantidade de elementos sendo
+inseridos no começo do vetor, consumindo tempo linear por inserção.
+Como a remoção de um elemento no vetor ordenado envolve uma
+sequência parecida de operações, da mesma maneira se torna pouco
+eficiente, também consumindo tempo linear no pior caso.
+
+Dessa forma, apesar da lista ordenada cinética implementada
+manipulando um vetor ser uma estrutura eficiente para a operação
+\textsc{query\_kth}$(i)$, com um consumo de tempo constante, o
+consumo de tempo para as operações \textsc{insert}$(v, x_t)$ e
+\textsc{delete}$(i)$ é, no pior caso, proporcional ao número de
+elementos, o que pode ser ruim para uma grande quantidade de
+elementos, inserções e remoções.
+
+Podemos equilibrar o consumo de tempo das operações
+\textsc{query\_kth}$(i)$, \textsc{insert}$(v, x_t)$ e
+\textsc{delete}$(i)$ em tempo logarítmico no número de elementos,
+usando uma ABBB (árvore binária balanceada de busca). Os pontos
+serão armazenados na ABBB tendo o seu valor no instante \now~como
+chave.
+
+Além da ABBB, para garantirmos a eficiência das operações
+\textsc{event}, \textsc{change}, \textsc{insert} e \textsc{delete},
+cada elemento terá um apontador para o seu predecessor e um
+apontador para o seu sucessor, formando uma lista duplamente ligada
+ordenada pelo valor do elemento no instante \now; veja a Figura
+\ref{fig:abb:exemplo}.
+
+\input{conteudo/capitulos/ordenacao/figuras/abb/exemplo}
+
+No que diz respeito aos certificados, antes um certificado estava
+associado a uma posição e, no vetor, ao inserirmos um elemento em
+uma determinada posição, teríamos que deslocar % que atualizar
+todos os certificados conseguintes àquela posição. Agora, para que
+consigamos alterar apenas uma quantidade constante de certificados
+após uma inserção, os certificados não estarão mais associados a uma
+posição e sim aos elementos.
+
+O certificado $i$ se refere à relação estabelecida entre o elemento
+$i$ e seu predecessor e consiste no instante de tempo em que o
+elemento $i$ deixará de ter um valor maior que o valor do seu
+predecessor, se esse instante for maior que o instante atual. Do
+contrário, o certificado consiste em $+\infty$. Se o elemento $i$
+não possui predecessor, então o certificado também consiste em
+$+\infty$. Veja a Figura \ref{fig:abb:cert}.
+
+Esses $n$ certificados também serão colocados em uma fila com
+prioridades, com o prazo de validade determinando a prioridade.
+A fila com prioridades agora também deverá suportar operações
+como a inserção e remoção de certificados.
+
+\input{conteudo/capitulos/ordenacao/figuras/abb/cert}
+
+Para descrever as implementações das operações, vamos
+estabelecer os nomes dos objetos, variáveis e rotinas
+auxiliares utilizados:
+\begin{enumerate}
+    \item $n$: número de elementos no instante \now;
+    \item \no: objeto que compõe a árvore binária balanceada
+            de busca, com atributos:
+    \begin{enumerate}
+        \item \esq$:$ aponta para a raiz da subárvore
+        esquerda do nó;
+        \item \dir$:$ aponta para a raiz da subárvore
+        direita do nó;
+        \item \textit{key}$:$ aponta para um elemento;
+        \item \children$:$ quantidade de nós que a subárvore
+        enraizada neste nó possui. Este atributo será importante
+        para a operação \textsc{query\_kth}$(i)$;
+    \end{enumerate}
+    \item \raiz: nó que é a raiz da árvore binária balanceada de
+                busca;
+    \item \elemento: objeto com os seguintes atributos:
+    \begin{enumerate}
+        \item \id: vem de \textit{identifier} e é o atributo
+        para identificar o objeto. Assim, daqui
+        em diante, usaremos elemento $i$ para nos
+        referirmos ao elemento cujo \id~é $i$;
+        \item \speed: velocidade do elemento;
+        \item \initv: valor que o elemento possuía no
+        instante~$t = 0$;
+        \item \nex: apontador para o elemento imediatamente
+        posterior a este na coleção, no instante \now. O
+        elemento imediatamente posterior a $i$ é aquele
+        que possui o menor valor dentre a coleção de
+        elementos que possuem valor maior que o elemento
+        $i$;
+        \item \prev: apontador para o elemento imediatamente
+        anterior a este na coleção, no instante \now;
+        \item \pqpos: vem de \textit{priority queue position} e
+        aponta para a posição do certificado associado
+        ao elemento na fila com prioridades;
+        \item \cert: vem de \textit{certificate} e é o prazo de
+        validade do certificado entre este elemento e o elemento
+        apontado por \prev; se \prev~não aponta para ninguém,
+        \cert~vale $+\infty$;
+        \item \no: apontador para o nó da árvore binária de busca em
+        que o elemento se encontra;
+    \end{enumerate}
+    \item \Q: fila com prioridades que contém os elementos; o
+    elemento com certificado de menor valor estará à frente da fila;
+
+    \item \textsc{insertKey}$(\text{\raiz},e)\rightarrow$ insere
+    $e$, um elemento, na árvore binária balanceada de busca com raiz
+    \raiz~e retorna a, possivelmente nova, raiz da árvore. No
+    processo também atualiza a lista ligada de elementos;
+
+    \item \textsc{deleteKey}$(\text{\raiz},e)\rightarrow$ remove
+    $e$, um elemento, da árvore binária balanceada de busca com raiz
+    \raiz~e retorna a, possivelmente nova, raiz da árvore. No
+    processo também atualiza a lista ligada de elementos.
+
+\end{enumerate}
+Para a implementação das operações \textsc{change}$(j, v)$ e
+\textsc{delete}$(i)$, precisamos de alguma maneira recuperar um
+elemento baseado no seu \id. Para tal, podemos utilizar uma tabela
+de símbolos, implementada por uma árvore binária balanceada de busca
+ou uma tabela de dispersão. A seguir~estão três operações que nos
+ajudarão a recuperar os elementos:
+
+\begin{enumerate}
+    \item \textsc{getObject}$(i)\rightarrow$ retorna o elemento $i$;
+    \item \textsc{insertObject}$(e) \rightarrow$ insere $e$,
+    que é um elemento, na estrutura;
+    \item \textsc{deleteObject}$(e) \rightarrow$ remove $e$,
+    que é um elemento, da estrutura.
+\end{enumerate}
+
+Para permitir a inserção e remoção de certificados, a interface da
+fila com prioridades será reformulada, contando com duas operações
+extras:
+
+\begin{enumerate}
+    \item \textsc{insertPQ}$(Q, e) \rightarrow$ insere $(e, t)$
+    na fila com prioridades $Q$;
+    \item \textsc{deletePQ}$(Q, e) \rightarrow$ remove $e$
+    da fila com prioridades $Q$;
+    \item \textsc{updatePQ}$(Q,e,t) \rightarrow$ muda o prazo de
+    validade do certificado de $e$ para $t$ e atualiza a fila com
+    prioridades $Q$;
+    \item \textsc{minPQ}$(Q) \rightarrow$ devolve o elemento com o
+    certificado de menor prazo de validade da fila com prioridades
+    $Q$.
+\end{enumerate}
+
+A operação \textsc{updatePQ}$(Q,e,t)$ pode ser implementada de modo
+a consumir tempo logarítmico no número de elementos em $Q$ graças ao
+atributo \pqpos~dos elementos.
+
+Um evento está associado a um par $(e, t)$ que corresponde ao
+certificado do elemento $e$ que expira no instante $t$. O tratamento
+do evento correspondente a esse par $(e, t)$ consiste em trocar de
+lugar o elemento $e$ e seu predecessor, digamos $e'$, na árvore
+binária de busca e na lista ligada, e recalcular o prazo de validade
+de até três certificados:
+
+\begin{itemize}
+    \item do certificado de $e$;
+    \item do certificado de $e'$;
+    \item do certificado do novo sucessor de $e'$, caso não seja \textsc{null}.
+\end{itemize}
+
+Na implementação da operação \textsc{event}, no Algoritmo
+\ref{abb:evento}, utilizaremos a rotina $\textsc{update}(e)$, no
+Algoritmo \ref{abb:update}, que calcula o novo prazo de validade $t$
+do certificado do elemento $e$, e chama a
+rotina~$\textsc{updatePQ}(Q, e, t)$. A função $\textsc{swap}(e_1,
+e_2)$ troca a posição de $e_1$ e $e_2$ na árvore binária balanceada
+de busca e na lista ligada e a função \Call{expire}{$e,e'$} calcula
+a validade do certificado entre os elementos $e$ e $e'$; se $e'$ é
+\textsc{null} retorna $+\infty$.
+
+\input{conteudo/capitulos/ordenacao/algoritmos/abb/update}
+
+\input{conteudo/capitulos/ordenacao/algoritmos/abb/event}
+
+\input{conteudo/capitulos/ordenacao/figuras/abb/expire}
+
+\input{conteudo/capitulos/ordenacao/figuras/abb/after}
+
+A operação \textsc{query\_kth}$(i)$ consiste em devolver o $i$-ésimo
+maior elemento da lista ligada, ou seja, o $i$-ésimo da direita para
+a esquerda, pois a árvore está em ordem crescente da esquerda para a
+direita. Para tal, percorreremos a árvore binária balanceada de
+busca utilizando o atributo $\children$ para, a cada iteração,
+decidir em qual subárvore o $i$-ésimo está, ajustando $i$ quando
+necessário. O Algoritmo \ref{abb:query} implementa esta operação e a
+Figura \ref{fig:abb:queryexecution} simula a execução em um exemplo.
+A rotina auxiliar \textsc{rsize}$(r)$ devolve o valor de
+$r.right.\textit{size}$ caso este seja não nulo, caso contrário
+devolve $0$.
+
+
+% Estando em um determinado nó \no~da árvore, sabemos que todos os nós
+% na subárvore direita tem valor maior que o nó atual e que os nós da
+% subárvore esquerda. Portanto, se $i \leq node.right.\children$, a
+% nossa resposta com certeza está na subárvore direita do nó. Caso
+% contrário temos duas opções: \no~é a resposta ou a resposta está na
+% subárvore esquerda. Para checar se \no~é a resposta, devemos
+% perceber que \no~tem valor maior que os nós de sua subárvore
+% esquerda, então se $i = node.right.\children + 1$, \no~é a resposta.
+% Se $i > node.right.\children + 1$, então a nossa resposta está na
+% subárvore esquerda e queremos o $[i - (node.right.\children +
+% 1)]$-ésimo elemento da subárvore esquerda. Podemos repetir esse
+% processo até encontrar a nossa resposta. O Algoritmo \ref{abb:query}
+% utiliza a rotina auxiliar \textsc{rsize}$(r)$, que devolve o valor
+% de \textit{size} de $r.right$ caso este seja não nulo, caso
+% contrário devolve $0$.
+% Se, dada uma raiz, soubermos a quantidade de filhos
+% direitos,~\raiz$.rsize$, comparamos com o valor de $i$ e podemos
+% ter três conclusões: se~$i > root.rsize$, significa que o
+% $i$-ésimo elemento com certeza não está na subárvore direita, pois
+% todos elementos da subárvore direita estão a frente de \raiz~e da
+% subárvore esquerda. Nesse caso, calculamos $i - root.rsize$, se
+% esse valor é igual a $1$, então \raiz~é o $i-ésimo$ elemento da
+% coleção, pois \raiz~é o próximo elemento após todos elementos na
+% subárvore direita. Se $root.rsize - i \neq 1$, então devemos
+
+\input{conteudo/capitulos/ordenacao/algoritmos/abb/query_kth}
+
+\input{conteudo/capitulos/ordenacao/figuras/abb/query_structure}
+
+\input{conteudo/capitulos/ordenacao/figuras/abb/query}
+
+A operação \textsc{change}$(j, v)$, como implementada no Algoritmo
+\ref{abb:change}, consiste em recuperar o elemento $e$ com
+identificador $j$, alterar seu atributo \initv~para $x_0 +
+(\mathit{speed} - v)\cdot now$, \textit{speed} para \textit{v} e
+recalcular os eventuais certificados de que $j$ participa, que
+seriam $e.cert$ e $e.next.cert$, se $e.next$ existe. A Figura
+\ref{fig:abb:change} ilustra um exemplo com os elementos afetados.
+
+\input{conteudo/capitulos/ordenacao/algoritmos/abb/change}
+
+\input{conteudo/capitulos/ordenacao/figuras/abb/change}
+
+\input{conteudo/capitulos/ordenacao/figuras/abb/insert}
+
+A operação \textsc{insert}$(v, x_t)$, como ilustrado na Figura
+\ref{fig:abb:insert}, consiste em criar um novo elemento,
+inicializando seus atributos com os devidos valores, inseri-lo na
+árvore binária balanceada de busca e na estrutura que usamos para
+recuperá-lo depois, calcular o seu certificado e inseri-lo na fila
+com prioridades e, por fim, atualizar o certificado de seu sucessor,
+caso exista. Uma importante observação é que se \now~$\neq 0$, então
+$x_t \neq$~\initv. Para calcular \initv, podemos utilizar a relação
+${x_t = now\cdot speed + x_0}$, que implica que ${x_0 = x_t -
+speed\cdot now}$. O Algoritmo \ref{abb:insert} implementa esta
+operação.
+
+\input{conteudo/capitulos/ordenacao/algoritmos/abb/insert}
+
+\input{conteudo/capitulos/ordenacao/figuras/abb/delete}
+
+A operação \textsc{delete}$(i)$ consiste em recuperar o elemento
+$i$, removê-lo da árvore binária balanceada de busca e da estrutura
+que usamos para recuperá-lo, e depois removê-lo da fila com
+prioridades. Após isso, basta atualizar o certificado de seu
+sucessor, caso exista. Essa operação é ilustrada na Figura
+\ref{fig:abb:delete} e implementada no Algoritmo \ref{abb:delete}.
+
+\input{conteudo/capitulos/ordenacao/algoritmos/abb/delete}
