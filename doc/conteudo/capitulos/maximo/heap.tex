@@ -1,6 +1,6 @@
 %!TeX root=./maximo.tex
 
-\section{Heap Cinético}
+\section{Heap cinético}
 \label{heap:secao}
 Um bom jeito de resolver o problema do máximo cinético é manter uma
 fila de prioridades com os elementos da coleção tendo como
@@ -60,6 +60,8 @@ validade de até cinco certificados, ilustrados na Figura
 O $i$-ésimo certificado também deve ser ajustado para $+\infty$.
 Finalmente, é necessário fazer ajustes em $Q$, alterando a chave dos
 certificados que sofreram alteração.
+
+\input{conteudo/capitulos/maximo/tabelas/heap/updateandexpire}
 
 Novamente, na implementação da operação \textsc{event}, no Algoritmo
 \ref{max:evento}, utilizaremos a rotina \textsc{update}$(i)$, do
