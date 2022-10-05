@@ -77,6 +77,7 @@ a necessidade de atualização de certificados e de ajustes nas estruturas. A
 operação \textsc{change} será utilizada para atualizar o plano de vôo dos
 objetos e realizar as mudanças necessárias para manter a estrutura correta.
 
+% detalhe importante: a operação query só responde para um instante >= atual
 Por fim, a operação \textsc{query} ficará responsável por responder o atributo
 geométrico que desejamos saber num dado instante.
 
@@ -90,12 +91,13 @@ São elas:
     processar um certificado, isto é, o custo de atualizar os certificados e as
     outras estruturas necessárias é pequeno;
     \item Eficiência: uma estrutura é dita \textit{eficiente} se a razão entre a
-    quantidade total de eventos processados e a quantidade de eventos externos é
-    pequena. Um evento diz respeito ao vencimento de um certificado, os eventos
-    chamados \textit{externos} são eventos que geram mudanças na descrição
-    combinatória, enquanto eventos chamados \textit{internos} não geram mudanças
-    na descrição combinatória, mas ainda são necessários para manter a
-    estrutura;
+    quantidade total de eventos processados e a quantidade de eventos
+    \textit{externos} é pequena. Um evento diz respeito ao vencimento de um
+    certificado, os eventos chamados \textit{externos} são eventos que geram
+    mudanças na descrição combinatória, enquanto eventos chamados
+    \textit{internos} não geram mudanças na descrição combinatória, mas ainda
+    são necessários para manter a estrutura. O total de eventos processados é a
+    soma da quantidade de eventos externos e internos;
     \item Compacidade: uma estrutura é dita \textit{compacta} se a quantidade máxima de
     certificados que podem estar na fila com prioridades em um determinado é
     instante é linear;
@@ -112,12 +114,26 @@ para resolvê-los. Apesar do modelo proposto por Basch, Guibas e Hershberger
 funcionar para trajetórias não-lineares, nos restringiremos apenas a trajetórias
 lineares.
 
-No capítulo 1 estudaremos o problema da ordenação cinética, que consiste de 
+No capítulo 1 estudaremos o problema da ordenação cinética. Neste problema os
+pontos movem-se apenas em uma dimensão $y(t) = x_0 + vt$ e desejamos saber qual
+dos pontos possui o $i$-ésimo maior valor na coleção em determinado instante
+$t$. As estruturas que consideraremos para resolver o problema são a lista
+ordenada cinética e uma árvore binária balanceada de busca. A árvore binária
+balanceada de busca além de suportar as operação já citadas também será capaz de
+realizar operações \textsc{insert} e \textsc{delete}.
 
-No capítulo 2 estudaremos o problema do máximo cinético
+No capítulo 2 estudaremos o problema do máximo cinético. Assim como no problema
+anterior, os pontos movem-se apenas em uma dimensão $y(t) = x_0 + vt$ e
+desejamos saber qual dos pontos possui o maior valor no instante atual. Apesar
+do problema anterior resolver este problema, pois basta buscar pelo primeiro
+maior valor na coleção, veremos que é possível obter essa resposta de forma mais
+eficiente utilizando outras estruturas.
 
 No capítulo 3 estudaremos o problema do par mais próximo cinético, em que
-utilizaremos estruturas vistas nos dois capítulos anteriores.
+utilizaremos estruturas vistas nos dois capítulos anteriores. Diferentemente dos
+problemas anteriores, os pontos movem-se em duas dimensões de acordo com uma
+função $\gamma(t) = (x(t), y(t))$, sendo que $x(t) = x_0 + vt$ e $y(t) = y_0 +
+vt$. Desejamos saber qual dos pares possíveis de pontos possui distância mínima.
 
 
 % Poderíamos usar certificados por exemplo entre alguns pares de pontos que,
