@@ -140,3 +140,26 @@ instruções executadas pela operação \textsc{change} estão descritas
 no Algoritmo \ref{lista:change}.
 
 \input{conteudo/capitulos/ordenacao/figuras/lista/after}
+
+\subsection{Análise de desempenho}
+
+A lista ordenada cinética é uma estrutura \textit{responsiva}, pois o custo de
+processar um certificado é $O(\lg{n})$. O custo de processar um certificado
+corresponde a uma iteração da linha $3$ na operação \textsc{event}, que atualiza
+o vetor que guarda o índice dos elementos em $O(1)$ e realiza alterações na fila
+de certificados em tempo $O(\lg{n})$, por isso o custo total $O(\lg{n})$ para
+processar um certificado.
+
+A lista ordenada cinética é uma estrutura \textit{eficiente}, pois todos eventos
+processados são eventos \textit{externos}, isto é, todo vencimento de
+certificado representa a troca de ordem entre dois elementos na lista, que é uma
+mudança na descrição combinatória do problema.
+
+A lista ordenada cinética é uma estrutura \textit{compacta}, pois como cada
+certificado está associado à relação de ordem entre um elemento e seu
+predecessor, teremos no máximo $n$ certificados na fila de prioridades num
+determinado instante.
+
+A lista ordenada cinética é uma estrutura \textit{local}, pois cada elemento
+está relacionado com no máximo dois certificados, o certificado entre ele e o
+seu predecessor e o certificado entre o seu sucessor e ele.
