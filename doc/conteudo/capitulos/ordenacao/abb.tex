@@ -288,3 +288,30 @@ sucessor, caso exista. Essa operação é ilustrada na Figura
 \ref{fig:abb:delete} e implementada no Algoritmo \ref{abb:delete}.
 
 \input{conteudo/capitulos/ordenacao/algoritmos/abb/delete}
+
+\FloatBarrier
+
+\subsection{Análise de desempenho}
+
+A árvore binária balanceada de busca é uma estrutura \textit{responsiva}, pois o
+custo de processar um certificado é $O(\lg{n})$. O custo de processar um
+certificado corresponde a uma iteração da linha $3$ na operação \textsc{event},
+que atualiza a posição dos elementos na árvore em $O(1)$ e realiza alterações na
+fila de certificados em tempo $O(\lg{n})$, por isso o custo total de $O(\lg{n})$
+para processar um certificado.
+
+Assim como a lista ordenada cinética a árvore binária balanceada de busca é uma
+estrutura \textit{eficiente}, \textit{compacta} e \textit{local}, pelas mesmas
+justificativas já apresentadas na seção da lista ordenada cinética.
+
+Apesar do mesmo bom desempenho que a lista ordenada cinética, a árvore de busca
+binária balanceada realiza a operação \textsc{query} em $O(\lg{n})$, que é um
+desempenho assintótico pior em relação a lista ordenada cinética, que realiza a
+mesma operação em $O(1)$.
+
+O desempenho pior na operação \textsc{query} é justificado pelo ganho de
+desempenho nas operações \textsc{insert} e \textsc{delete} que também são
+realizadas em tempo $O(\lg{n})$, enquanto que na lista ordenada cinética o tempo
+gasto é $O(n)$, pois precisamos mover $O(n)$ objetos para posicionar o novo
+objeto na posição correta ou para reorganizar o vetor de forma a ocupar a
+posição que ficou vazia após a remoção de um objeto. 

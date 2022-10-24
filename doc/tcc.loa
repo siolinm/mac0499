@@ -5,10 +5,10 @@
 \contentsline {algorithm}{\numberline {1.5}{\ignorespaces Função \textsc {change}.\relax }}{9}{algorithm.caption.15}%
 \contentsline {algorithm}{\numberline {1.6}{\ignorespaces Função \textsc {update}.\relax }}{13}{algorithm.caption.19}%
 \contentsline {algorithm}{\numberline {1.7}{\ignorespaces Função \textsc {event}.\relax }}{13}{algorithm.caption.20}%
-\contentsline {algorithm}{\numberline {1.8}{\ignorespaces Função \textsc {query\_kth}.\relax }}{14}{algorithm.caption.23}%
-\contentsline {algorithm}{\numberline {1.9}{\ignorespaces Função \textsc {change}.\relax }}{16}{algorithm.caption.26}%
-\contentsline {algorithm}{\numberline {1.10}{\ignorespaces Função \textsc {insert}.\relax }}{16}{algorithm.caption.29}%
-\contentsline {algorithm}{\numberline {1.11}{\ignorespaces Função \textsc {delete}.\relax }}{18}{algorithm.caption.31}%
+\contentsline {algorithm}{\numberline {1.8}{\ignorespaces Função \textsc {query\_kth}.\relax }}{15}{algorithm.caption.23}%
+\contentsline {algorithm}{\numberline {1.9}{\ignorespaces Função \textsc {change}.\relax }}{15}{algorithm.caption.26}%
+\contentsline {algorithm}{\numberline {1.10}{\ignorespaces Função \textsc {insert}.\relax }}{15}{algorithm.caption.29}%
+\contentsline {algorithm}{\numberline {1.11}{\ignorespaces Função \textsc {delete}.\relax }}{15}{algorithm.caption.31}%
 \contentsline {algorithm}{\numberline {2.1}{\ignorespaces Função \textsc {update}.\relax }}{22}{algorithm.caption.35}%
 \contentsline {algorithm}{\numberline {2.2}{\ignorespaces Função \textsc {event}.\relax }}{22}{algorithm.caption.36}%
 \contentsline {algorithm}{\numberline {2.3}{\ignorespaces Função \textsc {query\_max}.\relax }}{22}{algorithm.caption.37}%
