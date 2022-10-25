@@ -1,28 +1,27 @@
 %!TeX root=../../tcc.tex
 
 \chapter{Máximo cinético}
-Agora, considere o seguinte problema cinético. São dados $n$ pares
-de valores em que cada par $(x_0, v)$ representa um valor que está
-mudando linearmente com o tempo, assim como na lista cinética. Num
-instante arbitrário $t \geq 0$, o valor correspondente ao par $(x_0,
-v)$ é $x_0 + tv$. Desta vez, o objetivo é responder consultas mais
-simples, do tipo: quem é o elemento com maior valor da coleção no
-instante corrente. Veremos que é possível obter implementações mais
-eficientes que para a ordenação cinética neste caso.
+Agora, considere o seguinte problema cinético. São dados $n$ pares de valores em
+que cada par $(x_0, v)$ representa um valor que está mudando linearmente com o
+tempo, assim como na lista cinética. Num instante arbitrário $t \geq 0$, o valor
+correspondente ao par $(x_0, v)$ é $x_0 + tv$. Desta vez, o objetivo é responder
+consultas mais simples, do tipo: quem é o elemento com maior valor da coleção no
+instante corrente. Veremos que é possível obter implementações mais eficientes
+que para a ordenação cinética neste caso, como discutiremos nas seções sobre
+análise de desempenho.
 
-Utilizando o mesmo exemplo da lista, se tivermos quatro elementos na
-coleção, digamos $\left(6, -\dfrac{1}{2}\right)$, $(5, 0)$,
-$\left(3, \dfrac{1}{4}\right)$ e $\left(0, \dfrac{4}{3}\right)$,
-podemos representar essa coleção da seguinte maneira:
+Utilizando o mesmo exemplo da lista, se tivermos quatro elementos na coleção,
+digamos $\left(6, -\dfrac{1}{2}\right)$, $(5, 0)$, $\left(3,
+\dfrac{1}{4}\right)$ e $\left(0, \dfrac{4}{3}\right)$, podemos representar essa
+coleção da seguinte maneira:
 
 \input{conteudo/capitulos/maximo/figuras/exemplo}
 
-Agora, além das operações \textsc{advance}$(t)$ e
-\textsc{change}$(j, v)$, em vez da operação~\Call{query\_kth}{$i$},
-queremos dar suporte à nova operação:
+Agora, além das operações \textsc{advance}$(t)$ e \textsc{change}$(j, v)$, em
+vez da operação~\Call{query\_kth}{$i$}, queremos dar suporte à nova operação:
 \begin{itemize}
-    \item \textsc{query\_max}$()$ $\rightarrow$ devolve o elemento
-    cujo valor é o maior no instante atual.
+    \item \textsc{query\_max}$()$ $\rightarrow$ devolve o elemento cujo valor é
+    o maior no instante atual.
 \end{itemize}
 \input{conteudo/capitulos/maximo/heap}
 
