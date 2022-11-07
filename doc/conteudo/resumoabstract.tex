@@ -17,27 +17,40 @@
 % as normas sugeridas da USP.
 \resumo{
 
-Estruturas de dados cinéticas são um modelo proposto por Basch,
-Guibas e Hershberger para a resolução, de maneira eficiente, dos
-chamados problemas cinéticos. Problemas cinéticos são problemas em
-que os objetos envolvidos estão em movimento contínuo e desejamos
-saber um determinado atributo destes objetos no instante atual. Por
-exemplo, consultar qual o par de pontos mais próximo no momento, num
-conjunto de pontos em movimento.
+Estruturas de dados cinéticas são um modelo proposto por Basch, Guibas e
+Hershberger para a resolução de problemas cinéticos de maneira eficiente.
+Problemas cinéticos são problemas em que os objetos envolvidos estão em
+movimento contínuo e desejamos saber um determinado atributo destes objetos no
+instante atual. Por exemplo, consultar qual o par de pontos mais próximo no
+momento, num conjunto de pontos em movimento.
 
-<Tentar falar sobre certificados, plano de vôo e a operação de
-alterar o plano de vôo>
+As interface proposta para as estruturas oferece suporte a três operações:
+consulta, que retorna o atributo mantido, avançar no tempo, que determina o
+instante atual, e alterar a trajetória de objetos, caracterizada pela alteração
+de uma função cujo nome é plano de vôo. O plano de vôo é necessário para manter
+o atributo desejado sobre os elementos, ele define a trajetória dos pontos ao
+longo do tempo e será utilizado para calcular os certificados, os certificados
+são objetos que garantem que a organização interna da estrutura está correta até
+um determinado instante, denominado prazo de validade do certificado. As
+estruturas serão orientadas a eventos, que são o vencimento de certificados. Os
+certificados serão colocados numa fila de prioridades com o seu prazo de
+validade como prioridade. No momento em que um certificado se torna inválido é
+necessário realizar mudanças na estrutura para que esta volte a se tornar
+válida, removendo os certificados inválidos e gerando novos certificados no
+processo.
 
-Com a inclusão da dimensão tempo a forma tradicional de analisar
-algoritmos não é adequada para análise dessas estruturas, por isso
-Basch, Guibas e Hershberger também propuseram outros quatro
-critérios com o intuito de determinar a eficiência de cada
-estrutura: responsividade, eficiência, localidade e compacidade.
-Neste trabalho, estudaremos os problemas da ordenação, máximo, par
-mais próximo e triangulação de delaunay, todos num contexto
-cinético. Também estudaremos as respectivas estruturas utilizadas na
-solução de cada problema e discutiremos sobre os critérios de
-eficiência em cada uma delas.
+Com a inclusão da dimensão tempo, a forma tradicional de analisar algoritmos não
+é adequada para a análise dessas estruturas. Por isso, Basch, Guibas e
+Hershberger também propuseram outros quatro critérios com o intuito de
+determinar a eficiência de cada estrutura: responsividade, eficiência,
+localidade e compacidade.
+
+Neste trabalho, estudaremos os problemas da ordenação, máximo, par mais próximo
+e triangulação de delaunay, todos num contexto cinético. Também estudaremos as
+respectivas estruturas utilizadas na solução de cada problema e discutiremos
+sobre os critérios de eficiência em cada uma delas. Para algumas das estruturas
+também discutiremos um cenário dinâmico-cinético, ou seja, operações de inserção
+e remoção dentro de um contexto cinético.
 
 }
 
