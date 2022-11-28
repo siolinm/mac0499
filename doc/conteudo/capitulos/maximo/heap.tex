@@ -85,23 +85,25 @@ correspondentes a estas modificações. Veja a Figura \ref{fig:predeventheap}.
 
 \input{conteudo/capitulos/maximo/figuras/heap/after}
 
+\FloatBarrier
 \subsection{Análise de desempenho}
 
 O heap cinético é uma estrutura \textit{responsiva}, pois o custo de processar
 um certificado é $O(\lg{n})$. O custo de processar um certificado corresponde a
-uma iteração da linha $3$ da operação \textsc{event}, que troca os dois
-elementos envolvidos no certificado de posição em $O(1)$ e atualiza os cinco
+uma iteração da linha $3$ da operação \textsc{event}, que troca de posição os
+dois elementos envolvidos no certificado em $O(1)$ e atualiza os cinco
 certificados afetados em $O(\lg{n})$.
 
-O heap cinético é uma estrutura \textit{eficiente}... explicação complicada, por
-enquanto referenciar o artigo e explicar melhor caso dê tempo de estudar.
-Justificar aqui também porque que uma estrutura que resolve a ordenação cinética
-não seria eficiente aqui.
+O heap cinético é uma estrutura \textit{eficiente}, pois a quantidade de eventos
+internos é $O(n\lg^2{n})$ para trajetórias lineares, mostrado em <tese do
+Basch>. Como a quantidade de eventos externos é $\Theta(n)$ temos uma razão
+$O(\lg^2{n})$, que é polilogarítmica em $n$, tornando o heap cinético uma
+estrutura eficiente em trajetórias lineares.
 
-O heap cinético é uma estrutura \textit{compacta}, pois tem no máximo $O(n)$ certificados
-na fila com prioridades...
+O heap cinético é uma estrutura \textit{compacta}, pois tem no máximo $n$
+certificados na fila com prioridades, um para cada objeto.
 
 O heap cinético é uma estrutura \textit{local}, pois um elemento está envolvido
-em no máximo três certificados da fila ao mesmo tempo...
+em no máximo três certificados da fila ao mesmo tempo.
 
 

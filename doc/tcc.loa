@@ -13,23 +13,23 @@
 \contentsline {algorithm}{\numberline {2.2}{\ignorespaces Função \textsc {event}.\relax }}{22}{algorithm.caption.36}%
 \contentsline {algorithm}{\numberline {2.3}{\ignorespaces Função \textsc {query\_max}.\relax }}{22}{algorithm.caption.37}%
 \contentsline {algorithm}{\numberline {2.4}{\ignorespaces Função \textsc {change}.\relax }}{22}{algorithm.caption.38}%
-\contentsline {algorithm}{\numberline {2.5}{\ignorespaces Função \textsc {update}.\relax }}{25}{algorithm.caption.42}%
-\contentsline {algorithm}{\numberline {2.6}{\ignorespaces Função \textsc {event}.\relax }}{25}{algorithm.caption.43}%
+\contentsline {algorithm}{\numberline {2.5}{\ignorespaces Função \textsc {update}.\relax }}{26}{algorithm.caption.42}%
+\contentsline {algorithm}{\numberline {2.6}{\ignorespaces Função \textsc {event}.\relax }}{27}{algorithm.caption.43}%
 \contentsline {algorithm}{\numberline {2.7}{\ignorespaces Função \textsc {query\_max}.\relax }}{27}{algorithm.caption.46}%
-\contentsline {algorithm}{\numberline {2.8}{\ignorespaces Função \textsc {change}.\relax }}{27}{algorithm.caption.47}%
-\contentsline {algorithm}{\numberline {2.9}{\ignorespaces Função \textsc {update}.\relax }}{30}{algorithm.caption.49}%
-\contentsline {algorithm}{\numberline {2.10}{\ignorespaces Função \textsc {event}.\relax }}{30}{algorithm.caption.50}%
-\contentsline {algorithm}{\numberline {2.11}{\ignorespaces Função \textsc {query\_max}.\relax }}{31}{algorithm.caption.51}%
-\contentsline {algorithm}{\numberline {2.12}{\ignorespaces Função \textsc {change}.\relax }}{31}{algorithm.caption.52}%
-\contentsline {algorithm}{\numberline {2.13}{\ignorespaces Função \textsc {insert}.\relax }}{32}{algorithm.caption.54}%
-\contentsline {algorithm}{\numberline {2.14}{\ignorespaces Função \textsc {insertTourn}.\relax }}{32}{algorithm.caption.55}%
-\contentsline {algorithm}{\numberline {2.15}{\ignorespaces Função \textsc {delete}.\relax }}{33}{algorithm.caption.57}%
-\contentsline {algorithm}{\numberline {2.16}{\ignorespaces Função \textsc {deleteTourn}.\relax }}{34}{algorithm.caption.58}%
-\contentsline {algorithm}{\numberline {3.1}{\ignorespaces Função \textsc {closest\_pair}$(p, n, \theta )$.\relax }}{38}{algorithm.caption.65}%
-\contentsline {algorithm}{\numberline {3.2}{\ignorespaces Função \textsc {successor}$(p)$.\relax }}{41}{algorithm.caption.68}%
-\contentsline {algorithm}{\numberline {3.3}{\ignorespaces Função \textsc {predecessor}$(p)$.\relax }}{41}{algorithm.caption.69}%
-\contentsline {algorithm}{\numberline {3.4}{\ignorespaces Função lcand$(p)$.\relax }}{42}{algorithm.caption.70}%
-\contentsline {algorithm}{\numberline {3.5}{\ignorespaces Função \textsc {query\_closest}.\relax }}{42}{algorithm.caption.71}%
-\contentsline {algorithm}{\numberline {3.6}{\ignorespaces Função \textsc {horizontalEvent}.\relax }}{46}{algorithm.caption.74}%
-\contentsline {algorithm}{\numberline {3.7}{\ignorespaces Função \textsc {upEvent}.\relax }}{47}{algorithm.caption.75}%
-\contentsline {algorithm}{\numberline {3.8}{\ignorespaces Função downEvent.\relax }}{50}{algorithm.caption.78}%
+\contentsline {algorithm}{\numberline {2.8}{\ignorespaces Função \textsc {change}.\relax }}{28}{algorithm.caption.47}%
+\contentsline {algorithm}{\numberline {2.9}{\ignorespaces Função \textsc {update}.\relax }}{31}{algorithm.caption.49}%
+\contentsline {algorithm}{\numberline {2.10}{\ignorespaces Função \textsc {event}.\relax }}{31}{algorithm.caption.50}%
+\contentsline {algorithm}{\numberline {2.11}{\ignorespaces Função \textsc {query\_max}.\relax }}{32}{algorithm.caption.51}%
+\contentsline {algorithm}{\numberline {2.12}{\ignorespaces Função \textsc {change}.\relax }}{32}{algorithm.caption.52}%
+\contentsline {algorithm}{\numberline {2.13}{\ignorespaces Função \textsc {insert}.\relax }}{33}{algorithm.caption.54}%
+\contentsline {algorithm}{\numberline {2.14}{\ignorespaces Função \textsc {insertTourn}.\relax }}{33}{algorithm.caption.55}%
+\contentsline {algorithm}{\numberline {2.15}{\ignorespaces Função \textsc {delete}.\relax }}{34}{algorithm.caption.57}%
+\contentsline {algorithm}{\numberline {2.16}{\ignorespaces Função \textsc {deleteTourn}.\relax }}{35}{algorithm.caption.58}%
+\contentsline {algorithm}{\numberline {3.1}{\ignorespaces Função \textsc {closest\_pair}$(p, n, \theta )$.\relax }}{40}{algorithm.caption.65}%
+\contentsline {algorithm}{\numberline {3.2}{\ignorespaces Função \textsc {successor}$(p)$.\relax }}{43}{algorithm.caption.68}%
+\contentsline {algorithm}{\numberline {3.3}{\ignorespaces Função \textsc {predecessor}$(p)$.\relax }}{43}{algorithm.caption.69}%
+\contentsline {algorithm}{\numberline {3.4}{\ignorespaces Função lcand$(p)$.\relax }}{44}{algorithm.caption.70}%
+\contentsline {algorithm}{\numberline {3.5}{\ignorespaces Função \textsc {query\_closest}.\relax }}{44}{algorithm.caption.71}%
+\contentsline {algorithm}{\numberline {3.6}{\ignorespaces Função \textsc {horizontalEvent}.\relax }}{48}{algorithm.caption.74}%
+\contentsline {algorithm}{\numberline {3.7}{\ignorespaces Função \textsc {upEvent}.\relax }}{49}{algorithm.caption.75}%
+\contentsline {algorithm}{\numberline {3.8}{\ignorespaces Função downEvent.\relax }}{52}{algorithm.caption.78}%
