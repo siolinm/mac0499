@@ -122,5 +122,50 @@ a estas modificações.
 \FloatBarrier
 \subsection{Análise de desempenho}
 
+O torneio cinético é uma estrutura \textit{responsiva}, pois o custo de
+processar um certificado é $O(\lg^2{n})$. O custo de processar um certificado
+corresponde a uma iteração da linha $3$ da operação \textsc{event}, que troca o
+resultado da partida entre os dois elementos envolvidos no certificado e
+atualiza o certificado em tempo $O(\lg{n})$. Além disso, existem $O(\lg{n})$
+certificados a serem alterados com a propagação da verificação para o nível de
+cima, resultando no custo $O(\lg^2{n})$.
+
+O torneio cinético é uma estrutura \textit{eficiente}, pois a quantidade de
+eventos internos é $O(n\lg{n})$ para trajetórias lineares. Como a quantidade de
+eventos externos é $\Theta(n)$ temos uma razão $O(\lg{n})$, que é logarítmica em
+$n$, tornando o torneio cinético uma estrutura eficiente em trajetórias
+lineares.
+
+Vamos mostrar que a quantidade de eventos internos é $O(n\lg{n})$. Cada evento
+do torneio é ocasionado pela troca do resultado de uma partida. Sendo assim,
+para contar a quantidade de eventos internos podemos contar a quantidade máxima
+de vezes que o valor de um nó se altera. É fácil ver que os elementos que podem
+ocupar um determinado nó só podem ser aqueles que estão nas folhas da subárvore
+com raiz naquele nó. Se uma subárvore enraizada num nó possui $k$ folhas, então
+podem ocorrer no máximo $k-1$ trocas naquele nó. O número de folhas que a
+subárvore enraizada no nó possui é $k = 2^h$, sendo $h$ a altura do nó. Como o
+torneio é uma árvore binária balanceada, sua altura é $\left\lceil \lg{n}
+\right\rceil$. Temos $\left\lfloor \frac{n}{2^h}\right\rfloor$ nós de altura
+$h$. Logo, sendo $Q$ a quantidade de eventos:
+\begin{align*}
+    Q & \leq \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} \dfrac{n}{2^h}\cdot (2^h - 1) \\\nonumber
+    & \leq \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} n - \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} \dfrac{n}{2^h} \\ \nonumber
+    & \leq \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} n \\ \nonumber
+    & \leq n\left\lceil \lg{n}\right\rceil + n \\\nonumber
+    & = O(n \lg{n})\nonumber
+\end{align*}
+
+O torneio cinético é uma estrutura \textit{compacta}, pois tem no máximo $n$
+certificados na fila com prioridades, um para cada objeto.
+
+O torneio cinético é uma estrutura \textit{local}, pois um elemento está envolvido
+em $O(\lg{n})$ certificados da fila ao mesmo tempo.
+
+As operações \textsc{insert} e \textsc{delete} custam $O(\lg^2{n})$, por contas
+respectivas operações \textsc{insertTourn} e \textsc{deleteTourn} que atualizam
+$O(\lg{n})$ posições com custo $O(\lg{n})$. Além disso, também vale observar que
+determinadas chamadas de \textsc{insertTourn} podem ter um custo $O(n)$, caso
+seja necessário redimensionar o vetor na operação \textsc{resize}, que dobra o
+tamanho de \textit{tourn}.
 
 
