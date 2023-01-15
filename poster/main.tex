@@ -52,740 +52,676 @@
 \setbeamertemplate{caption}[numbered]
 
 %----------------------------------------------------------------------------------------
-%	CUSTOM STYLING
-%----------------------------------------------------------------------------------------
-
-\newenvironment<>{prob}{
-    \begin{beamercolorbox}[sep=1ex,center,dp={1ex}]{block prob}
-    \textcolor{dblue}{\textbf{Problema:}}\itshape
-}{\end{beamercolorbox}}
-
-%----------------------------------------------------------------------------------------
 %	POSTER
 %----------------------------------------------------------------------------------------
 
 \title{Estruturas de dados cinéticas}
 \author{Marcos Siolin Martins \hspace{100pt} Orientadora: Profª. Drª. Cristina Gomes Fernandes}
 \institute{\vspace{10pt}Departamento de Ciência da Computação,
-Instituto de Matemática e Estatística, Universidade de São Paulo}
+    Instituto de Matemática e Estatística, Universidade de São Paulo}
 
 
 \begin{document}
-\begin{frame}[t]
-	%\vspace{-3ex}
-	\begin{columns}[t]
-
-
-		\begin{column}{0.35\paperwidth}% the right size for a 3-column layout
-
-			\begin{block}{Introdução}
-
-                Este trabalho discute algumas estruturas de dados cinéticas, propostas por Basch, Guibas e Hershberger~\cite{BGH99} para a
-                utilização em algoritmos que resolvem os chamados problemas \textit{cinéticos}. Problemas \textit{cinéticos} são problemas
-                em que deseja-se manter um determinado atributo sobre objetos que estão em movimento contínuo. Os problemas estudados neste
-                trabalho envolvem objetos se movendo apenas em trajetórias lineares.
-				% Os objetos nos problemas podem representar entidades do mundo físico: pontos podem representar pessoas, aviões,
-                % estabelecimentos, entre outras coisas, retas podem representar trajetórias.
-
-                % \vskip2ex
-                % \begin{figure}
-                %     \centering
-                %     \begin{tikzpicture}[thick, scale=1.6]
-                %         % \draw[step=1cm,lightgray,very thin] (-2,-2) grid (10,10);
-                %         \draw[thick,->] (0,0) -- (7,0) node[anchor=north west]
-                %             {$x$};
-                %         \draw[thick,->] (0,0) -- (0,5) node[anchor=south east]
-                %             {$y$};
-                %         \foreach \Point in {(1, 0), (5, -1), (0, 2), (3, 2), (3, 1)}{
-                %             \fill \Point circle[radius=2pt];
-                %             % \node at \Point {\textbullet};
-                %         }
-                %         \draw[->] (1, 0) -- (1.5, 0.25);
-                %         \draw[->] (5, -1) -- (4.75, -0.5);
-                %         \draw[->] (0, 2) -- (0.25, 1.75);
-                %         \draw[->] (3, 2) -- (3.25, 1.5);
-                %         \draw[->] (3, 1) -- (2.5, 1);
-                %         \foreach \Point in {(5, -2), (1, 1), (5, 2), (2,0), (3, 3)}{
-                %             % \fill \Point circle[radius=2pt];
-                %             \draw \Point circle[radius=2pt];
-                %         }
-                %         \draw[dashed] (3, 1) -- (3, 2);
-                %         \draw[dotted] (1, 1) -- (2, 0);
-                %     \end{tikzpicture}
-                %     \caption{Exemplo de problema cinético: par mais próximo. Os pontos preenchidos em preto representam a coleção no
-                %     instante $t = 0$. Os pontos não preenchidos representam a coleção no instante $t = 2$. As linhas representam o par mais
-                %     próximo em cada instante.}
-                %     \label{fig:parestatico:exemplo}
-                % \end{figure}
-
-				% Quando é dado um conjunto fixo de objetos geométricos, e deseja-se saber informações de um determinado atributo desses
-				% objetos (como, por exemplo, em um conjunto dado de pontos, qual par de pontos possui distância mínima), dizemos que esse é
-				% um problema \textit{estático}.
-                % \vskip2ex
-
-				% O mesmo problema pode ser formulado sobre um conjunto mutável. Por exemplo, pontos poderiam ser inseridos e removidos ao
-				% longo do tempo. Queremos calcular o atributo sem ter que resolver do zero a nova instância do problema estático. Chamamos
-				% esse tipo de problema de \textit{dinâmico} ou \textit{on-line}.
-                % \vskip2ex
-
-				% As \emph{estruturas de dados cinéticas} recebem esse nome para diferenciá-las das estruturas de dados \textit{estáticas} e
-				% \textit{dinâmicas}. Elas têm como foco manter a descrição combinatória do problema que se altera frequentemente com a
-				% passagem de tempo, já que os objetos estão em movimento contínuo.
-
-			\end{block}
-
-			\begin{block}{Ordenação cinética}
-
-				Para entender a interface geral das estruturas de dados cinéticas precisamos entender o que são \textit{certificados},
-				\textit{prazos de validade}, eventos e \textit{plano de vôo}. Vamos utilizar um problema e uma estrutura simples para
-				exemplificar essas ideias: a \textit{ordenação cinética} e a \textit{lista ordenada cinética}.
-
-                \vskip2ex
-
-				Considere o seguinte problema cinético. Dada uma coleção de $n$ pontos em movimento retilíneo, o objetivo é responder
-				consultas do tipo: para um certo $i$, com $1 \leq i \leq n$, quem é o $i$-ésimo maior valor da coleção no instante corrente.
-
-				\begin{figure}[htb]
-					\centering
-					\begin{tikzpicture}[thick, scale=1.3]
-						% \draw[step=1cm,lightgray,very thin] (-2,-2) grid (10,10);
-						\draw[thick,->] (0,0) -- (8,0) node[anchor=north west]
-						{$t$};
-						\draw[thick,->] (0,0) -- (0,8) node[anchor=south east]
-						{valor$(t)$};
-						\foreach \x in {1, 2,..., 7}
-							\draw (\x cm,1pt) -- (\x cm,-1pt)
-								node[anchor=north] {$\x$};
-						\foreach \y in {0, 1, ..., 7}
-							\draw (1pt,\y cm) -- (-1pt,\y cm)
-								node[anchor=east] {$\y$};
-						\draw[solid, thick, color=blue] (0, 6) -- (6, 3)
-							node[anchor=west] {elemento 1};
-						\draw[densely dotted, thick, color=red] (0, 5) -- (6, 5)
-							node[anchor=west] {elemento 2};
-						\draw[densely dashed, thick, color=black!30!green]
-							(0, 3) -- (6, 4.5) node[anchor=west] {elemento 3};
-						\draw[loosely dashdotted, thick, color=black]
-							(0, 0) -- (6, 8) node[anchor=west] {elemento 4};
-						\draw[dotted, thick, color=black]
-							(3, 0) -- (3, 8) node[anchor=south] {$t = 3$};
-						\draw[dotted, thick, color=black]
-							(5, 0) -- (5, 8) node[anchor=south] {$t = 5$};
-					\end{tikzpicture}
-					\caption{O segundo maior valor no instante $t = 0$ é do elemento~$2$, e no instante $t = 3$ é do elemento~$1$. O menor
-							valor da coleção no instante $t = 3$ é do elemento~$3$, e no instante $t = 5$ é do elemento~$1$.}
-				\end{figure}
-
-				Queremos dar suporte às seguintes operações:
-				\begin{itemize}
-					\justifying
-					\item \textsc{advance}$(t)$ $\rightarrow$ avança o tempo
-					corrente para $t$;
-					\item \textsc{change}$(j, v)$ $\rightarrow$ altera a
-					velocidade do elemento $j$ para $v$;
-					\item \textsc{query\_kth}$(i)$ $\rightarrow$ devolve o
-					elemento cujo valor é o $i$-ésimo maior no instante atual.
-				\end{itemize}
-
-				Para implementar estas operações vamos manter um vetor com os elementos dados em ordem decrescente do valor no instante
-				atual, ele será utilizado para responder as consultas de quem é o $i$-ésimo. O vetor começa ordenado com os valores iniciais
-				dos elementos.
-
-				\vskip2ex
-
-				Uma vez de posse do vetor ordenado com os valores iniciais decrescentemente, construímos um certificado para cada par de
-				elementos consecutivos no vetor.
-
-				\vskip2ex
-
-				Os certificados estabelecem que uma relação entre um objeto da estrutura e outro se mantém verdadeira até o seu vencimento.
-				No caso da lista, o instante de tempo em que um elemento ultrapassa o valor do elemento seguinte na lista. Chamaremos o
-				instante de tempo em que o certificado vence de valor ou \textit{prazo de validade} do certificado.
-
-                \vskip2ex
-
-				Esses prazos de validade determinam os \underline{eventos} que potencialmente causarão modificações na nossa estrutura e
-				consequentemente em alguns certificados. Quando avançarmos no tempo trataremos dos eventos que surgem antes do momento em
-				que queremos avançar.
-
-				\begin{figure}[htb]
-					\centering
-					\begin{tikzpicture}[thick, scale=1.5]
-						\edef\pos{0}
-						\foreach \x in {1, 2,..., 5}{
-							\pgfmathparse{\pos+2}
-							\xdef\pos{\pgfmathresult}
-							\node[circle,draw, minimum size=1cm] (\x) at
-								(\pos, 0) {$\x$};
-							% \node  at (\pos, -1) {$\x$};
-						}
-						% \foreach \x [evaluate=\x as \y using int(\x + 1)] in {1, 2,..., 4}{
-						%     \ifthenelse{\x==2}{\draw[->, draw=red] (\x) -- (\y);}{\draw[->, draw=black] (\x) -- (\y);}
-						% }
-
-						% \foreach \x [evaluate=\x as \y using int(\x + 1)] in {1, 2,..., 4}{
-							%     \ifthenelse{\x==2}{\draw[->, draw=red] (\x) -- (\y);}{\draw[->, draw=black] (\x) -- (\y);}
-							% }
-						\draw[->, color=blue, dashdotted] (1) -- (2);
-						\draw[->, color=blue, dashdotted] (2) -- (3);
-						\draw[->, color=blue, dashdotted] (3) -- (4);
-						\draw[->] (4) -- (5);
-					\end{tikzpicture}
-					\caption{Ao avançar no tempo passamos por um evento gerado pelo vencimento do certificado do elemento 2. O tratamento
-						desse evento resulta na atualização da estrutura e dos certificados afetados. }
-				\end{figure}
-
-                % \vskip2ex
-
-				% Para implementar a operação \textsc{advance}, é necessário que nenhum certificado esteja vencido no instante $t$, ou seja, o
-				% certificado de menor prazo de validade expira após o instante $t$. O certificado de menor prazo de validade será obtido
-				% através de uma fila com prioridades que manteremos. Essa fila utiliza como prioridade o prazo de validade do certificado.
-
-				% \vskip2ex
-
-				Para calcular o prazo de validade dos certificados, utilizaremos o chamado \textit{plano de vôo} dos objetos. O plano de vôo
-				de um objeto é uma função que, dado o instante de tempo atual, determina sua trajetória.
-
-				\vskip2ex
-
-				O plano de vôo pode sofrer mudanças. Essas mudanças serão feitas através da operação \textsc{change} e geram a necessidade
-				de atualização de certificados e de ajustes nas estruturas.
-
-				\vskip2ex
-
-				Basch, Guibas e Hershberger propuseram alguns critérios de desempenho como forma de analisar e medir as estruturas. São
-				eles: \textit{responsividade}, \textit{eficiência}, \textit{compacidade} e \textit{localidade}.
-
-				% Agora que discutimos algumas definições podemos dar o panorama geral de como funcionam as estruturas de dados cinéticos. A
-				% estrutura em que serão feitas as consultas é inicializada de acordo com o estado inicial dos objetos. Para cada objeto é
-				% fornecida uma função que define a sua trajetória ao longo do tempo. Essa função é utilizada para calcular certificados que
-				% serão colocados numa fila de prioridades. Para avançar no tempo é necessário tratar os eventos que vão surgindo.
-
-				% % detalhe importante: a operação query só responde para um instante >= atual
-				% Por fim, a operação \textsc{query} ficará responsável por responder o atributo geométrico que desejamos saber num dado
-				% instante.
-            \end{block}
-
-			\begin{block}{Referências}
-				\scriptsize{\begin{thebibliography}{50}
-                        \bibitem{BGH99}
-                        Basch, J., Guibas, L., Hershberger, J., ``\textbf{Data structures for mobile data},'' in \textit{Journal of Algorithms}, 1999, 31 (1), pp. 1--28
-						% \bibitem{Aggarwal}
-						% Aggarwal, Alok and Klawe, Maria M. and Moran, Shlomo and Shor, Peter and Wilber, Robert, ``\textbf{Geometric applications of a matrix-searching algorithm},`` in \textit{Algorithmica. Springer}, 1987, 2 (1-4), pp. 195--208.
-
-						\bibitem{Eduardo}
-						Freitas, E. G., ``\textbf{Problemas Cinéticos em Geometria Computacional},'' \textit{Dissertação de mestrado},
-						Universidade de São Paulo, 2000. https://www.teses.usp.br
-
-						\bibitem{Basch}
-						Basch, J., ``\textbf{Kinetic data structures},'' \textit{PhD Thesis}, Stanford University, 1999. http://www.basch.org/phdthesis
-						% Burkard, Rainer E. and Klinz, Bettina and Rudolf, R{\"u}diger, ``\textbf{Perspectives of Monge properties in optimization},`` in \textit{Discrete Applied Mathematics. Elsevier}, 1996, 70 (2), pp. 95--161.
-
-						% Galil, Zvi and Park, Kunsoo, ``\textbf{Dynamic programming with convexity, concavity and sparsity},`` in \textit{Theoretical Computer Science. Elsevier}, 1992, 92 (1), pp. 49--76.
-
-						% \bibitem{Knuth}
-						% Knuth, Donald E., ``\textbf{Optimum binary search trees},`` in \textit{Acta Informatica. Springer,} 1971, 1 (1), pp. 14--25.
-
-						% \bibitem{Yao}
-						% Yao, F. Frances, ``\textbf{Efficient dynamic programming using quadrangle inequalities},`` in \textit{Proceedings of the Twelfth Annual ACM Symposium on Theory of Computing. ACM}, 1980, 3 (4), pp. 532--540.
-
-					\end{thebibliography}}
-			\end{block}
-
-
-		\end{column}
-
-
-		\begin{column}{0.60\paperwidth}
-
-			\begin{columns}[c,totalwidth=0.60\paperwidth]
-
-				\begin{column}{0.47\columnwidth}
-					% \begin{block}{Critérios de desempenho}
-
-					% 	Uma questão natural a ser feita a respeito destas estruturas é como medir o desempenho delas. Basch, Guibas e
-					% 	Hershberger~\cite{BGH99} propuseram algumas formas de analisá-las e medi-las. São elas:
-					% 	\begin{itemize}
-					% 		\justifying
-					% 		\item Responsividade: uma estrutura é dita \textit{responsiva} se o custo de atualizar os certificados e as
-					% 		outras estruturas necessárias é pequeno;
-					% 		\item Eficiência: uma estrutura é dita \textit{eficiente} se a razão entre a
-					% 		quantidade total de eventos processados e a quantidade de eventos
-					% 		\textit{externos} é pequena. Um evento diz respeito ao vencimento de um
-					% 		certificado, os eventos chamados \textit{externos} são eventos que geram
-					% 		mudanças na descrição combinatória, enquanto eventos chamados
-					% 		\textit{internos} não geram mudanças na descrição combinatória, mas ainda
-					% 		são necessários para manter a estrutura. O total de eventos processados é a
-					% 		soma da quantidade de eventos externos e internos;
-					% 		\item Compacidade: uma estrutura é dita \textit{compacta} se a quantidade máxima de
-					% 		certificados que podem estar na fila com prioridades em um determinado é
-					% 		instante é linear;
-					% 		\item Localidade: uma estrutura é dita \textit{local} se a quantidade máxima
-					% 		de certificados na fila que estão relacionados com um determinado objeto é
-					% 		pequena.
-					% 	\end{itemize}
-					% \end{block}
-
-					\begin{block}{Par mais próximo cinético}
-						Vamos agora falar de um outro problema cinético interessante, o problema do par mais próximo cinético. Num conjunto
-						dado de pontos em movimento, determinar qual par de pontos possui distância mínima. Explicaremos as principais
-						ideias de um algoritmo proposto por Basch, Guibas e Hershberger que utiliza a técnica de linha de varredura para
-						resolver o problema estático e depois mostraremos algumas ideias de como tratar os eventos na sua versão cinética.
-
-						\vskip2ex
-
-						O algoritmo é baseado na ideia de dividir o plano, para cada ponto, em seis cones iguais. Os cones são delimitados
-						pela reta paralela ao eixo $y$ que passa pelo ponto e pelas retas $x \pm 30^\circ$, isto é, as retas que passam pelo
-						ponto e formam $\pm 30^\circ$ com o eixo $x$.
-
-						\begin{figure}
-							\centering
-							\begin{tikzpicture}[thick, scale=1.3]
-								\draw (0, -3) -- (0, 3) node[anchor=north west] {$y$};
-								\draw (-3, 1.7302) -- (3, -1.7302)
-									node[anchor=north west] {$x - 30^\circ$};
-								\draw (-3, -1.7302) -- (3, 1.7302)
-									node[anchor=south west] {$x + 30^\circ$};
-								\node[label=250:$p$] (p) at (0, 0) {\textbullet};
-							\end{tikzpicture}
-							\caption{A reta paralela ao eixo $y$ que passa por $p$ e as retas~$x \pm 30^\circ$.}
-						\end{figure}
-
-						Tendo dividido o plano em cones, a ideia é achar o ponto mais próximo de $p$ dentro de cada um desses cones. Se
-						assim o fizermos para todos os pontos, um desses pares possui a menor distância entre si e será o par mais próximo
-						que buscamos. Na prática, utilizaremos apenas os cones a direita do ponto.
-
-						\vskip2ex
-
-						Precisamos também definir alguns conjuntos que serão utilizados no algoritmo:
-						\begin{itemize}
-							\justifying
-							\item $\Dom(p)$: \textit{dominância de p}. É o cone cujo eixo central é paralelo ao eixo $x$;
-       						\item $\Maxima(p)$: o conjunto dos pontos à direita de $p$ que não pertencem a \textit{dominância} de nenhum
-							ponto à direita de $p$;
-							\item $\Cands(p)$: os \textit{candidatos} de $p$ são aqueles pontos à direita de $p$ que não pertencem a
-							\textit{dominância} de nenhum ponto à direita de $p$ e pertencem a \textit{dominância} de $p$.
-						\end{itemize}
-
-						\begin{figure}
-							\centering
-							\begin{tikzpicture}[thick, scale=1.3]
-								\node[label={[label distance = -4mm]160:$p$}]
-									at (0.00, 0.00) {\textbullet};
-								\node[label={[label distance = -4mm]90:$a$}]
-									(a) at (3.00, 3.00) {\textbullet};
-								\node[label={[label distance = -4mm]160:$b$}]
-									(b) at (2.50, 2.00) {\textbullet};
-								\node[label={[label distance = -4mm]160:$c$}]
-									(c) at (3.50, 1.00) {\textbullet};
-								\node[label={[label distance = -4mm]160:$d$}]
-									at (4.00, -0.60) {\textbullet};
-								\node[label={[label distance = -4mm]160:$e$}]
-									at (5.00, -2.00) {\textbullet};
-								\node[label={[label distance = -4mm]220:$f$}]
-									(f) at (4.50, -3.00) {\textbullet};
-
-								% e cone
-								\draw (5.00, -2.00) -- (6.00, -2.58);
-								\draw (5.00, -2.00) -- (6.00, -1.42);
-								% f cone
-								\draw (4.50, -3.00) -- (6.00, -3.87);
-								\draw (4.50, -3.00) -- (5.62, -2.36);
-								% d cone
-								\draw (4.00, -0.60) -- (5.71, -1.59);
-								\draw (4.00, -0.60) -- (6.00, 0.55);
-								% c cone
-								\draw (3.50, 1.00) -- (5.14, 0.06);
-								\draw (3.50, 1.00) -- (6.00, 2.44);
-								% a cone
-								\draw (3.00, 3.00) -- (4.98, 1.86);
-								\draw (3.00, 3.00) -- (6.00, 4.73);
-								% b cone
-								\draw (2.50, 2.00) -- (3.87, 1.21);
-								\draw (2.50, 2.00) -- (3.62, 2.64);
-								% p cone
-								\draw[line width = 0.5mm] (0.00, 0.00) -- (4.85, -2.80);
-								\draw[line width = 0.5mm] (0.00, 0.00) -- (2.98, 1.72);
-
-								\draw[dashed] (6,-2.5) -- (8, -2.5)
-									node[anchor=west, label=90:$\Cands(p)$] {};
-								\draw[dashed] (8, 1.5) -- (8, -2.5);
-								\draw[dashed] (5,1.5) -- (8, 1.5);
-
-								\draw[dashed] (4, -4) -- (10, -4);
-								\draw[dashed] (10, -4) -- (10, 4);
-								\draw[dashed] (5, 4) -- (10, 4)
-									node[anchor=south, label=$\Maxima(p)$] {};
-
-								\node[label={[label distance = -3mm]270:$\low(p)$}]
-									(low) at (3, -4) {};
-								\draw[->] (low) edge[out=90,in=160] (f);
-
-								\node[label={[label distance = -5mm]270:$\lcand(p)$}]
-									(lc) at (2, 0) {};
-								\draw[->] (lc) edge[out=90,in=200] (c);
-
-								\node[label={[label distance = -3mm]90:$\up(p)$}]
-									(up) at (1.5, 3) {};
-								\draw[->] (up) edge[out=270,in=180] (b);
-							\end{tikzpicture}
-							\caption{Os pontos $c$, $d$ e $e$ pertencem a $\Cands(p)$, e todos os pontos exceto $p$ pertencem a
-							$\Maxima(p)$. O ponto $b$ é $\up(p)$ e o ponto $f$ é $\low(p)$. O ponto $c$ é $\lcand(p)$.}
-						\end{figure}
-
-						Chamaremos o ponto de $\Maxima$ de menor ordenada que está acima de $\Dom(p)$ de $\up(p)$ e chamaremos o ponto de
-						$\Maxima$ de maior ordenada que está abaixo de $\Dom(p)$ de $\low(p)$. Os pontos estritamente entre $\low(p)$ e $\up(p)$
-						são justamente os de $\Cands(p)$.
-
-						\vskip2ex
-
-						Dentre os \textit{candidatos} de $p$, chamaremos o ponto com menor coordenada $x$ de $lcand(p)$. Consideraremos
-						apenas os pares $(p, \lcand(p))$ como candidatos a par mais próximo.
-
-						\vskip2ex
-
-						O algoritmo varre o plano da direita para esquerda três vezes: com o sistema de coordenadas rotacionado $60^\circ$,
-						$0^\circ$ e -$60^\circ$. Em cada varredura, computa as estruturas necessárias para comparar apenas os pares $(p,
-						lcand(p))$ para determinar o par mais próximo em tempo $O(n\lg{n})$.
-
-					\end{block}
-
-				\end{column}
-
-				\begin{column}{0.5\columnwidth}
-
-					\begin{block}{``Cinetização'' do algoritmo estático}
-						Para ``cinetizar'' o algoritmo estático utilizaremos duas estruturas de dados cinéticas. Primeiramente, teremos os
-						certificados das três \textit{listas ordenadas cinéticas}, que guardarão a ordem dos pontos de acordo com os eixos
-						$x$, $x + 60^\circ$ e $x - 60^\circ$.
-
-						\vskip2ex
-
-						Para garantir qual, dentre os pares $(p, \lcand(p))$, é o par mais próximo usaremos um \textit{torneio cinético},
-						estrutura de dados cinética utilizada em algoritmos para resolver o problema do máximo (ou mínimo) cinético.
-
-						\vskip2ex
-
-						Também precisaremos manter informação guardada para atualizar com eficiência mudanças provocadas por trocas na ordem
-						dos pontos em relação a um dos três eixos. Por exemplo, uma troca na ordem dos pontos pode acarretar na mudança nos
-						conjuntos $\Cands(p)$ e $\Cands(q)$.
-
-						\vskip2ex
-
-						Para que consigamos manter $\lcand(p)$ de maneira eficiente, cada ponto terá três árvores binárias de busca
-						associadas a ele com os conjuntos $\Cands(p)$, $\Hits_{up}(p)$ e $\Hits_{low}(p)$. A árvore $\Hits_{up}(p)$ guarda
-						os pontos $q$ tais que $\up(q) = p$, enquanto a árvore $\Hits_{low}(p)$ guarda os pontos $q$ tais que $\low(q) = p$.
-
-						\vskip2ex
-
-						Cada uma das três árvores têm sua raiz apontando para o nó $p$, e cada nó das árvores aponta para o seu nó pai. Na
-						árvore $\Cands(p)$ cada nó deve apontar para o descendente que contém o ponto mais à esquerda na ordenação
-						horizontal. Ademais, cada ponto tem um ponteiro para os nós que o tem como chave.
-
-						\vskip2ex
-
-						Trocas na ordem dos pontos geram mudanças em três casos:
-
-						\begin{figure}
-							\centering
-							\begin{tikzpicture}[thick, scale=0.6]
-								\node[label={[label distance = -3mm]160:$p$}] at
-									(2.00, 2.00) {\textbullet};
-								\node[label={[label distance = -3mm]160:$q$}] at
-									(3.00, 5.00) {\textbullet};
-								\node[label={[label distance = -2mm]90:$a$}] at
-									(6.00, 5.00) {\textbullet};
-								\node[label={[label distance = -3mm]90:$b$}] at
-									(8.00, 3.00) {\textbullet};
-								\node[label={[label distance = -3mm]90:$c$}] at
-									(7.00, 1.00) {\textbullet};
-								\node[label={[label distance = -3mm]90:$d$}] at
-									(9.00, -1.00) {\textbullet};
-								\node[label={[label distance = -3mm]90:$e$}] at
-									(5.00, 8.00) {\textbullet};
-								\node[label={[label distance = -3mm]90:$f$}] at
-									(6.00, 10.00) {\textbullet};
-								\node[label={[label distance = -3mm]90:$g$}] at
-									(6.00, -2.00) {\textbullet};
-								% d cone
-								\draw (9.00, -1.00) -- (15.00, -4.46);
-								\draw (9.00, -1.00) -- (15.00, 2.46);
-								% b cone
-								\draw (8.00, 3.00) -- (11.96, 0.71);
-								\draw (8.00, 3.00) -- (15.00, 7.04);
-								% c cone
-								\draw (7.00, 1.00) -- (9.73, -0.58);
-								\draw (7.00, 1.00) -- (9.23, 2.29);
-								% f cone
-								\draw (6.00, 10.00) -- (13.06, 5.92);
-								\draw (6.00, 10.00) -- (15.00, 15.20);
-								% g cone
-								\draw (6.00, -2.00) -- (15.00, -7.20);
-								\draw (6.00, -2.00) -- (9.10, -0.21);
-								% a cone
-								\draw (6.00, 5.00) -- (8.73, 3.42);
-								\draw (6.00, 5.00) -- (10.33, 7.50);
-								% e cone
-								\draw (5.00, 8.00) -- (8.10, 6.21);
-								\draw (5.00, 8.00) -- (7.23, 9.29);
-								% q cone
-								\draw[line width = 0.5mm] (3.00, 5.00) -- (8.46, 1.85);
-								\draw[line width = 0.5mm] (3.00, 5.00) -- (6.60, 7.08);
-								% p cone
-								\draw[line width = 0.5mm] (2.00, 2.00) -- (7.46, -1.15);
-								\draw[line width = 0.5mm] (2.00, 2.00) -- (5.10, 3.79);
-
-								\draw[dashed] (2, -3) -- (2, 8);
-								\draw[dashed] (3, 3) -- (3, 8);
-
-								\node at (15, 5) {$ \leftrightarrow$};
-
-								\node[label={[label distance = -3mm]160:$p$}] at
-									(18.00, 2.00) {\textbullet};
-								\node[label={[label distance = -3mm]160:$q$}] at
-									(17.00, 5.00) {\textbullet};
-								\node[label={[label distance = -2mm]90:$a$}] at
-									(21.00, 5.00) {\textbullet};
-								\node[label={[label distance = -3mm]90:$b$}] at
-									(23.00, 3.00) {\textbullet};
-								\node[label={[label distance = -1mm]90:$c$}] at
-									(22.00, 1.00) {\textbullet};
-								\node[label={[label distance = -3mm]90:$d$}] at
-									(24.00, -1.00) {\textbullet};
-								\node[label={[label distance = -3mm]90:$e$}] at
-									(20.00, 8.00) {\textbullet};
-								\node[label={[label distance = -3mm]90:$f$}] at
-									(21.00, 10.00) {\textbullet};
-								\node[label={[label distance = -3mm]90:$g$}] at
-									(21.00, -2.00) {\textbullet};
-								% d cone
-								\draw (24.00, -1.00) -- (30.00, -4.46);
-								\draw (24.00, -1.00) -- (30.00, 2.46);
-								% b cone
-								\draw (23.00, 3.00) -- (26.96, 0.71);
-								\draw (23.00, 3.00) -- (30.00, 7.04);
-								% c cone
-								\draw (22.00, 1.00) -- (24.73, -0.58);
-								\draw (22.00, 1.00) -- (24.23, 2.29);
-								% f cone
-								\draw (21.00, 10.00) -- (28.06, 5.92);
-								\draw (21.00, 10.00) -- (30.00, 15.20);
-								% g cone
-								\draw (21.00, -2.00) -- (30.00, -7.20);
-								\draw (21.00, -2.00) -- (24.10, -0.21);
-								% a cone
-								\draw (21.00, 5.00) -- (23.73, 3.42);
-								\draw (21.00, 5.00) -- (25.33, 7.50);
-								% e cone
-								\draw (20.00, 8.00) -- (23.10, 6.21);
-								\draw (20.00, 8.00) -- (22.23, 9.29);
-								% p cone
-								\draw[line width = 0.5mm] (18.00, 2.00) -- (22.96, -0.87);
-								\draw[line width = 0.5mm] (18.00, 2.00) -- (22.10, 4.37);
-								% q cone
-								\draw[line width = 0.5mm] (17.00, 5.00) -- (20.10, 3.21);
-								\draw[line width = 0.5mm] (17.00, 5.00) -- (21.10, 7.37);
-
-								\draw[dashed] (17, -3) -- (17, 8);
-								\draw[dashed] (18, -1) -- (18, 4);
-							\end{tikzpicture}
-							\caption{Troca na ordem horizontal. Da esquerda para direita, o caso em que $p$ está em $\Hits_{up}(q)$. Da
-							direita para esquerda, o caso em que $q$ está em $Hits_{low}(p)$.}
-						\end{figure}
-
-						\begin{figure}
-							\centering
-							\begin{tikzpicture}[thick, scale=0.6]
-								\node[label={[label distance = -3mm]160:$p$}] at
-									(2.00, 4.00) {\textbullet};
-								\node[label={[label distance = -3mm]160:$q$}] at
-									(6.00, 1.00) {\textbullet};
-								\node[label={[label distance = -2mm]90:$a$}] at
-									(5.25, -2.00) {\textbullet};
-								% \node[label={[label distance = -3mm]160:$b$}] at (-5.00, 0.00) {\textbullet};
-								\node[label={[label distance = -3mm]90:$c$}] at
-									(-1.00, -4.00) {\textbullet};
-								\node[label={[label distance = -1mm]90:$b$}] at
-									(-2.00, 0.00) {\textbullet};
-								\node[label={[label distance = -1mm]90:$e$}] at
-									(0.50, -4.00) {\textbullet};
-
-								% q cone
-								\draw[line width = 0.5mm] (6.00, 1.00) -- (10.00, -1.31);
-								\draw[line width = 0.5mm] (6.00, 1.00) -- (10.00, 3.31);
-								% a cone
-								\draw (5.25, -2.00) -- (10.00, -4.74);
-								\draw (5.25, -2.00) -- (8.22, -0.28);
-								% p cone
-								\draw[line width = 0.5mm] (2.00, 4.00) -- (6.60, 1.35);
-								\draw[line width = 0.5mm] (2.00, 4.00) -- (10.00, 8.62);
-								% c cone
-								\draw (-1.00, -4.00) -- (10.00, -10.35);
-								\draw (-1.00, -4.00) -- (6.83, 0.52);
-								% e cone
-								\draw (0.50, -4.00) -- (10.00, -9.48);
-								\draw (0.50, -4.00) -- (7.58, 0.09);
-								% b cone
-								\draw (-2.00, 0.00) -- (1.96, -2.29);
-								\draw (-2.00, 0.00) -- (3.46, 3.15);
-								% b cone
-								% \draw (-5.00, 0.00) -- (0.46, -3.15);
-								% \draw (-5.00, 0.00) -- (10.00, 8.66);
-
-								\draw[dashed] (2.00, 4.00) -- (-1.00, 5.73);
-								\draw[dashed] (6.00, 1.00) -- (2.00, 3.30);
-								\node at (11, 0) {$ \leftrightarrow$};
-
-								\node[label={[label distance = -3mm]160:$p$}] at
-									(17.00, 4.00) {\textbullet};
-								\node[label={[label distance = -3mm]160:$q$}] at
-									(22.00, 2.00) {\textbullet};
-								\node[label={[label distance = -2mm]90:$a$}] at
-									(20.25, -2.00) {\textbullet};
-								% \node[label={[label distance = -3mm]160:$b$}] at (15.00, 0.00) {\textbullet};
-								\node[label={[label distance = -3mm]90:$c$}] at
-									(14.00, -4.00) {\textbullet};
-								\node[label={[label distance = -1mm]90:$b$}] at
-									(13.00, 0.00) {\textbullet};
-								\node[label={[label distance = -1mm]90:$e$}] at
-									(15.50, -4.00) {\textbullet};
-
-								% q cone
-								\draw[line width = 0.5mm] (22.00, 2.00) -- (25.00, 0.27);
-								\draw[line width = 0.5mm] (22.00, 2.00) -- (25.00, 3.73);
-								% a cone
-								\draw (20.25, -2.00) -- (25.00, -4.74);
-								\draw (20.25, -2.00) -- (24.59, 0.51);
-								% p cone
-								\draw[line width = 0.5mm] (17.00, 4.00) -- (23.82, 0.06);
-								\draw[line width = 0.5mm] (17.00, 4.00) -- (25.00, 8.62);
-								% e cone
-								\draw (15.50, -4.00) -- (25.00, -9.48);
-								\draw (15.50, -4.00) -- (23.18, 0.43);
-								% c cone
-								\draw (14.00, -4.00) -- (25.00, -10.35);
-								\draw (14.00, -4.00) -- (22.43, 0.87);
-								% b cone
-								\draw (13.00, 0.00) -- (16.96, -2.29);
-								\draw (13.00, 0.00) -- (18.46, 3.15);
-								% b cone
-								% \draw (15.00, 0.00) -- (20.46, -3.15);
-								% \draw (15.00, 0.00) -- (30.00, 8.66);
-
-								\draw[dashed] (17.00, 4.00) -- (14.00, 5.73);
-								\draw[dashed] (22.00, 2.00) -- (17.00, 4.88);
-							\end{tikzpicture}
-							\caption{Troca na ordem $60^\circ$. Da esquerda para direita, o caso em que $p$ está em $\Hits_{low}(q)$, ou
-							seja, $q$ está entrando em $Dom(p)$. Da direita para esquerda, o caso em que $q$ está em $Cands(p)$, saindo de
-							$Dom(p)$.}
-						\end{figure}
-
-						\begin{figure}[h]
-							\centering
-							\begin{tikzpicture}[thick, scale=0.6]
-								\node[label={[label distance = -3mm]160:$p$}] at
-									(6.00, 0.00) {\textbullet};
-								\node[label={[label distance = -3mm]160:$q$}] at
-									(8.00, 2.00) {\textbullet};
-								\node[label={[label distance = -1mm]90:$a$}] at
-									(0.00, 5.00) {\textbullet};
-								\node[label={[label distance = -2mm]90:$b$}] at
-									(2.00, 5.00) {\textbullet};
-								\node[label={[label distance = 0mm]90:$c$}] at
-									(4.00, 5.00) {\textbullet};
-								\node[label={[label distance = 0mm]90:$d$}] at
-									(10.00, 4.00) {\textbullet};
-								\node[label={[label distance = 0mm]90:$e$}] at
-									(8.00, 4.00) {\textbullet};
-
-								% d cone
-								\draw (10.00, 4.00) -- (14.00, 1.69);
-								\draw (10.00, 4.00) -- (14.00, 6.31);
-								% q cone
-								\draw[dashed] (8.00, 2.00) -- (4.00, -0.30);
-								\draw[line width = 0.5mm] (8.00, 2.00) -- (14.00, -1.46);
-								\draw[line width = 0.5mm] (8.00, 2.00) -- (10.73, 3.58);
-								% e cone
-								\draw (8.00, 4.00) -- (9.73, 3.00);
-								\draw (8.00, 4.00) -- (14.00, 7.46);
-								% p cone
-								\draw[dashed] (6.00, 0.00) -- (2.00, -2.30);
-								\draw[line width = 0.5mm] (6.00, 0.00) -- (14.00, -4.62);
-								\draw[line width = 0.5mm] (6.00, 0.00) -- (8.73, 1.58);
-								% c cone
-								\draw (4.00, 5.00) -- (8.60, 2.35);
-								\draw (4.00, 5.00) -- (14.00, 10.77);
-								% b cone
-								\draw (2.00, 5.00) -- (8.33, 1.35);
-								\draw (2.00, 5.00) -- (14.00, 11.93);
-								% a cone
-								\draw (0.00, 5.00) -- (7.33, 0.77);
-								\draw (0.00, 5.00) -- (14.00, 13.08);
-
-								\node at (14, 5) {$ \leftrightarrow$};
-
-								\node[label={[label distance = -3mm]160:$p$}] at
-									(22.00, 0.00) {\textbullet};
-								\node[label={[label distance = -3mm]160:$q$}] at
-									(25.00, 1.00) {\textbullet};
-								\node[label={[label distance = -1mm]90:$a$}] at
-									(16.00, 5.00) {\textbullet};
-								\node[label={[label distance = -2mm]90:$b$}] at
-									(18.00, 5.00) {\textbullet};
-								\node[label={[label distance = 0mm]90:$c$}] at
-									(20.00, 5.00) {\textbullet};
-								\node[label={[label distance = 0mm]90:$d$}] at
-									(26.00, 4.00) {\textbullet};
-								\node[label={[label distance = 0mm]90:$e$}] at
-									(24.00, 4.00) {\textbullet};
-
-								% d cone
-								\draw (26.00, 4.00) -- (31.00, 1.11);
-								\draw (26.00, 4.00) -- (31.00, 6.89);
-								% q cone
-								\draw[dashed] (25.00, 1.00) -- (22.00, -0.73);
-								\draw[line width = 0.5mm] (25.00, 1.00) -- (31.00, -2.46);
-								\draw[line width = 0.5mm] (25.00, 1.00) -- (28.10, 2.79);
-								% e cone
-								\draw (24.00, 4.00) -- (27.10, 2.21);
-								\draw (24.00, 4.00) -- (30.00, 7.46);
-								% p cone
-								\draw[dashed] (22.00, 0.00) -- (20.00, -1.15);
-								\draw[line width = 0.5mm] (22.00, 0.00) -- (31.00, -5.20);
-								\draw[line width = 0.5mm] (22.00, 0.00) -- (26.46, 2.58);
-								% c cone
-								\draw (20.00, 5.00) -- (25.33, 1.92);
-								\draw (20.00, 5.00) -- (31.00, 11.35);
-								% b cone
-								\draw (18.00, 5.00) -- (24.33, 1.35);
-								\draw (18.00, 5.00) -- (31.00, 12.51);
-								% a cone
-								\draw (16.00, 5.00) -- (23.33, 0.77);
-								\draw (16.00, 5.00) -- (31.00, 13.66);
-							\end{tikzpicture}
-							\caption{Troca na ordem -$60^\circ$. Da esquerda para direita, o caso em que $p$ está em $\Hits_{up}(q)$, ou
-							seja, $q$ está entrando em $\Dom(p)$. Da direita para esquerda, o caso em que $q$ está em $\Cands(p)$, saindo de
-							$\Dom(p)$.}
-						\end{figure}
-
-					\end{block}
-				\end{column}
-
-			\end{columns}
-
-
-			\begin{block}{Mais informações}
-				Além dos problemas da ordenação cinética e do par mais próximo cinético, também foram estudadas estruturas para resolver o
-				problema do máximo cinético e da triangulação de delaunay cinética. Algumas dessas estruturas foram implementadas e encontram-se
-				em: \textcolor{jblue}{{\url{https://github.com/siolinm/mac0499}}}.
-
-				Para mais informações acesse: \textcolor{jblue}{{\url{https://www.linux.ime.usp.br/~siolinm/mac0499}}}.
-			\end{block}
-
-
-		\end{column}
-
-	\end{columns}
-	% ---------------------------------------------------------------------------- %
-\end{frame}
+    \begin{frame}[t]
+        %\vspace{-3ex}
+        \begin{columns}[t]
+
+
+            \begin{column}{0.35\paperwidth}% the right size for a 3-column layout
+
+                \begin{block}{Introdução}
+
+                    Este trabalho discute algumas estruturas de dados cinéticas, propostas por Basch, Guibas e Hershberger~\cite{BGH99} para a
+                    utilização em algoritmos que resolvem os chamados problemas \textit{cinéticos}.
+                    Problemas \textit{cinéticos} são problemas em que deseja-se manter um determinado atributo sobre objetos que estão em movimento contínuo.
+                    Os problemas estudados neste trabalho envolvem objetos se movendo apenas em trajetórias lineares.
+                \end{block}
+
+                \begin{block}{Ordenação cinética}
+
+                    Para entender a interface geral das estruturas de dados cinéticas precisamos entender o que são \textit{certificados},
+                    \textit{prazos de validade}, eventos e \textit{plano de vôo}.
+                    Vamos utilizar um problema e uma estrutura simples para exemplificar essas ideias: a \textit{ordenação cinética} e a \textit{lista ordenada cinética}.
+
+                    \vskip2ex
+
+                    Considere o seguinte problema cinético.
+                    Dada uma coleção de $n$ pontos em movimento retilíneo, o objetivo é responder eficientemente
+                    consultas do tipo:
+                    para um certo $i$, com $1 \leq i \leq n$, quem é o $i$-ésimo maior valor da coleção no instante
+                    corrente.
+
+                    \begin{figure}[htb]
+                        \centering
+                        \begin{tikzpicture}[thick, scale=1.3]
+                            % \draw[step=1cm,lightgray,very thin] (-2,-2) grid (10,10);
+                            \draw[thick,->] (0,0) -- (8,0) node[anchor=north west]
+                                {$t$};
+                            \draw[thick,->] (0,0) -- (0,8) node[anchor=south east]
+                                {valor$(t)$};
+                            \foreach \x in {1, 2,..., 7}
+                            \draw (\x cm,1pt) -- (\x cm,-1pt)
+                            node[anchor=north] {$\x$};
+                            \foreach \y in {0, 1, ..., 7}
+                            \draw (1pt,\y cm) -- (-1pt,\y cm)
+                            node[anchor=east] {$\y$};
+                            \draw[solid, thick, color=blue] (0, 6) -- (6, 3)
+                            node[anchor=west] {elemento 1};
+                            \draw[densely dotted, thick, color=red] (0, 5) -- (6, 5)
+                            node[anchor=west] {elemento 2};
+                            \draw[densely dashed, thick, color=black!30!green]
+                            (0, 3) -- (6, 4.5) node[anchor=west] {elemento 3};
+                            \draw[loosely dashdotted, thick, color=black]
+                            (0, 0) -- (6, 8) node[anchor=west] {elemento 4};
+                            \draw[dotted, thick, color=black]
+                            (3, 0) -- (3, 8) node[anchor=south] {$t = 3$};
+                            \draw[dotted, thick, color=black]
+                            (5, 0) -- (5, 8) node[anchor=south] {$t = 5$};
+                        \end{tikzpicture}
+                        \caption{O segundo maior valor no instante $t = 0$ é do elemento~$2$, e no instante $t = 3$ é do elemento~$1$. O menor
+                        valor da coleção no instante $t = 3$ é do elemento~$3$, e no instante $t = 5$ é do elemento~$1$.}
+                        \label{fig:exemplo}
+                    \end{figure}
+
+                    Queremos dar suporte às seguintes operações:
+                    \begin{itemize}
+                        \justifying
+                        \item \textsc{advance}$(t)$ $\rightarrow$ avança o tempo
+                        corrente para $t$;
+                        \item \textsc{change}$(j, v)$ $\rightarrow$ altera a
+                        velocidade do elemento $j$ para $v$;
+                        \item \textsc{query\_kth}$(i)$ $\rightarrow$ devolve o
+                        elemento cujo valor é o $i$-ésimo maior no instante atual.
+                    \end{itemize}
+
+                    Para implementar estas operações vamos manter um vetor com os elementos dados em ordem decrescente
+                    do valor no instante atual.
+                    Ele será utilizado para responder as consultas de quem é o $i$-ésimo elemento.
+                    O vetor começa ordenado com os valores iniciais dos elementos.
+
+                    \vskip2ex
+
+                    Uma vez de posse do vetor ordenado com os valores iniciais decrescentemente, construímos um
+                    certificado para cada par de elementos consecutivos no vetor.
+
+                    \vskip2ex
+
+                    Os certificados estabelecem que uma relação entre um objeto da estrutura e outro se mantém verdadeira
+                    até o seu vencimento.
+                    No caso da lista, o vencimento é o instante de tempo em que um elemento ultrapassa o valor do elemento
+                    seguinte na lista.
+                    Chamaremos esse instante de tempo de valor ou \textit{prazo de validade} do certificado.
+
+                    \vskip2ex
+
+                    Esses prazos de validade determinam os \textit{eventos} que potencialmente causarão modificações
+                    na nossa estrutura e consequentemente em alguns certificados.
+                    Quando avançarmos no tempo trataremos dos eventos que surgem antes do momento em que queremos avançar.
+
+                    \begin{figure}[htb]
+                        \centering
+                        \begin{tikzpicture}[thick, scale=1.5]
+                            \edef\pos{0}
+                            \foreach \x in {1, 2,..., 5}{
+                                \pgfmathparse{\pos+2}
+                                \xdef\pos{\pgfmathresult}
+                                \node[circle,draw, minimum size=1cm] (\x) at
+                                (\pos, 0) {$\x$};
+                            }
+
+                            \draw[->, color=blue, dashdotted] (1) -- (2);
+                            \draw[->, color=blue, dashdotted] (2) -- (3);
+                            \draw[->, color=blue, dashdotted] (3) -- (4);
+                            \draw[->] (4) -- (5);
+                        \end{tikzpicture}
+                        \caption{Ao avançar no tempo passamos por um evento gerado pelo vencimento do certificado do
+                        elemento $2$.
+                        O tratamento desse evento é a troca entre $2$ e $3$, e resulta na atualização da estrutura
+                        e dos certificados afetados, tracejados em azul. }
+                        \label{fig:exemplolistaligada}
+                    \end{figure}
+
+
+                    Para calcular o prazo de validade dos certificados, utilizaremos o chamado \textit{plano de vôo}
+                    dos objetos.
+                    O plano de vôo de um objeto é uma função que determina sua trajetória.
+
+                    \vskip2ex
+
+                    O plano de vôo pode sofrer mudanças.
+                    Essas mudanças serão feitas através da operação \textsc{change} e geram a necessidade de atualização
+                    de certificados e de ajustes nas estruturas.
+
+                    \vskip2ex
+
+                    Basch, Guibas e Hershberger propuseram alguns critérios de desempenho como forma de analisar e medir
+                    as chamadas estruturas cinéticas.
+                    São eles: \textit{responsividade}, \textit{eficiência}, \textit{compacidade} e \textit{localidade}.
+
+                \end{block}
+
+                \begin{block}{Referências}
+                    \scriptsize{\begin{thebibliography}{50}
+                                    \bibitem{BGH99}
+                                    Basch, J., Guibas, L., Hershberger, J., ``\textbf{Data structures for mobile data},''
+                                    in \textit{Journal of Algorithms}, 1999, 31 (1), pp. 1--28
+
+                                    \bibitem{Eduardo}
+                                    Freitas, E. G., ``\textbf{Problemas Cinéticos em Geometria Computacional},''
+                                    \textit{Dissertação de mestrado}, Universidade de São Paulo, 2000.
+                                    https://www.teses.usp.br
+
+                                    \bibitem{Basch}
+                                    Basch, J., ``\textbf{Kinetic data structures},'' \textit{PhD Thesis},
+                                    Stanford University, 1999.
+                                    http://www.basch.org/phdthesis
+
+                    \end{thebibliography}}
+                \end{block}
+
+            \end{column}
+
+
+            \begin{column}{0.60\paperwidth}
+
+                \begin{columns}[c,totalwidth=0.60\paperwidth]
+
+                    \begin{column}{0.47\columnwidth}
+
+                        \begin{block}{Par mais próximo cinético}
+                            Vamos agora falar de um outro problema cinético interessante: o problema do par mais
+                            próximo cinético.
+                            Num conjunto dado de $n$ pontos em movimento, determinar qual par de pontos possui distância
+                            mínima.
+                            Explicaremos as principais ideias de um algoritmo proposto por Basch, Guibas e Hershberger
+                            que utiliza a técnica de linha de varredura para resolver o problema estático e depois
+                            mostraremos algumas ideias de como tratar os eventos na sua versão cinética.
+
+                            \vskip2ex
+
+                            O algoritmo é baseado na ideia de dividir o plano, para cada ponto, em seis cones iguais.
+                            Os cones são delimitados pela reta paralela ao eixo $y$ que passa pelo ponto e pelas
+                            retas~$x \pm 30^\circ$, isto é, as retas que passam pelo ponto e formam $\pm 30^\circ$ com
+                            o eixo $x$.
+
+                            \begin{figure}
+                                \centering
+                                \begin{tikzpicture}[thick, scale=1.3]
+                                    \draw (0, -3) -- (0, 3) node[anchor=north west] {$y$};
+                                    \draw (-3, 1.7302) -- (3, -1.7302)
+                                    node[anchor=north west] {$x - 30^\circ$};
+                                    \draw (-3, -1.7302) -- (3, 1.7302)
+                                    node[anchor=south west] {$x + 30^\circ$};
+                                    \node[label=250:$p$] (p) at (0, 0) {\textbullet};
+                                \end{tikzpicture}
+                                \caption{A reta paralela ao eixo $y$ que passa por $p$ e as
+                                retas~$x \pm 30^\circ$.}
+                                \label{fig:cones}
+                            \end{figure}
+
+                            Tendo dividido o plano em cones, a ideia é achar o ponto mais próximo de $p$ dentro de cada
+                            um desses cones.
+                            Se assim o fizermos para todos os pontos, um desses pares possui a menor distância entre si
+                            e será um par mais próximo que buscamos.
+                            Na prática, utilizaremos apenas os cones à direita do ponto.
+
+                            \vskip2ex
+
+                            Precisamos também definir alguns conjuntos que serão utilizados no algoritmo:
+                            \begin{itemize}
+                                \justifying
+                                \item $\Dom(p)$: \textit{dominância de p}.
+                                É o cone à direita de $p$ cujo eixo central é paralelo ao eixo $x$;
+
+                                \item $\Maxima(p)$: o conjunto dos pontos à direita de $p$ que não pertencem à
+                                \textit{dominância} de nenhum ponto à direita de $p$;
+
+                                \item $\Cands(p)$: os \textit{candidatos} de $p$ são aqueles pontos na
+                                \textit{dominância} de $p$ que não pertencem a \textit{dominância} de nenhum
+                                ponto à direita de $p$.
+                            \end{itemize}
+
+                            \begin{figure}
+                                \centering
+                                \begin{tikzpicture}[thick, scale=1.3]
+                                    \node[label={[label distance = -4mm]160:$p$}]
+                                    at (0.00, 0.00) {\textbullet};
+                                    \node[label={[label distance = -4mm]90:$a$}]
+                                    (a) at (3.00, 3.00) {\textbullet};
+                                    \node[label={[label distance = -4mm]160:$b$}]
+                                    (b) at (2.50, 2.00) {\textbullet};
+                                    \node[label={[label distance = -4mm]160:$c$}]
+                                    (c) at (3.50, 1.00) {\textbullet};
+                                    \node[label={[label distance = -4mm]160:$d$}]
+                                    at (4.00, -0.60) {\textbullet};
+                                    \node[label={[label distance = -4mm]160:$e$}]
+                                    at (5.00, -2.00) {\textbullet};
+                                    \node[label={[label distance = -4mm]220:$f$}]
+                                    (f) at (4.50, -3.00) {\textbullet};
+
+                                    % e cone
+                                    \draw (5.00, -2.00) -- (6.00, -2.58);
+                                    \draw (5.00, -2.00) -- (6.00, -1.42);
+                                    % f cone
+                                    \draw (4.50, -3.00) -- (6.00, -3.87);
+                                    \draw (4.50, -3.00) -- (5.62, -2.36);
+                                    % d cone
+                                    \draw (4.00, -0.60) -- (5.71, -1.59);
+                                    \draw (4.00, -0.60) -- (6.00, 0.55);
+                                    % c cone
+                                    \draw (3.50, 1.00) -- (5.14, 0.06);
+                                    \draw (3.50, 1.00) -- (6.00, 2.44);
+                                    % a cone
+                                    \draw (3.00, 3.00) -- (4.98, 1.86);
+                                    \draw (3.00, 3.00) -- (6.00, 4.73);
+                                    % b cone
+                                    \draw (2.50, 2.00) -- (3.87, 1.21);
+                                    \draw (2.50, 2.00) -- (3.62, 2.64);
+                                    % p cone
+                                    \draw[line width = 0.5mm] (0.00, 0.00) -- (4.85, -2.80);
+                                    \draw[line width = 0.5mm] (0.00, 0.00) -- (2.98, 1.72);
+
+                                    \draw[dashed] (6,-2.5) -- (8, -2.5)
+                                    node[anchor=west, label=90:$\Cands(p)$] {};
+                                    \draw[dashed] (8, 1.5) -- (8, -2.5);
+                                    \draw[dashed] (5,1.5) -- (8, 1.5);
+
+                                    \draw[dashed] (4, -4) -- (10, -4);
+                                    \draw[dashed] (10, -4) -- (10, 4);
+                                    \draw[dashed] (5, 4) -- (10, 4)
+                                    node[anchor=south, label=$\Maxima(p)$] {};
+
+                                    \node[label={[label distance = -3mm]270:$\low(p)$}]
+                                    (low) at (3, -4) {};
+                                    \draw[->] (low) edge[out=90,in=160] (f);
+
+                                    \node[label={[label distance = -5mm]270:$\lcand(p)$}]
+                                    (lc) at (2, 0) {};
+                                    \draw[->] (lc) edge[out=90,in=200] (c);
+
+                                    \node[label={[label distance = -3mm]90:$\up(p)$}]
+                                    (up) at (1.5, 3) {};
+                                    \draw[->] (up) edge[out=270,in=180] (b);
+                                \end{tikzpicture}
+                                \caption{Os pontos $c$, $d$ e $e$ pertencem a $\Cands(p)$, e todos os pontos exceto $p$
+                                    pertencem a $\Maxima(p)$.
+                                    O ponto $b$ é $\up(p)$ e o ponto $f$ é $\low(p)$. O ponto $c$ é $\lcand(p)$.}
+                                \label{fig:setsexample}
+                            \end{figure}
+
+                            Chamaremos o ponto de $\Maxima(p)$ de menor ordenada que está acima de $\Dom(p)$ de $\up(p)$
+                            e o ponto de $\Maxima(p)$ de maior ordenada que está abaixo de $\Dom(p)$ de $\low(p)$.
+                            Os pontos de $\Maxima(p)$ estritamente entre $\low(p)$ e $\up(p)$ são justamente os de
+                            $\Cands(p)$.
+
+                            \vskip2ex
+
+                            Dentre os \textit{candidatos} de $p$, chamaremos o ponto com menor coordenada $x$ de
+                            $lcand(p)$.
+                            Consideraremos apenas os pares $(p, \lcand(p))$ como candidatos a par mais próximo.
+
+                            \vskip2ex
+
+                            O algoritmo varre o plano da direita para a esquerda três vezes: com o sistema de
+                            coordenadas rotacionado $60^\circ$, $0^\circ$ e $-60^\circ$.
+                            Em cada varredura, computa as estruturas necessárias para comparar apenas os pares
+                            $(p,lcand(p))$, para determinar o par mais próximo em tempo $O(n\lg{n})$.
+
+                        \end{block}
+
+                    \end{column}
+
+                    \begin{column}{0.5\columnwidth}
+
+                        \begin{block}{``Cinetização'' do algoritmo estático}
+                            Para ``cinetizar'' o algoritmo estático utilizaremos duas estruturas de dados cinéticas.
+                            Primeiramente, teremos os certificados das três \textit{listas ordenadas cinéticas},
+                            que guardarão a ordem dos pontos de acordo com os eixos $x$, $x + 60^\circ$ e $x - 60^\circ$.
+
+                            \vskip2ex
+
+                            Para garantir qual, dentre os pares $(p, \lcand(p))$, é o par mais próximo, usaremos um
+                            \textit{torneio cinético}, estrutura de dados cinética utilizada em algoritmos para
+                            resolver o problema do máximo (ou mínimo) cinético.
+
+                            \vskip2ex
+
+                            Também precisaremos manter informação guardada para atualizar com eficiência mudanças
+                            provocadas por trocas na ordem dos pontos em relação a um dos três eixos.
+                            Por exemplo, uma troca na ordem dos pontos $p$ e $q$ pode acarretar em mudanças nos
+                            conjuntos $\Cands(p)$ e $\Cands(q)$.
+
+                            \vskip2ex
+
+                            Para que consigamos manter $\lcand(p)$ de maneira eficiente, cada ponto $p$ terá
+                            três árvores binárias de busca associadas a ele, com os conjuntos $\Cands(p)$,
+                            $\Hits_{up}(p)$ e $\Hits_{low}(p)$.
+                            A árvore $\Hits_{up}(p)$ guarda os pontos $q$ tais que $\up(q) = p$, enquanto a árvore
+                            $\Hits_{low}(p)$ guarda os pontos $q$ tais que $\low(q) = p$.
+
+                            \vskip2ex
+
+                            Cada uma das três árvores tem sua raiz apontando para o nó $p$, e cada nó das árvores
+                            aponta para o seu nó pai.
+                            Na árvore $\Cands(p)$, cada nó deve apontar para o descendente que contém o ponto mais
+                            à esquerda na ordenação horizontal.
+                            Ademais, cada ponto tem um ponteiro para os nós que o tem como chave.
+
+                            \vskip2ex
+
+                            Trocas na ordem dos pontos geram mudanças em três casos:
+
+                            \begin{figure}
+                                \centering
+                                \begin{tikzpicture}[thick, scale=0.6]
+                                    \node[label={[label distance = -3mm]160:$p$}] at
+                                    (2.00, 2.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]160:$q$}] at
+                                    (3.00, 5.00) {\textbullet};
+                                    \node[label={[label distance = -2mm]90:$a$}] at
+                                    (6.00, 5.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]90:$b$}] at
+                                    (8.00, 3.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]90:$c$}] at
+                                    (7.00, 1.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]90:$d$}] at
+                                    (9.00, -1.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]90:$e$}] at
+                                    (5.00, 8.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]90:$f$}] at
+                                    (6.00, 10.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]90:$g$}] at
+                                    (6.00, -2.00) {\textbullet};
+                                    % d cone
+                                    \draw (9.00, -1.00) -- (15.00, -4.46);
+                                    \draw (9.00, -1.00) -- (15.00, 2.46);
+                                    % b cone
+                                    \draw (8.00, 3.00) -- (11.96, 0.71);
+                                    \draw (8.00, 3.00) -- (15.00, 7.04);
+                                    % c cone
+                                    \draw (7.00, 1.00) -- (9.73, -0.58);
+                                    \draw (7.00, 1.00) -- (9.23, 2.29);
+                                    % f cone
+                                    \draw (6.00, 10.00) -- (13.06, 5.92);
+                                    \draw (6.00, 10.00) -- (15.00, 15.20);
+                                    % g cone
+                                    \draw (6.00, -2.00) -- (15.00, -7.20);
+                                    \draw (6.00, -2.00) -- (9.10, -0.21);
+                                    % a cone
+                                    \draw (6.00, 5.00) -- (8.73, 3.42);
+                                    \draw (6.00, 5.00) -- (10.33, 7.50);
+                                    % e cone
+                                    \draw (5.00, 8.00) -- (8.10, 6.21);
+                                    \draw (5.00, 8.00) -- (7.23, 9.29);
+                                    % q cone
+                                    \draw[line width = 0.5mm] (3.00, 5.00) -- (8.46, 1.85);
+                                    \draw[line width = 0.5mm] (3.00, 5.00) -- (6.60, 7.08);
+                                    % p cone
+                                    \draw[line width = 0.5mm] (2.00, 2.00) -- (7.46, -1.15);
+                                    \draw[line width = 0.5mm] (2.00, 2.00) -- (5.10, 3.79);
+
+                                    \draw[dashed] (2, -3) -- (2, 8);
+                                    \draw[dashed] (3, 3) -- (3, 8);
+
+                                    \node at (15, 5) {$ \leftrightarrow$};
+
+                                    \node[label={[label distance = -3mm]160:$p$}] at
+                                    (18.00, 2.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]160:$q$}] at
+                                    (17.00, 5.00) {\textbullet};
+                                    \node[label={[label distance = -2mm]90:$a$}] at
+                                    (21.00, 5.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]90:$b$}] at
+                                    (23.00, 3.00) {\textbullet};
+                                    \node[label={[label distance = -1mm]90:$c$}] at
+                                    (22.00, 1.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]90:$d$}] at
+                                    (24.00, -1.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]90:$e$}] at
+                                    (20.00, 8.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]90:$f$}] at
+                                    (21.00, 10.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]90:$g$}] at
+                                    (21.00, -2.00) {\textbullet};
+                                    % d cone
+                                    \draw (24.00, -1.00) -- (30.00, -4.46);
+                                    \draw (24.00, -1.00) -- (30.00, 2.46);
+                                    % b cone
+                                    \draw (23.00, 3.00) -- (26.96, 0.71);
+                                    \draw (23.00, 3.00) -- (30.00, 7.04);
+                                    % c cone
+                                    \draw (22.00, 1.00) -- (24.73, -0.58);
+                                    \draw (22.00, 1.00) -- (24.23, 2.29);
+                                    % f cone
+                                    \draw (21.00, 10.00) -- (28.06, 5.92);
+                                    \draw (21.00, 10.00) -- (30.00, 15.20);
+                                    % g cone
+                                    \draw (21.00, -2.00) -- (30.00, -7.20);
+                                    \draw (21.00, -2.00) -- (24.10, -0.21);
+                                    % a cone
+                                    \draw (21.00, 5.00) -- (23.73, 3.42);
+                                    \draw (21.00, 5.00) -- (25.33, 7.50);
+                                    % e cone
+                                    \draw (20.00, 8.00) -- (23.10, 6.21);
+                                    \draw (20.00, 8.00) -- (22.23, 9.29);
+                                    % p cone
+                                    \draw[line width = 0.5mm] (18.00, 2.00) -- (22.96, -0.87);
+                                    \draw[line width = 0.5mm] (18.00, 2.00) -- (22.10, 4.37);
+                                    % q cone
+                                    \draw[line width = 0.5mm] (17.00, 5.00) -- (20.10, 3.21);
+                                    \draw[line width = 0.5mm] (17.00, 5.00) -- (21.10, 7.37);
+
+                                    \draw[dashed] (17, -3) -- (17, 8);
+                                    \draw[dashed] (18, -1) -- (18, 4);
+                                \end{tikzpicture}
+                                \caption{Troca na ordem horizontal.
+                                Da esquerda para a direita, o caso em que $p$ está em $\Hits_{up}(q)$.
+                                Da direita para a esquerda, o caso em que $q$ está em $\Hits_{low}(p)$.}
+                                \label{fig:trocahorizontal}
+                            \end{figure}
+
+                            \begin{figure}
+                                \centering
+                                \begin{tikzpicture}[thick, scale=0.6]
+                                    \node[label={[label distance = -3mm]160:$p$}] at
+                                    (2.00, 4.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]160:$q$}] at
+                                    (6.00, 1.00) {\textbullet};
+                                    \node[label={[label distance = -2mm]90:$a$}] at
+                                    (5.25, -2.00) {\textbullet};
+                                    % \node[label={[label distance = -3mm]160:$b$}] at (-5.00, 0.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]90:$c$}] at
+                                    (-1.00, -4.00) {\textbullet};
+                                    \node[label={[label distance = -1mm]90:$b$}] at
+                                    (-2.00, 0.00) {\textbullet};
+                                    \node[label={[label distance = -1mm]90:$e$}] at
+                                    (0.50, -4.00) {\textbullet};
+
+                                    % q cone
+                                    \draw[line width = 0.5mm] (6.00, 1.00) -- (10.00, -1.31);
+                                    \draw[line width = 0.5mm] (6.00, 1.00) -- (10.00, 3.31);
+                                    % a cone
+                                    \draw (5.25, -2.00) -- (10.00, -4.74);
+                                    \draw (5.25, -2.00) -- (8.22, -0.28);
+                                    % p cone
+                                    \draw[line width = 0.5mm] (2.00, 4.00) -- (6.60, 1.35);
+                                    \draw[line width = 0.5mm] (2.00, 4.00) -- (10.00, 8.62);
+                                    % c cone
+                                    \draw (-1.00, -4.00) -- (10.00, -10.35);
+                                    \draw (-1.00, -4.00) -- (6.83, 0.52);
+                                    % e cone
+                                    \draw (0.50, -4.00) -- (10.00, -9.48);
+                                    \draw (0.50, -4.00) -- (7.58, 0.09);
+                                    % b cone
+                                    \draw (-2.00, 0.00) -- (1.96, -2.29);
+                                    \draw (-2.00, 0.00) -- (3.46, 3.15);
+                                    % b cone
+                                    % \draw (-5.00, 0.00) -- (0.46, -3.15);
+                                    % \draw (-5.00, 0.00) -- (10.00, 8.66);
+
+                                    \draw[dashed] (2.00, 4.00) -- (-1.00, 5.73);
+                                    \draw[dashed] (6.00, 1.00) -- (2.00, 3.30);
+                                    \node at (11, 0) {$ \leftrightarrow$};
+
+                                    \node[label={[label distance = -3mm]160:$p$}] at
+                                    (17.00, 4.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]160:$q$}] at
+                                    (22.00, 2.00) {\textbullet};
+                                    \node[label={[label distance = -2mm]90:$a$}] at
+                                    (20.25, -2.00) {\textbullet};
+                                    % \node[label={[label distance = -3mm]160:$b$}] at (15.00, 0.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]90:$c$}] at
+                                    (14.00, -4.00) {\textbullet};
+                                    \node[label={[label distance = -1mm]90:$b$}] at
+                                    (13.00, 0.00) {\textbullet};
+                                    \node[label={[label distance = -1mm]90:$e$}] at
+                                    (15.50, -4.00) {\textbullet};
+
+                                    % q cone
+                                    \draw[line width = 0.5mm] (22.00, 2.00) -- (25.00, 0.27);
+                                    \draw[line width = 0.5mm] (22.00, 2.00) -- (25.00, 3.73);
+                                    % a cone
+                                    \draw (20.25, -2.00) -- (25.00, -4.74);
+                                    \draw (20.25, -2.00) -- (24.59, 0.51);
+                                    % p cone
+                                    \draw[line width = 0.5mm] (17.00, 4.00) -- (23.82, 0.06);
+                                    \draw[line width = 0.5mm] (17.00, 4.00) -- (25.00, 8.62);
+                                    % e cone
+                                    \draw (15.50, -4.00) -- (25.00, -9.48);
+                                    \draw (15.50, -4.00) -- (23.18, 0.43);
+                                    % c cone
+                                    \draw (14.00, -4.00) -- (25.00, -10.35);
+                                    \draw (14.00, -4.00) -- (22.43, 0.87);
+                                    % b cone
+                                    \draw (13.00, 0.00) -- (16.96, -2.29);
+                                    \draw (13.00, 0.00) -- (18.46, 3.15);
+                                    % b cone
+                                    % \draw (15.00, 0.00) -- (20.46, -3.15);
+                                    % \draw (15.00, 0.00) -- (30.00, 8.66);
+
+                                    \draw[dashed] (17.00, 4.00) -- (14.00, 5.73);
+                                    \draw[dashed] (22.00, 2.00) -- (17.00, 4.88);
+                                \end{tikzpicture}
+                                \caption{Troca na ordem $60^\circ$.
+                                Da esquerda para a direita, o caso em que $p$ está em $\Hits_{low}(q)$, ou seja, $q$
+                                    está entrando em $Dom(p)$.
+                                    Da direita para a esquerda, o caso em que $q$ está em $\Cands(p)$, saindo de
+                                    $Dom(p)$.}
+                                \label{fig:trocasessenta}
+                            \end{figure}
+
+                            \begin{figure}[h]
+                                \centering
+                                \begin{tikzpicture}[thick, scale=0.6]
+                                    \node[label={[label distance = -3mm]160:$p$}] at
+                                    (6.00, 0.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]160:$q$}] at
+                                    (8.00, 2.00) {\textbullet};
+                                    \node[label={[label distance = -1mm]90:$a$}] at
+                                    (0.00, 5.00) {\textbullet};
+                                    \node[label={[label distance = -2mm]90:$b$}] at
+                                    (2.00, 5.00) {\textbullet};
+                                    \node[label={[label distance = 0mm]90:$c$}] at
+                                    (4.00, 5.00) {\textbullet};
+                                    \node[label={[label distance = 0mm]90:$d$}] at
+                                    (10.00, 4.00) {\textbullet};
+                                    \node[label={[label distance = 0mm]90:$e$}] at
+                                    (8.00, 4.00) {\textbullet};
+
+                                    % d cone
+                                    \draw (10.00, 4.00) -- (14.00, 1.69);
+                                    \draw (10.00, 4.00) -- (14.00, 6.31);
+                                    % q cone
+                                    \draw[dashed] (8.00, 2.00) -- (4.00, -0.30);
+                                    \draw[line width = 0.5mm] (8.00, 2.00) -- (14.00, -1.46);
+                                    \draw[line width = 0.5mm] (8.00, 2.00) -- (10.73, 3.58);
+                                    % e cone
+                                    \draw (8.00, 4.00) -- (9.73, 3.00);
+                                    \draw (8.00, 4.00) -- (14.00, 7.46);
+                                    % p cone
+                                    \draw[dashed] (6.00, 0.00) -- (2.00, -2.30);
+                                    \draw[line width = 0.5mm] (6.00, 0.00) -- (14.00, -4.62);
+                                    \draw[line width = 0.5mm] (6.00, 0.00) -- (8.73, 1.58);
+                                    % c cone
+                                    \draw (4.00, 5.00) -- (8.60, 2.35);
+                                    \draw (4.00, 5.00) -- (14.00, 10.77);
+                                    % b cone
+                                    \draw (2.00, 5.00) -- (8.33, 1.35);
+                                    \draw (2.00, 5.00) -- (14.00, 11.93);
+                                    % a cone
+                                    \draw (0.00, 5.00) -- (7.33, 0.77);
+                                    \draw (0.00, 5.00) -- (14.00, 13.08);
+
+                                    \node at (14, 5) {$ \leftrightarrow$};
+
+                                    \node[label={[label distance = -3mm]160:$p$}] at
+                                    (22.00, 0.00) {\textbullet};
+                                    \node[label={[label distance = -3mm]160:$q$}] at
+                                    (25.00, 1.00) {\textbullet};
+                                    \node[label={[label distance = -1mm]90:$a$}] at
+                                    (16.00, 5.00) {\textbullet};
+                                    \node[label={[label distance = -2mm]90:$b$}] at
+                                    (18.00, 5.00) {\textbullet};
+                                    \node[label={[label distance = 0mm]90:$c$}] at
+                                    (20.00, 5.00) {\textbullet};
+                                    \node[label={[label distance = 0mm]90:$d$}] at
+                                    (26.00, 4.00) {\textbullet};
+                                    \node[label={[label distance = 0mm]90:$e$}] at
+                                    (24.00, 4.00) {\textbullet};
+
+                                    % d cone
+                                    \draw (26.00, 4.00) -- (31.00, 1.11);
+                                    \draw (26.00, 4.00) -- (31.00, 6.89);
+                                    % q cone
+                                    \draw[dashed] (25.00, 1.00) -- (22.00, -0.73);
+                                    \draw[line width = 0.5mm] (25.00, 1.00) -- (31.00, -2.46);
+                                    \draw[line width = 0.5mm] (25.00, 1.00) -- (28.10, 2.79);
+                                    % e cone
+                                    \draw (24.00, 4.00) -- (27.10, 2.21);
+                                    \draw (24.00, 4.00) -- (30.00, 7.46);
+                                    % p cone
+                                    \draw[dashed] (22.00, 0.00) -- (20.00, -1.15);
+                                    \draw[line width = 0.5mm] (22.00, 0.00) -- (31.00, -5.20);
+                                    \draw[line width = 0.5mm] (22.00, 0.00) -- (26.46, 2.58);
+                                    % c cone
+                                    \draw (20.00, 5.00) -- (25.33, 1.92);
+                                    \draw (20.00, 5.00) -- (31.00, 11.35);
+                                    % b cone
+                                    \draw (18.00, 5.00) -- (24.33, 1.35);
+                                    \draw (18.00, 5.00) -- (31.00, 12.51);
+                                    % a cone
+                                    \draw (16.00, 5.00) -- (23.33, 0.77);
+                                    \draw (16.00, 5.00) -- (31.00, 13.66);
+                                \end{tikzpicture}
+                                \caption{Troca na ordem $-60^\circ$.
+                                Da esquerda para a direita, o caso em que $p$ está em $\Hits_{up}(q)$, ou
+                                seja, $q$ está entrando em $\Dom(p)$.
+                                Da direita para a esquerda, o caso em que $q$ está em $\Cands(p)$, saindo de
+                                    $\Dom(p)$.}
+                                \label{fig:trocamenossessenta}
+                            \end{figure}
+
+                        \end{block}
+                    \end{column}
+
+                \end{columns}
+
+
+                \begin{block}{Mais informações}
+                    Além dos problemas da ordenação cinética e do par mais próximo cinético,
+                    também foram estudadas estruturas para resolver o problema do máximo cinético e da
+                    triangulação de Delaunay cinética.
+                    Algumas dessas estruturas foram implementadas e encontram-se
+                    em: \textcolor{jblue}{{\url{https://github.com/siolinm/mac0499}}}.
+
+                    Para mais informações, acesse:
+                    \textcolor{jblue}{{\url{https://www.linux.ime.usp.br/~siolinm/mac0499}}}.
+                \end{block}
+
+
+            \end{column}
+
+        \end{columns}
+        % ---------------------------------------------------------------------------- %
+    \end{frame}
 \end{document}
