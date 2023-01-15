@@ -14,33 +14,34 @@
 \enlargethispage{.5\baselineskip}
 
 Quando desejamos criar algoritmos para resolver problemas com o computador,
-utilizamos maneiras de organizar os dados para que operações de acesso e
-alteração desses dados possam ser realizadas rapidamente, as chamadas estruturas
-de dados. A forma como serão organizados os dados depende altamente das
-características do problema em questão.
+utilizamos maneiras de organizar os dados, as chamadas estruturas de dados,
+para que operações de acesso e alteração desses dados possam ser realizadas
+rapidamente.
+A forma como serão organizados os dados depende altamente das características do
+problema em questão.
 
 Neste trabalho estudaremos \textit{estruturas de dados cinéticas} (em inglês,
-\emph{KDS - Kinetic Data Structures}), propostas por Basch, Guibas e Hershberger
-% referencia bibliográfica aqui
-para a resolução dos chamados problemas \textit{cinéticos}.
+\emph{KDS -- Kinetic Data Structures}), propostas por Basch, Guibas e Hershberger
+[\cite{BASCH19991}] para a resolução dos chamados problemas \textit{cinéticos}.
 
 Problemas \textit{cinéticos} são problemas em que deseja-se manter um
-determinado atributo sobre objetos que estão em movimento contínuo. Os objetos
-nos problemas podem representar entidades do mundo físico: pontos podem
-representar pessoas, aviões, estabelecimentos, entre outras coisas, retas podem
-representar trajetórias. Devido à natureza desses problemas é razóavel que
-estudemos problemas clássicos de geometria computacional, mas dentro de um
-contexto cinético. Por exemplo, num conjunto dado de pontos em movimento, qual
-par de pontos possui distância mínima.
+determinado atributo sobre objetos que estão em movimento contínuo.
+Os objetos nos problemas podem representar entidades do mundo físico: pontos podem
+representar pessoas, aviões, aparelhos móveis, entre outras coisas, retas podem
+representar trajetórias.
+Devido à natureza desses problemas é razoável que estudemos problemas clássicos de
+geometria computacional, mas dentro de um contexto cinético.
+Por exemplo, num conjunto dado de pontos em movimento, qual par de pontos possui
+distância mínima.
 
-Quando é dado um conjunto fixo de objetos geométricos, e deseja-se saber
+Quando se tem dado um conjunto fixo de objetos geométricos, e deseja-se saber
 informações de um determinado atributo desses objetos (como, por exemplo, em um
 conjunto dado de pontos, qual par de pontos possui distância mínima), dizemos
 que esse é um problema \textit{estático}.
 
-O mesmo problema pode ser formulado sobre um conjunto mutável. Por exemplo,
-pontos poderiam ser inseridos e removidos ao longo do tempo. Queremos calcular o
-atributo sem ter que resolver do zero a nova instância do problema estático.
+O mesmo problema pode ser formulado sobre um conjunto mutável.
+Por exemplo, pontos poderiam ser inseridos e removidos ao longo do tempo.
+Queremos calcular o atributo sem ter que resolver do zero a nova instância do problema estático.
 Chamamos esse tipo de problema de \textit{dinâmico} ou \textit{on-line}.
 
 As \emph{estruturas de dados cinéticas} recebem esse nome para diferenciá-las
@@ -51,30 +52,32 @@ com a passagem de tempo, já que os objetos estão em movimento contínuo.
 
 % definir o que é o atributo geométrico dos objetos
 Essas estruturas nos permitem realizar consultas de um determinado atributo dos
-objetos, no instante atual. A garantia de que a estrutura permanece correta se
-dá através do uso de instrumentos chamados \textit{certificados}. Os
-certificados estabelecem que uma relação entre um objeto da estrutura e outro se
+objetos, no instante atual.
+A garantia de que a estrutura permanece correta se dá através do uso de instrumentos chamados \textit{certificados}.
+Os certificados estabelecem que uma relação entre um objeto da estrutura e outro se
 mantém verdadeira até o seu vencimento e devem ajudar na manutenção da estrutura
-para permitir as consultas desejadas. Chamaremos o instante de tempo em que o
-certificado vence de valor ou \textit{prazo de validade} do certificado.
+para permitir as consultas desejadas.
+Chamaremos o instante de tempo em que o certificado vence de valor ou
+\textit{prazo de validade} do certificado.
 
 As estruturas contarão com uma operação \textsc{advance}, responsável por
-avançar até o instante de tempo atual mantendo a estrutura correta. Para tal, é
-necessário que nenhum certificado esteja vencido no instante $t$, ou seja, o
-certificado de menor prazo de validade expira após o instante $t$. Sendo assim,
-estamos interessados nos certificados de menor prazo de validade, para que
+avançar até o instante de tempo atual $t$ mantendo a estrutura correta.
+Para tal, é necessário que nenhum certificado esteja vencido no instante $t$, ou seja, o
+certificado de menor prazo de validade expira após o instante $t$.
+Sendo assim, estamos interessados nos certificados de menor prazo de validade, para que
 possamos realizar os ajustes necessários enquanto existir um certificado que
-expira antes do instante de tempo que desejamos alcançar.
+expira antes do instante de tempo para o qual desejamos alcançar.
 
 Para identificar o instante de vencimento de certificados manteremos uma fila
-com prioridades utilizando como prioridade o prazo de validade do certificado.
+com prioridades, utilizando como prioridade o prazo de validade do certificado.
 
 Para calcular o prazo de validade dos certificados, utilizaremos o chamado
-\textit{plano de vôo} dos objetos. O plano de vôo de um objeto é uma função que,
-dado o instante de tempo atual, determina sua trajetória. Assim como na vida
-real, o plano de vôo pode sofrer mudanças. Essas mudanças no plano de vôo geram
-a necessidade de atualização de certificados e de ajustes nas estruturas. A
-operação \textsc{change} será utilizada para atualizar o plano de vôo dos
+\textit{plano de vôo} dos objetos.
+O plano de vôo de um objeto é uma função que, dado o instante de tempo atual, determina sua trajetória.
+Assim como na vida real, o plano de vôo pode sofrer mudanças.
+Essas mudanças no plano de vôo geram a necessidade de atualização de certificados
+e de ajustes nas estruturas.
+A operação \textsc{change} será utilizada para atualizar o plano de vôo dos
 objetos e realizar as mudanças necessárias para manter a estrutura correta.
 
 % detalhe importante: a operação query só responde para um instante >= atual
@@ -84,65 +87,64 @@ geométrico que desejamos saber num dado instante.
 Uma questão natural a ser feita a respeito destas estruturas é como medir o
 desempenho delas, já que as formas clássicas de determinar a complexidade de
 algoritmos não se enquadram muito bem, por conta da adição da dimensão tempo. % Ainda meio confuso...
-Basch, Guibas e Hershberger propuseram algumas formas de analisá-las e medi-las.
+Basch, Guibas e Hershberger [\cite{BASCH19991}] propuseram algumas formas de analisá-las e medi-las.
 São elas:
 \begin{itemize}
     \item Responsividade: uma estrutura é dita \textit{responsiva} se o custo de
     processar um certificado, isto é, o custo de atualizar os certificados e as
     outras estruturas necessárias é pequeno;
+
     \item Eficiência: uma estrutura é dita \textit{eficiente} se a razão entre a
     quantidade total de eventos processados e a quantidade de eventos
-    \textit{externos} é pequena. Um evento diz respeito ao vencimento de um
-    certificado, os eventos chamados \textit{externos} são eventos que geram
-    mudanças na descrição combinatória, enquanto eventos chamados
-    \textit{internos} não geram mudanças na descrição combinatória, mas ainda
-    são necessários para manter a estrutura. O total de eventos processados é a
-    soma da quantidade de eventos externos e internos;
+    \textit{externos} é pequena.
+    Um evento diz respeito ao vencimento de um certificado, os eventos chamados
+    \textit{externos} são eventos que geram mudanças na descrição combinatória do atributo,
+    enquanto eventos chamados \textit{internos} não geram mudanças na descrição combinatória
+    do atributo, mas ainda são necessários para manter a estrutura.
+    O total de eventos processados é a soma da quantidade de eventos externos e internos;
+
     \item Compacidade: uma estrutura é dita \textit{compacta} se a quantidade máxima de
-    certificados que podem estar na fila com prioridades em um determinado é
-    instante é linear;
+    certificados que podem estar na fila com prioridades em um determinado instante é linear;
+
     \item Localidade: uma estrutura é dita \textit{local} se a quantidade máxima
     de certificados na fila que estão relacionados com um determinado objeto é
     pequena.
 \end{itemize}
 
 O custo de uma operação é dito pequeno se o custo é assintoticamente
-polilogarítmico ou polinomial para um valor pequeno no expoente.
+polilogarítmico no número de objetos ou polinomial para um valor pequeno no expoente.
 
 Neste trabalho estudaremos alguns problema cinéticos e as estruturas utilizadas
-para resolvê-los. Apesar do modelo proposto por Basch, Guibas e Hershberger
+para resolvê-los.
+Apesar do modelo proposto por Basch, Guibas e Hershberger [\cite{BASCH19991}]
 funcionar para trajetórias não-lineares, nos restringiremos apenas a trajetórias
 lineares.
+Neste caso, cada objeto corresponde a um par $(x_0, v)$, onde $x_0$ representa
+o valor inicial do objeto e $v$ é a velocidade atual do objeto.
 
-No capítulo 1 estudaremos o problema da ordenação cinética. Neste problema os
-pontos movem-se apenas em uma dimensão $y(t) = x_0 + vt$ e desejamos saber qual
-dos pontos possui o $i$-ésimo maior valor na coleção em determinado instante
-$t$. As estruturas que consideraremos para resolver o problema são a lista
-ordenada cinética e uma árvore binária balanceada de busca. A árvore binária
-balanceada de busca além de suportar as operação já citadas também será capaz de
-realizar operações \textsc{insert} e \textsc{delete}.
+No Capítulo 1 estudaremos o problema da ordenação cinética.
+Neste problema, os pontos movem-se apenas em uma dimensão $y(t) = x_0 + vt$ e
+desejamos saber qual dos pontos possui o $i$-ésimo maior valor na coleção em
+determinado instante $t$.
+As estruturas que consideraremos para resolver o problema são a lista
+ordenada cinética e uma árvore binária balanceada de busca.
+A árvore binária balanceada de busca além de suportar as operação já citadas
+também será capaz de realizar operações \textsc{insert} e \textsc{delete}.
 
-No capítulo 2 estudaremos o problema do máximo cinético. Assim como no problema
-anterior, os pontos movem-se apenas em uma dimensão $y(t) = x_0 + vt$ e
-desejamos saber qual dos pontos possui o maior valor no instante atual. Apesar
-do problema anterior resolver este problema, pois basta buscar pelo primeiro
+No Capítulo 2 estudaremos o problema do máximo cinético.
+Assim como no problema anterior, os pontos movem-se apenas em uma
+dimensão $y(t) = x_0 + vt$ e desejamos saber qual dos pontos possui o maior valor
+no instante atual.
+Apesar do problema anterior resolver este problema, pois basta buscar pelo primeiro
 maior valor na coleção, veremos que é possível obter essa resposta de forma mais
 eficiente utilizando outras estruturas.
 
-No capítulo 3 estudaremos o problema do par mais próximo cinético, em que
-utilizaremos estruturas vistas nos dois capítulos anteriores. Diferentemente dos
-problemas anteriores, os pontos movem-se em duas dimensões de acordo com uma
-função $\gamma(t) = (x(t), y(t))$, sendo que $x(t) = x_0 + v_xt$ e $y(t) = y_0 +
-v_yt$. Desejamos saber qual dos pares possíveis de pontos possui distância
-mínima.
+No Capítulo 3 estudaremos o problema do par mais próximo cinético, em que
+utilizaremos estruturas vistas nos dois capítulos anteriores.
+Diferentemente dos problemas anteriores, os pontos movem-se em duas dimensões
+de acordo com uma função $\gamma(t) = (x(t), y(t))$, sendo que $x(t) = x_0 + v_x t$ e
+$y(t) = y_0 + v_y t$.
+Desejamos saber qual dos pares possíveis de pontos possui distância mínima.
 
-No capítulo 4 
+No capítulo 4
 
-
-% Poderíamos usar certificados por exemplo entre alguns pares de pontos que,
-% considerando suas trajetórias atuais, garantissem que, até o instante $t$, a
-% ordenada de um dos pontos é maior que a ordenada do outro ponto. Ao atingirmos o
-% instante $t$, o certificado vence, implicando em uma mudança estrutural no
-% conjunto de pontos que pode afetar o resultado de futuras consultas, requerendo
-% assim possíveis ajustes na estrutura de dados, e eventual cálculo de novos
-% certificados.
