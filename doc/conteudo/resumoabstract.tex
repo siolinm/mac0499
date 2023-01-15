@@ -5,11 +5,11 @@
 % As palavras-chave são obrigatórias, em português e em inglês, e devem ser
 % definidas antes do resumo/abstract. Acrescente quantas forem necessárias.
 \palavrachave{Estruturas de dados cinéticas}
-\palavrachave{Geometria Computacional}
+\palavrachave{Geometria computacional}
 \palavrachave{Algoritmos}
 
 \keyword{Kinetic data structures}
-\keyword{Computational Geometry}
+\keyword{Computational geometry}
 \keyword{Algorithms}
 
 % O resumo é obrigatório, em português e inglês. Estes comandos também
@@ -17,75 +17,78 @@
 % as normas sugeridas da USP.
 \resumo{
 
-Estruturas de dados cinéticas são um modelo proposto por Basch, Guibas e
-Hershberger para a resolução de problemas cinéticos de maneira eficiente.
-Problemas cinéticos são problemas em que os objetos envolvidos estão em
-movimento contínuo e desejamos saber um determinado atributo destes objetos no
-instante atual. Por exemplo, consultar qual o par de pontos mais próximo no
-momento, num conjunto de pontos em movimento.
+    Estruturas de dados cinéticas são um modelo proposto por Basch, Guibas e
+    Hershberger para a resolução de problemas cinéticos de maneira eficiente.
+    Problemas cinéticos são problemas em que os objetos envolvidos estão em
+    movimento contínuo e desejamos saber um determinado atributo destes objetos no
+    instante atual. Por exemplo, consultar qual o par de pontos mais próximo no
+    momento, num conjunto de pontos em movimento.
 
-As interface proposta para as estruturas oferece suporte a três operações:
-consulta, que retorna o atributo mantido, avançar no tempo, que determina o
-instante atual, e alterar a trajetória de objetos, caracterizada pela alteração
-de uma função cujo nome é plano de vôo. O plano de vôo é necessário para manter
-o atributo desejado sobre os elementos, ele define a trajetória dos pontos ao
-longo do tempo e será utilizado para calcular os certificados. Os certificados
-são objetos que garantem que a organização interna da estrutura está correta até
-um determinado instante, denominado prazo de validade do certificado. As
-estruturas serão orientadas a eventos, que são o vencimento de certificados.
-Cada certificado será colocado numa fila de prioridades com o seu prazo de
-validade como prioridade. O vencimento de um certificado significa que a
-estrutura ficou inválida e é necessário realizar mudanças para que ela volte a
-se tornar válida, removendo os certificados vencidos e gerando novos
-certificados no processo.
+    A interface proposta para as estruturas oferece suporte a três operações:
+    consulta, que retorna o atributo mantido, avançar no tempo, que altera o
+    instante atual para um dado instante no futuro, e alterar a trajetória de objetos,
+    caracterizada pela alteração de uma função cujo nome é plano de vôo.
+    O plano de vôo é necessário para manter o atributo desejado sobre os elementos: ele
+    define a trajetória dos pontos ao longo do tempo e será utilizado para calcular os chamados
+    certificados.
+    Os certificados são objetos que garantem que a organização interna da estrutura está correta até
+    um determinado instante, denominado prazo de validade do certificado.
+    As estruturas serão orientadas a eventos, que são o vencimento de certificados.
+    Os certificados serão mantidos numa fila de prioridades com o seu prazo de
+    validade como prioridade.
+    O vencimento de um certificado significa que a estrutura ficou inválida e é necessário realizar
+    mudanças para que ela volte a se tornar válida, removendo os certificados vencidos e gerando novos
+    certificados no processo.
 
-Com a inclusão da dimensão tempo, a forma tradicional de analisar algoritmos não
-é adequada para a análise dessas estruturas. Por isso, Basch, Guibas e
-Hershberger também propuseram outros quatro critérios com o intuito de
-determinar a eficiência de cada estrutura: responsividade, eficiência,
-localidade e compacidade.
+    Com a inclusão da dimensão tempo, a forma tradicional de analisar algoritmos não
+    é adequada para a análise dessas estruturas. Por isso, Basch, Guibas e
+    Hershberger também propuseram outros quatro critérios com o intuito de
+    determinar a eficiência de cada estrutura: responsividade, eficiência,
+    localidade e compacidade.
 
-Neste trabalho, estudaremos quatro problemas: ordenação, máximo, par mais próximo
-e triangulação de delaunay, todos num contexto cinético. Também estudaremos as
-respectivas estruturas utilizadas na solução de cada problema e discutiremos
-sobre os critérios de eficiência em cada uma delas. Para algumas das estruturas
-também discutiremos um cenário dinâmico-cinético, ou seja, operações de inserção
-e remoção dentro de um contexto cinético.
+    Neste trabalho, estudaremos quatro problemas: ordenação, máximo, par mais próximo
+    e triangulação de Delaunay, todos num contexto cinético. Também estudaremos as
+    respectivas estruturas utilizadas na solução de cada problema e discutiremos
+    sobre os critérios de eficiência em cada uma delas. Para algumas das estruturas
+    também discutiremos um cenário dinâmico-cinético, ou seja, consideraremos operações
+    de inserção e remoção dentro de um contexto cinético.
 
 }
 
 \abstract{
 
-Kinetic data structures are a model proposed by Basch, Guibas and Hershberger to
-efficiently solve kinetic problems. Kinetic problems are problems in which the
-objects involved are in continuous motion and we want to know a certain
-attribute about these objects at the current moment. For example, query the
-closest pair of points at the moment, in a set of moving points.
+    Kinetic data structures are a model proposed by Basch, Guibas and Hershberger to
+    efficiently solve kinetic problems. Kinetic problems are problems in which the
+    objects involved are in continuous motion and we want to know a certain
+    attribute about these objects at the current moment. For example, we would like to
+    query the closest pair of points at the moment, in a set of moving points.
 
-The proposed interface for the data structures supports three operations: query,
-that returns the maintained attribute, advance, that sets the current moment,
-and changing the object motion, given by updates of a function called flight
-plan. The flight plan is necessary to maintain the attribute of interest over
-the elements, he defines the objects motion through time and will be used for
-computing the certificates. The certificates are objects that ensure the
-internal state of our data structure is correct until a certain instant of time,
-the certificate's expiral time. Our data structures will be event driven where
-the events are the expiry of certificates. Each certificate will be put in a
-priority queue with his expiral time as priority. The expiration of a
-certificate means the data structure has become invalid and we need to change it
-in order to be correct again, deleting the expired certificates and generating
-new ones in the process.
+    The proposed interface for the data structures supports three operations: query,
+    that returns the maintained attribute, advance, that adjusts the current moment to a given instant in
+    the future, and changing the object motion, given by updates on a function called flight
+    plan.
+    The flight plan is necessary to maintain the attribute of interest over
+    the elements, it defines the object motion through time and will be used for
+    computing the so called certificates.
+    The certificates are objects that ensure the internal state of our data structure is correct until a
+    certain instant of time: the certificate's expiration time.
+    Our data structures will be event driven where the events are the expirations of certificates.
+    The certificates will be kept in a priority queue with their expiration time as priority.
+    The expiration of a certificate means the data structure has become invalid and we need to change it
+    in order to be in a correct state again, deleting the expired certificates and generating
+    new ones in the process.
 
-The traditional way of analyzing algorithms does not work well with these
-structures. Because of that, Basch, Guibas and Hershberger also proposed four
-criteria to determine the quality of the structures: responsiveness, efficiency,
-locality and compactness.
+    The traditional way of analyzing algorithms does not work well with these
+    structures.
+    Because of that, Basch, Guibas and Hershberger also proposed four
+    criteria to determine the quality of the structures: responsiveness, efficiency,
+    locality, and compactness.
 
-In this work, we will be studying four problems: sorting, maximum, closest pair
-and delaunay triangulation, all in a kinetic context. We will also be studying
-the respective kinetic data structures used to solve these problems and will
-discuss about the quality criteria in each one of them. For some of the
-structures we will also consider a kinetic-dynamic scenario, where insert and
-delete operations will be supported in a kinetic context.
+    In this work, we address four problems: sorting, maximum, closest pair
+    and Delaunay triangulation, all in a kinetic context.
+    We study the respective kinetic data structures used to solve these problems and discuss
+    the quality criteria for each one of them.
+    For some of the structures we also consider a kinetic-dynamic scenario,
+    where insert and delete operations will also be supported in a kinetic context.
 
 }
