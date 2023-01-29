@@ -47,10 +47,8 @@ Chamamos esse tipo de problema de \textit{dinâmico} ou \textit{on-line}.
 As \emph{estruturas de dados cinéticas} recebem esse nome para diferenciá-las
 das estruturas de dados \textit{estáticas} e \textit{dinâmicas}, pois têm como
 foco manter a descrição combinatória do problema que se altera frequentemente
-% definir o que é descrição combinatória
 com a passagem de tempo, já que os objetos estão em movimento contínuo.
 
-% definir o que é o atributo geométrico dos objetos
 Essas estruturas nos permitem realizar consultas de um determinado atributo dos
 objetos, no instante atual.
 A garantia de que a estrutura permanece correta se dá através do uso de instrumentos chamados \textit{certificados}.
@@ -80,14 +78,14 @@ e de ajustes nas estruturas.
 A operação \textsc{change} será utilizada para atualizar o plano de vôo dos
 objetos e realizar as mudanças necessárias para manter a estrutura correta.
 
-% detalhe importante: a operação query só responde para um instante >= atual
 Por fim, a operação \textsc{query} ficará responsável por responder o atributo
 geométrico que desejamos saber num dado instante.
 
 Uma questão natural a ser feita a respeito destas estruturas é como medir o
 desempenho delas, já que as formas clássicas de determinar a complexidade de
-algoritmos não se enquadram muito bem, por conta da adição da dimensão tempo. % Ainda meio confuso...
-Basch, Guibas e Hershberger [\cite{BASCH19991}] propuseram algumas formas de analisá-las e medi-las.
+algoritmos não se enquadram muito bem, por conta da adição da dimensão tempo.
+Basch, Guibas e Hershberger [\cite{BASCH19991}] propuseram algumas formas de analisá-las e
+medi-las.
 São elas:
 \begin{itemize}
     \item Responsividade: uma estrutura é dita \textit{responsiva} se o custo de
@@ -146,5 +144,7 @@ de acordo com uma função $\gamma(t) = (x(t), y(t))$, sendo que $x(t) = x_0 + v
 $y(t) = y_0 + v_y t$.
 Desejamos saber qual dos pares possíveis de pontos possui distância mínima.
 
-No capítulo 4
-
+No Capítulo 4 estudaremos o problema da triangulação de Delaunay cinética.
+Assim como no problema do par mais próximo, os pontos movem-se em duas dimensões de acordo com uma
+função $\gamma(t) = (x(t), y(t))$, sendo que $x(t) = x_0 + v_x t$ e $y(t) = y_0 + v_y t$.
+Desejamos manter uma descrição da triangulação de Delaunay dos pontos.
