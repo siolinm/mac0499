@@ -1,9 +1,10 @@
 %!TeX root=./torneio.tex
 
 \FloatBarrier
+
 \subsection{Inserção e remoção em torneio} \label{trni:secao}
 
-Assim como fizemos na seção \ref{abb}, além das operações
+Assim como fizemos na seção \ref{sec:abb}, além das operações
 \textsc{advance}$(t)$, \textsc{change}$(j, v)$ e
 \textsc{query\_max}$()$, poderíamos querer dar suporte a operações
 como:
@@ -14,7 +15,7 @@ como:
     \item \textsc{delete}$(i) \rightarrow$ remove o elemento $i$ no
     instante \now.
 \end{itemize}
-Agora, diferentemente da seção \ref{abb}, não utilizaremos uma nova
+Agora, diferentemente da seção \ref{sec:abb}, não utilizaremos uma nova
 estrutura para dar suporte a essas operações, pois um torneio já
 suporta operações como inserção e remoção de elementos em tempo
 logarítmico. Porém, da maneira como se encontra a interface,
