@@ -1,19 +1,19 @@
 \begin{algorithm}
     \caption{Função \textsc{query\_kth}.} \label{abb:query}
-\begin{algorithmic}[1]
-    \Function{query\_kth}{$i$}
-        \State $node \leftarrow root$
-        \State $r \leftarrow \Call{rsize}{node}$
-        \While{$i \neq r + 1$}
-        \If{$i \leq r$}
-            \State $node \leftarrow node.right$
-        \Else
-            \State $node \leftarrow node.left$
-            \State $i \leftarrow i - (r + 1)$
-        \EndIf
-        \State $r \leftarrow \Call{rsize}{node}$
-        \EndWhile
-        \State \Return $node.key$
-    \EndFunction
-\end{algorithmic}
+    \begin{algorithmic}[1]
+        \Function{query\_kth}{$i$}
+            \State $node \leftarrow root$
+            \State $r \leftarrow \Call{rsize}{node}$
+            \While{$i \neq r + 1$}
+                \If{$i \leq r$}
+                    \State $node \leftarrow node.\dir$
+                \Else
+                    \State $node \leftarrow node.\esq$
+                    \State $i \leftarrow i - (r + 1)$
+                \EndIf
+                \State $r \leftarrow \Call{rsize}{node}$
+            \EndWhile
+            \State \Return $node.key$
+        \EndFunction
+    \end{algorithmic}
 \end{algorithm}

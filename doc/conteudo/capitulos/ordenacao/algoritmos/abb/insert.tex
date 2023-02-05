@@ -1,10 +1,10 @@
 \begin{algorithm}
-    \caption{Função \textsc{insert}.} \label{abb:insert}
+    \caption{Função \textsc{insert}.} \label{alg:abb:insert}
     \begin{algorithmic}[1]
         \Function{insert}{$v, x_t$}
             \State $e.\textit{speed} \leftarrow v$
             \State $e.x_0 \leftarrow x_t - now\cdot v$
-            \State \raiz~$\leftarrow$ \Call{insertKey}{$root, e$}
+            \State \raiz~$\leftarrow$ \Call{insertKey}{$\raiz, e$}
             \State \Call{insertObject}{$e$}
             \State $e.\textit{cert} \leftarrow$ \Call{expire}{$e,e.\textit{prev}$}
             \State \Call{insertPQ}{$Q, e$}

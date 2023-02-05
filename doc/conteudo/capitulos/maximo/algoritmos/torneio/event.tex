@@ -1,14 +1,14 @@
 \begin{algorithm}
     \caption{Função \textsc{event}.} \label{torneio:evento}
     \begin{algorithmic}[1]
-        \Function{event}{\null}
+        \Function{event}{\nnull}
             \State $i \leftarrow  $ \Call{minPQ}{$Q$}
             \While{\cert[$i$] = \now}
                 \State $j \leftarrow~$\indt[$i$]
                 \State $k \leftarrow 2\cdot \floor{\frac{j}{2}} +
                 ((j + 1)\mod2)$ \Comment{adversário}
                 \While{$j > 1$ \AND \Call{value}{$j$} $\geq$
-                \Call{value}{$k$}}
+                    \Call{value}{$k$}}
                     \State \torneio[$\floor{\frac{j}{2}}$]
                     $\leftarrow~$\torneio[$j$]
                     \State \indt[\torneio[$k$]] $\leftarrow k$
@@ -21,7 +21,7 @@
                 \State \Call{update}{$j$}
                 \State $i \leftarrow  $ \Call{minPQ}{$Q$}
             \EndWhile
-                % \LineComment{swapHeap$(i, \floor{\frac{i}{2}})$ troca \heap[$i$] por \heap$\left[\floor{\frac{i}{2}}\right]$}
+        % \LineComment{swapHeap$(i, \floor{\frac{i}{2}})$ troca \heap[$i$] por \heap$\left[\floor{\frac{i}{2}}\right]$}
         \EndFunction
     \end{algorithmic}
 \end{algorithm}

@@ -2,7 +2,7 @@
     \caption{Função \textsc{update}.} \label{alg:abb:update}
     \begin{algorithmic}[1]
         \Function{update}{$e$}
-            \If{$e \neq \textsc{NULL}$}
+            \If{$e \neq \nnull$}
                 \State $e'\leftarrow e.next$
                 \State $t \leftarrow $ \Call{expire}{$e,e'$}
                 \State \Call{updatePQ}{$Q,e,t$}

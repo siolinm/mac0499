@@ -1,18 +1,18 @@
 \begin{algorithm}
     \caption{Função \textsc{event}.} \label{lista:evento}
-\begin{algorithmic}[1]
-    \Function{event}{\null}
-        \State $i \leftarrow $ \Call{minPQ}{$Q$}
-        \While{\cert[$i$] = \now}
-            \State \sorted$[i] \leftrightarrow$
-            \sorted$[i + 1]$
-            \State $indS[\sorted[i]] \leftrightarrow
-            indS[\sorted[i+1]]$
-            \State \Call{update}{$i$}
-            \State \Call{update}{$i - 1$}
-            \State \Call{update}{$i + 1$}
+    \begin{algorithmic}[1]
+        \Function{event}{\nnull}
             \State $i \leftarrow $ \Call{minPQ}{$Q$}
-        \EndWhile
-    \EndFunction
-\end{algorithmic}
+            \While{\cert[$i$] = \now}
+                \State \sorted$[i] \leftrightarrow$
+                \sorted$[i + 1]$
+                \State $indS[\sorted[i]] \leftrightarrow
+                indS[\sorted[i+1]]$
+                \State \Call{update}{$i$}
+                \State \Call{update}{$i - 1$}
+                \State \Call{update}{$i + 1$}
+                \State $i \leftarrow $ \Call{minPQ}{$Q$}
+            \EndWhile
+        \EndFunction
+    \end{algorithmic}
 \end{algorithm}

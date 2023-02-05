@@ -215,8 +215,8 @@ para, a cada iteração, decidir em qual subárvore o $i$-ésimo está, ajustand
 necessário.
 O Algoritmo~\ref{abb:query} implementa esta operação e a Figura~\ref{fig:abb:queryexecution}
 simula a execução em um exemplo.
-A rotina auxiliar \textsc{rsize}$(r)$ devolve o valor de $r.\dir.\textit{size}$ caso $r.\dir$ seja não nulo, caso
-contrário devolve $0$.
+A rotina auxiliar \textsc{rsize}$(r)$ devolve o valor de $r.\dir.\textit{size}$ caso $r.\dir$ seja
+não nulo, caso contrário devolve $0$.
 
 \input{conteudo/capitulos/ordenacao/algoritmos/abb/query_kth}
 
@@ -226,7 +226,7 @@ contrário devolve $0$.
 
 A operação \textsc{change}$(j, v)$, como implementada no Algoritmo~\ref{abb:change}, consiste em
 recuperar o elemento $e$ com identificador $j$, alterar seu atributo \initv~para $x_0 +
-(\mathit{speed} - v)\cdot now$, \textit{speed} para \textit{v} e
+(\speed - v)\cdot now$, \textit{speed} para \textit{v} e
 recalcular os eventuais certificados de que $j$ participa, que
 seriam $e.cert$ e $e.next.cert$, se $e.next$ existe.
 A Figura~\ref{fig:abb:change} ilustra um exemplo com os elementos afetados.
@@ -245,9 +245,9 @@ com prioridades e, por fim, atualizar o certificado de seu sucessor,
 caso exista.
 Uma importante observação é que se \now~$\neq 0$, então $x_t \neq$~\initv.
 Para calcular \initv, podemos utilizar a relação
-${x_t = now\cdot speed + x_0}$, que implica que ${x_0 = x_t -
-speed\cdot now}$.
-O Algoritmo~\ref{abb:insert} implementa esta operação.
+${x_t = now\cdot \speed + x_0}$, que implica que ${x_0 = x_t -
+\speed\cdot now}$.
+O Algoritmo~\ref{alg:abb:insert} implementa esta operação.
 
 \input{conteudo/capitulos/ordenacao/algoritmos/abb/insert}
 
@@ -268,13 +268,13 @@ Algoritmo~\ref{abb:delete}.
 \subsection{Análise de desempenho}\label{subsec:analise-de-desempenho-abb}
 
 A árvore binária balanceada de busca é uma estrutura \textit{responsiva}, pois o
-custo de processar um certificado é $O(\lg{n})$.
+custo de processar um certificado é $O(\lg{n})$, onde $n$ é o número de elementos sendo mantidos.
 O custo de processar um certificado corresponde a uma iteração da linha $3$ na operação
 \textsc{event}, que atualiza a posição dos elementos na árvore em $O(1)$ e realiza alterações na
 fila de certificados em tempo $O(\lg{n})$, por isso o custo total de $O(\lg{n})$
 para processar um certificado.
 
-Assim como a lista ordenada cinética a árvore binária balanceada de busca é uma
+Assim como a lista ordenada cinética, a árvore binária balanceada de busca é uma
 estrutura \textit{eficiente}, \textit{compacta} e \textit{local}, pelas mesmas
 justificativas já apresentadas na seção da lista ordenada cinética.
 
@@ -283,7 +283,7 @@ binária balanceada realiza a operação \textsc{query-kth} em $O(\lg{n})$, que 
 desempenho assintótico pior em relação a lista ordenada cinética, que realiza a
 mesma operação em $O(1)$.
 
-O desempenho pior na operação \textsc{query} é justificado pelo ganho de
+O desempenho pior na operação \textsc{query-kth} é justificado pelo ganho de
 desempenho nas operações \textsc{insert} e \textsc{delete} que também são
 realizadas em tempo $O(\lg{n})$, enquanto que na lista ordenada cinética o tempo
 gasto é $O(n)$, pois precisamos mover $O(n)$ objetos para posicionar o novo

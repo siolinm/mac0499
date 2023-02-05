@@ -1,7 +1,7 @@
 \begin{algorithm}
     \caption{Função \textsc{event}.} \label{torneioi:evento}
     \begin{algorithmic}[1]
-        \Function{event}{\null}
+        \Function{event}{\nnull}
             \State $e \leftarrow  $ \Call{minPQ}{$Q$}
             \While{$e.\cert$ = \now}
                 \State $j \leftarrow e.\lastmatch$
@@ -20,7 +20,7 @@
                 \State \Call{update}{$\torneio[j]$}
                 \State $e \leftarrow  $ \Call{minPQ}{$Q$}
             \EndWhile
-                % \LineComment{swapHeap$(i, \floor{\frac{i}{2}})$ troca \heap[$i$] por \heap$\left[\floor{\frac{i}{2}}\right]$}
+        % \LineComment{swapHeap$(i, \floor{\frac{i}{2}})$ troca \heap[$i$] por \heap$\left[\floor{\frac{i}{2}}\right]$}
         \EndFunction
         \LineComment{\Call{compare}{$i, j$} retorna se o valor
         de $i$ é maior que o valor de $j$.}
