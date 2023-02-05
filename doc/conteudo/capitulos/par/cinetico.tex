@@ -229,3 +229,29 @@ $Cands(u)$. Se $q$ não está em $Cands(p)$, não haverão mudanças.
 \input{conteudo/capitulos/par/figuras/cinetico/eventodown}
 
 \input{conteudo/capitulos/par/figuras/cinetico/eventodownnaoexiste}
+
+\FloatBarrier
+
+\subsection{Análise de desempenho}\label{subsec:par:analise-de-desempenho}
+
+As análises de desempenho aqui foram extraídas de~\cite{eduardo}.
+
+A estrutura de dados cinética para manter o par de pontos mais próximo é uma estrutura
+\textit{responsiva}, pois o custo de processar um certificado é $O(\lg{n})$.
+O custo de processar um certificado é o custo de realizar as trocas necessárias nas listas
+ordenadas que consome tempo $O(\lg{n})$, além disso também há o custo de corrigir as árvores
+$\Cands$, $\Hits_{low}$, $\Hits_{up}$, o torneio e os certificados associados.
+Mas, essas operações são realizadas em sequência, consumindo um custo também de $O(\lg{n})$.
+
+A estrutura é \textit{eficiente}, pois a razão entre o total de eventos e os eventos
+\textit{externos}, isto é, as trocas de par mais próximo.
+De acordo com~\cite{eduardo}, essa razão é $O(\epsilon \lg{n})$, resultando em uma estrutura
+eficiente.
+
+A estrutura é \textit{compacta}, pois teremos $O(n)$ certificados na fila de prioridades
+associados a mudanças nas listas ordenadas e $O(n)$ certificados do torneio cinético, resultando
+em $O(n)$ certificados na fila com prioridades num determinado instante.
+
+A estrutura é \textit{local}, pois um ponto pode estar envolvido em até seis certificados das
+listas ordenadas, sendo dois para cada uma das ordenações, e pode estar envolvido em até
+$O(\lg{n})$ certificados no torneio.
