@@ -2,62 +2,58 @@
 
 \newcommand{\thickness}{0.75mm}
 \FloatBarrier
-\section{Torneio cinético} \label{torneio:secao}
+
+
+\section{Torneio cinético} \label{sec:torneio}
 
 Considere o seguinte algoritmo para achar o valor máximo em um
 conjunto de $n$ elementos: aloque um vetor \torneio~com $2n - 1$
-posições. Inicializamos as últimas $n$ posições com os valores dos
-$n$ elementos e uma variável $i$ com o valor da última posição, $i =
-2n - 1$. Repita o seguinte processo até que $i$ seja igual a $1$: se
-\torneio$[i] > $~\torneio$[i - 1]$, então
-\torneio$\left[\floor{\frac{i}{2}}\right] =$~\torneio$[i]$, caso
-contrário \torneio$\left[\floor{\frac{i}{2}}\right] =$~ \torneio$[i
-- 1]$, e, por fim, subtraia~$2$ de $i$. Dessa maneira, ao fim da
-execução do algoritmo, em \torneio$[1]$ estará o maior valor da
-coleção. Na verdade, podemos fazer a comparação de maneira indireta,
-e guardar os índices dos elementos no vetor \torneio~e não seus
-valores. Veja a Figura \ref{fig:torneio:exemplo}.
+posições.
+Inicializamos as últimas $n$ posições com os valores dos $n$ elementos e uma variável $i$ com o
+valor da última posição, $i = 2n - 1$.
+Repita o seguinte processo até que $i$ seja igual a $1$: se \torneio$[i] > $~\torneio$[i - 1]$,
+então \torneio$\left[\floor{\frac{i}{2}}\right] =$~\torneio$[i]$, caso contrário
+\torneio$\left[\floor{\frac{i}{2}}\right] =$~ \torneio$[i - 1]$, e, por fim, subtraia~$2$ de $i$.
+Dessa maneira, ao fim da execução do algoritmo, em \torneio$[1]$ estará o maior valor da coleção.
+Na verdade, podemos fazer a comparação de maneira indireta, e guardar os índices dos elementos no
+vetor \torneio~e não seus valores.
+Veja a Figura~\ref{fig:torneio:exemplo}.
 
-Podemos pensar nessas comparações entre \torneio$[i]$ e
-\torneio$[i-1]$ como sendo partidas de um torneio classificatório,
-por isso o nome torneio. Chamaremos de ``partida'' as comparações
-entre \torneio$[i]$ e \torneio$[i-1]$ e diremos que o elemento~$j$
-``vence'' o elemento $k$ quando os elementos $j$ e $k$ disputaram
-uma partida entre si e o elemento $j$ possuía maior valor nesse
-instante. Utilizaremos esse ``torneio'' para resolver o problema do
-máximo cinético e, para implementá-lo, será utilizado um vetor como
-o citado no algoritmo acima.
+Podemos pensar nessas comparações entre \torneio$[i]$ e \torneio$[i-1]$ como sendo partidas de um
+torneio classificatório, por isso o nome torneio.
+Chamaremos de ``partida'' as comparações entre \torneio$[i]$ e \torneio$[i-1]$ e diremos que o
+elemento~$j$ ``vence'' o elemento $k$ quando os elementos $j$ e $k$ disputaram uma partida entre
+si e o elemento $j$ possuía maior valor nesse instante.
+Utilizaremos esse ``torneio'' para resolver o problema do máximo cinético e, para implementá-lo,
+será utilizado um vetor como o citado no algoritmo descrito no parágrafo anterior.
 
 \input{conteudo/capitulos/maximo/figuras/torneio/exemplo}
 
-Inicialmente o vetor começa com os índices dos elementos ocupando as
-últimas posições e construímos o torneio de acordo com o valor de
-cada elemento no instante $t = 0$, ou seja, com o valor $x_0$ de
-cada elemento.
+Inicialmente o vetor começa com os índices dos elementos ocupando as últimas posições e
+construímos o torneio de acordo com o valor de cada elemento no instante $t = 0$, ou seja, com o
+valor $x_0$ de cada elemento.
 
-Uma vez montado o torneio, construímos um certificado para cada
-elemento no torneio. O $i$-ésimo certificado, que se refere ao par
-formado pelo $i$-ésimo elemento da entrada e quem o venceu na última
-partida que disputou, consiste no instante de tempo em que o
-$i$-ésimo elemento passará a ter um valor maior que o valor do
-elemento que o venceu anteriormente, se esse instante for maior que
-o instante atual. Do contrário, o certificado consiste em $+\infty$.
-Veja a Figura \ref{fig:torneio:certificados}.
+Uma vez montado o torneio, construímos um certificado para cada elemento no torneio.
+O $i$-ésimo certificado se refere ao par formado pelo $i$-ésimo elemento da entrada e quem o
+venceu, digamos $j$, na última partida que disputou, e consiste no instante de tempo em que o $i$-
+ésimo elemento passará a ter um valor maior que o valor do $j$-ésimo elemento, se esse instante
+for maior que o instante atual.
+Do contrário, o certificado consiste em $+\infty$.
+Veja a Figura~\ref{fig:torneio:certificados}.
 
-É importante observar que o elemento que se encontra na primeira
-posição do torneio não é vencido por ninguém no instante \now. Dessa
-forma, sendo $i$ o elemento que ocupa a primeira posição do torneio,
-associamos ao $i$-ésimo certificado a chave $+\infty$.
+É importante observar que o elemento que se encontra na primeira posição do torneio não é vencido
+por ninguém no instante \now.
+Dessa forma, sendo $i$ o elemento que ocupa a primeira posição do torneio, associamos ao $i$-ésimo
+certificado a chave $+\infty$.
 
 \input{conteudo/capitulos/maximo/figuras/torneio/certificados}
 
-Esses $n$ certificados são colocados em uma fila com prioridades,
-com o prazo de validade como chave. Estamos interessados nos
-certificados com menor prazo de validade.
+Esses $n$ certificados são colocados em uma fila com prioridades, com o prazo de validade como
+chave.
+Estamos interessados nos certificados com menor prazo de validade.
 
-Para descrever a implementação das operações \textsc{advance},
-\textsc{change} e \textsc{query\_max}, precisamos estabelecer o nome
-das novas variáveis usadas. São elas:
+Para descrever a implementação das operações \textsc{advance}, \textsc{change} e \textsc{query\_max}, precisamos estabelecer o nome das novas variáveis usadas.
+São elas:
 \begin{enumerate}
     \item \torneio: vetor, de $2n - 1$ posições, com os índices dos
     $n$ elementos formando um torneio de acordo com o seu valor no
@@ -65,51 +61,44 @@ das novas variáveis usadas. São elas:
 
     \item \textit{cert}: vetor com os certificados;
     \textit{cert}$[i]$ guarda o certificado entre o elemento $i$ e
-    quem o venceu na última partida que disputou, para $1 \leq i
-    \leq n$;
+    quem o venceu na última partida que disputou, para $1 \leq i \leq n$;
 
     \item \textit{indT}: vetor de $n$ posições; \indt[$i$] guarda a
     posição em \torneio~em que $i$ perde uma partida, com $1 \leq i
-    \leq n$. Se $i$ não perde nenhuma partida, \indt[$i$] é igual a
-    $-1$.
+    \leq n$.
+    Se $i$ não perde nenhuma partida, \indt[$i$] é igual a $-1$.
 \end{enumerate}
 
 A interface da fila com prioridades que utilizaremos não se altera.
 
-Na implementação da operação \textsc{event}, no Algoritmo
-\ref{torneio:evento}, utilizaremos a rotina \textsc{update}$(i)$, no
-Algoritmo \ref{torneio:update}, que calcula a nova validade $t$ do
-elemento $j$ que se encontra na $i$-ésima posição de \torneio, isto
-é, $j =~$\torneio[$i$] certificado, se $1 \leq i \leq 2n - 1$, e
-chama a rotina \textsc{updatePQ}$(Q, i, t)$.
+Na implementação da operação \textsc{event}, no Algoritmo~\ref{torneio:evento}, utilizaremos a
+rotina \textsc{update}$(i)$, no Algoritmo~\ref{torneio:update}, que calcula a nova validade $t$ do
+elemento $j$ que se encontra na $i$-ésima posição de \torneio, isto é, $j =~$\torneio[$i$]
+certificado, se $1 \leq i \leq 2n - 1$, e chama a rotina \textsc{updatePQ}$(Q, i, t)$.
 
 \input{conteudo/capitulos/maximo/algoritmos/torneio/update}
 
 \input{conteudo/capitulos/maximo/algoritmos/torneio/event}
 
-No trecho das linhas $5$ - $11$ do Algoritmo \ref{torneio:evento}, o
-resultado da partida entre o elemento~$j$ e seu adversário que se
-encontra na posição $k$ de \torneio~é recalculado, e o certificado
-correspondente é atualizado. Caso o resultado da partida tenha sido
-alterado, a verificação se propaga para o nível de cima. A função
-$\Call{value}{j}$ retorna ${\speed[j]~\cdot\now + x_0[j]}$.
+No trecho das linhas $5 - 11$ do Algoritmo~\ref{torneio:evento}, o resultado da partida entre o
+elemento~$j$ e seu adversário que se encontra na posição $k$ de \torneio~é recalculado, e o
+certificado correspondente é atualizado.
+Caso o resultado da partida tenha sido alterado, a verificação se propaga para o nível de cima.
+A função $\Call{value}{j}$ retorna ${\speed[j]~\cdot\now + x_0[j]}$.
 
 \input{conteudo/capitulos/maximo/figuras/torneio/expire}
 
 \input{conteudo/capitulos/maximo/figuras/torneio/after}
 
-A operação \textsc{query\_max}, no Algoritmo \ref{torn:querymax},
-consiste em devolver \torneio$[1]$, enquanto que a operação
-\textsc{change}$(j, v)$, no Algoritmo \ref{torn:change}, consiste em
-alterar a posição $x_0[j]$ para ${x_0[j] + (\mathit{speed}[j] -
-v)\cdot now}$, a posição \textit{speed}$[j]$ para \textit{v} e
-recalcular os eventuais certificados de que $j$ participa. Para
-tanto, a partir da posição $i$ em que $j$ se encontra no vetor
-\torneio, podemos recalcular \textit{cert}$[j]$ e então continuamos
-visitando as partidas em que $j$ participou para atualizar os
-certificados daqueles que perderam de $j$, acionando a rotina
-\textsc{update} para fazer os devidos acertos em $Q$ correspondentes
-a estas modificações.
+A operação \textsc{query\_max}, no Algoritmo~\ref{torn:querymax},
+consiste em devolver \torneio$[1]$, enquanto que a operação \textsc{change}$(j, v)$, no
+Algoritmo~\ref{torn:change}, consiste em alterar a posição $x_0[j]$ para ${x_0[j] +
+(\mathit{speed}[j] - v)\cdot now}$, a posição \textit{speed}$[j]$ para \textit{v} e recalcular os
+eventuais certificados de que $j$ participa.
+Para tanto, a partir da posição $i$ em que $j$ se encontra no vetor \torneio, podemos recalcular
+\textit{cert}$[j]$ e então continuamos visitando as partidas em que $j$ participou para atualizar
+os certificados daqueles que perderam de $j$, acionando a rotina \textsc{update} para fazer os
+devidos acertos em $Q$ correspondentes a estas modificações.
 
 \input{conteudo/capitulos/maximo/algoritmos/torneio/query_max}
 
@@ -120,39 +109,42 @@ a estas modificações.
 \input{conteudo/capitulos/maximo/insereremovetorneio}
 
 \FloatBarrier
-\subsection{Análise de desempenho}
+
+\subsection{Análise de desempenho}\label{subsec:torneio:analise-de-desempenho}
 
 O torneio cinético é uma estrutura \textit{responsiva}, pois o custo de
-processar um certificado é $O(\lg^2{n})$. O custo de processar um certificado
-corresponde a uma iteração da linha $3$ da operação \textsc{event}, que troca o
-resultado da partida entre os dois elementos envolvidos no certificado e
-atualiza o certificado em tempo $O(\lg{n})$. Além disso, existem $O(\lg{n})$
-certificados a serem alterados com a propagação da verificação para o nível de
-cima, resultando no custo $O(\lg^2{n})$.
+processar um certificado é $O(\lg^2{n})$, onde $n$ é o número de elementos.
+De fato, o custo de processar um certificado corresponde a uma iteração da linha $3$ da operação
+\textsc{event}, que troca o resultado da partida entre os dois elementos envolvidos no certificado
+e atualiza o certificado em tempo $O(\lg{n})$.
+Além disso, existem $O(\lg{n})$ certificados a serem alterados com a propagação da verificação
+para o nível de cima, resultando no custo $O(\lg^2{n})$.
 
-O torneio cinético é uma estrutura \textit{eficiente}, pois a quantidade de
-eventos internos é $O(n\lg{n})$ para trajetórias lineares. Como a quantidade de
-eventos externos é $\Theta(n)$ temos uma razão $O(\lg{n})$, que é logarítmica em
-$n$, tornando o torneio cinético uma estrutura eficiente em trajetórias
-lineares.
+O torneio cinético é uma estrutura \textit{eficiente}, pois a quantidade de eventos internos é
+$O(n\lg{n})$ para trajetórias lineares, como mostraremos abaixo.
+Como a quantidade de eventos externos é $\Theta(n)$ temos uma razão $O(\lg{n})$, que é logarítmica
+em $n$, tornando o torneio cinético uma estrutura eficiente em trajetórias lineares.
 
-Vamos mostrar que a quantidade de eventos internos é $O(n\lg{n})$. Cada evento
-do torneio é ocasionado pela troca do resultado de uma partida. Sendo assim,
-para contar a quantidade de eventos internos podemos contar a quantidade máxima
-de vezes que o valor de um nó se altera. É fácil ver que os elementos que podem
-ocupar um determinado nó só podem ser aqueles que estão nas folhas da subárvore
-com raiz naquele nó. Se uma subárvore enraizada num nó possui $k$ folhas, então
-podem ocorrer no máximo $k-1$ trocas naquele nó. O número de folhas que a
-subárvore enraizada no nó possui é $k = 2^h$, sendo $h$ a altura do nó. Como o
-torneio é uma árvore binária balanceada, sua altura é $\left\lceil \lg{n}
-\right\rceil$. Temos $\left\lfloor \frac{n}{2^h}\right\rfloor$ nós de altura
-$h$. Logo, sendo $Q$ a quantidade de eventos:
+Vamos mostrar que a quantidade de eventos internos é $O(n\lg{n})$.
+Cada evento do torneio é ocasionado pela troca do resultado de uma partida.
+Sendo assim, para contar a quantidade de eventos internos podemos contar a quantidade máxima de
+vezes que o valor de um nó se altera.
+É fácil ver que os elementos que podem ocupar um determinado nó só podem ser aqueles que estão nas
+folhas da subárvore com raiz naquele nó.
+Se uma subárvore enraizada num nó possui $k$ folhas, então podem ocorrer no máximo $k-1$ trocas
+naquele nó.
+O número de folhas que a subárvore enraizada no nó possui é $k = 2^h$, sendo $h$ a altura do nó.
+Como o torneio é uma árvore binária balanceada, sua altura é $\left\lceil \lg{n}\right\rceil$.
+Temos $\left\lfloor \frac{n}{2^h}\right\rfloor$ nós de altura $h$.
+Logo, sendo $q$ a quantidade de eventos:
 \begin{align*}
-    Q & \leq \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} \dfrac{n}{2^h}\cdot (2^h - 1) \\\nonumber
-    & \leq \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} n - \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} \dfrac{n}{2^h} \\ \nonumber
+    q & \leq \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} \dfrac{n}{2^h}\cdot (2^h -
+    1) \\\nonumber
+    & \leq \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} n - \displaystyle\sum_{h =
+    0}^{\left\lceil \lg{n}\right\rceil} \dfrac{n}{2^h} \\ \nonumber
     & \leq \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} n \\ \nonumber
     & \leq n\left\lceil \lg{n}\right\rceil + n \\\nonumber
-    & = O(n \lg{n})\nonumber
+    & = O(n \lg{n}).\nonumber
 \end{align*}
 
 O torneio cinético é uma estrutura \textit{compacta}, pois tem no máximo $n$
@@ -161,11 +153,13 @@ certificados na fila com prioridades, um para cada objeto.
 O torneio cinético é uma estrutura \textit{local}, pois um elemento está envolvido
 em $O(\lg{n})$ certificados da fila ao mesmo tempo.
 
-As operações \textsc{insert} e \textsc{delete} custam $O(\lg^2{n})$, por contas
+As operações \textsc{insert} e \textsc{delete} custam $O(\lg^2{n})$, por conta das
 respectivas operações \textsc{insertTourn} e \textsc{deleteTourn} que atualizam
-$O(\lg{n})$ posições com custo $O(\lg{n})$. Além disso, também vale observar que
-determinadas chamadas de \textsc{insertTourn} podem ter um custo $O(n)$, caso
-seja necessário redimensionar o vetor na operação \textsc{resize}, que dobra o
+$O(\lg{n})$ posições com custo $O(\lg{n})$.
+Além disso, também vale observar que determinadas chamadas de \textsc{insertTourn} podem ter um
+custo $O(n)$, caso seja necessário redimensionar o vetor na operação \textsc{resize}, que dobra o
 tamanho de \textit{tourn}.
+Porém, se o redimensionamento for implementado corretamente, o custo por operação se mantém de
+maneira amortizada.
 
 
