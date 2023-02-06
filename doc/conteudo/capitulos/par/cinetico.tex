@@ -5,24 +5,24 @@
 
 \section{Algoritmo cinético}\label{sec:algoritmo-cinetico}
 
-Para ``cinetizar'' o algoritmo estático utilizaremos certificados, para assegurar que as nossas
+Para ``cinetizar'' o algoritmo estático, utilizaremos certificados para assegurar que as nossas
 estruturas permanecerão corretas.
-Primeiramente, teremos os certificados das três \textit{listas ordenadas cinéticas},
+Primeiramente, teremos os certificados das três \textit{listas ordenadas cinéticas}, conforme a
 Seção~\ref{sec:heap-cinetico}, que guardarão a ordem dos pontos de acordo com os eixos $x$, $x +
 60^\circ$ e $x - 60^\circ$.
 
-Para garantir qual, dentre os pares $(p, \lcand(p))$, é o par mais próximo usaremos um
-\textit{torneio cinético com inserção e remoção}, Seção~\ref{subsec:torneioi:secao}, com respeito
-ao mínimo em vez de ao máximo.
+Para garantir qual, dentre os pares $(p, \lcand(p))$, é o par mais próximo, usaremos um
+\textit{torneio cinético com inserção e remoção}, conforme a Seção~\ref{subsec:torneioi:secao},
+com respeito ao mínimo em vez de ao máximo.
 Temos um total de $3n$ pares, pois consideraremos também os pares $(p, \lcand(p))$ em que
 $\lcand(p)$ é nulo e os certificados destes serão $+\infty$.
 
 Também precisaremos manter informação guardada para atualizar com eficiência mudanças provocadas
 por trocas na ordem dos pontos em relação a um dos três eixos.
-Por exemplo, uma troca na ordem dos pontos pode acarretar na mudança nos conjuntos $\Cands(p)$ e
+Por exemplo, uma troca na ordem dos pontos pode acarretar numa mudança nos conjuntos $\Cands(p)$ e
 $\Cands(q)$.
 Mudanças nesses conjuntos ocorrerão quando $q = \up(p)$, $q = \low(p)$ ou $q \in \Cands(p)$.
-Portanto, para que consigamos manter $\lcand(p)$ de maneira eficiente cada ponto terá três árvores
+Portanto, para que consigamos manter $\lcand(p)$ de maneira eficiente, cada ponto terá três árvores
 binárias de busca associadas a ele com os conjuntos $\Cands(p)$, $\Hits_{up}(p)$ e $\Hits_{low}(p)
 $.
 A árvore $\Cands(p)$ guarda os pontos que pertencem ao conjunto $\Cands(p)$ ordenados pela
@@ -30,27 +30,29 @@ coordenada $y$.
 A árvore $\Hits_{up}(p)$ guarda os pontos $q$ tais que $\up(q) = p$, ordenados pela coordenada $x$.
 Similarmente, a árvore $\Hits_{low}(p)$ guarda os pontos $q$ tais que $\low(q) = p$, ordenados
 pela coordenada $x$.
-Utilizaremos uma árvore $\Cands(p)$, $\Hits_{up}(p)$ e $\Hits_{low}(p)$ para cada um dos eixos,
+Utilizaremos as árvores $\Cands(p)$, $\Hits_{up}(p)$ e $\Hits_{low}(p)$ para cada um dos eixos,
 logo, para cada ponto $p$, haverão nove \textit{splay trees} no total.
 
-Cada uma das três árvores têm sua raiz apontando para o nó $p$, e cada nó das árvores aponta para
+Cada uma das nove árvores têm sua raiz apontando para o nó $p$, e cada nó das árvores aponta para
 o seu nó pai.
-Na árvore $\Cands(p)$ cada nó deve apontar para o descendente que contém o ponto mais à esquerda
+Na árvore $\Cands(p)$, cada nó deve apontar para o descendente que contém o ponto mais à esquerda
 na ordenação horizontal.
-Na nossa implementação as árvores serão \textit{splay trees}.
-Essas estruturas contém toda a informação necessária para que mantenhamos nossas estruturas
+Na nossa implementação, as árvores serão \textit{splay trees}.
+Essas estruturas contêm toda a informação necessária para que mantenhamos nossas estruturas
 atualizadas e, consequentemente, o par mais próximo do conjunto.
 
-Na implementação do algoritmo inicialmente inserimos os pontos nas três listas ordenadas.
+Na implementação do algoritmo, inicialmente inserimos os pontos nas três listas ordenadas.
 Uma vez que as listas estejam montadas, percorremos os pontos da direita para a esquerda
 preenchendo as estruturas $\Cands(p)$, $\Hits_{up}(p)$ e $\Hits_{low}(p)$ para cada ponto $p$ e
 para cada um dos eixos.
-Esta etapa é feita da mesma forma que foi apresentada na seção sobre o algoritmo estático.
+Esta etapa é feita da mesma forma que foi apresentada na seção sobre o algoritmo estático, a
+Seção~\ref{sec:algoritmo-estatico}.
 
-A medida que as estruturas $\Cands(p)$ são inicializadas inserimos o par $(p, \lcand(p))$ no
+A medida que as estruturas $\Cands(p)$ são inicializadas, inserimos o par $(p, \lcand(p))$ no
 torneio.
-Quando todos os pares forem inseridos no torneio realizamos as partidas e calculamos os
-certificados, o par $(p, q)$ da partida que possuir menor distância é considerado o vencedor.
+Quando todos os pares forem inseridos no torneio, realizamos as partidas e calculamos os
+certificados.
+O par $(p, q)$ da partida que possuir menor distância é considerado o vencedor.
 
 Todos os certificados são colocados em uma fila de prioridade $Q$.
 Os certificados inseridos na fila possuem quatro informações:
@@ -62,9 +64,9 @@ Os certificados inseridos na fila possuem quatro informações:
     mais adiante;
     \item $p~\rightarrow$ um dos pontos envolvidos no evento
     representado pelo certificado.
-    Caso seja um certificado de troca na ordenação, $p$ é o ponto mais a direita naquela ordenação;
+    Caso seja um certificado de troca na ordenação, $p$ é o ponto mais à direita naquela ordenação;
     \item $q~\rightarrow$ o outro ponto envolvido no evento representado pelo certificado.
-    Caso seja um certificado de troca na ordenação, $q$ é o ponto mais a esquerda naquela
+    Caso seja um certificado de troca na ordenação, $q$ é o ponto mais à esquerda naquela
     ordenação;
     \item tipo $ \rightarrow$ o tipo de evento que o certificado representa.
     Pode representar uma troca em uma das três ordenações, denominadas por \textit{H} (horizontal =
@@ -76,7 +78,7 @@ Vamos agora falar de um evento em que ocorre uma mudança na ordem horizontal.
 No primeiro caso, $p$ se encontra à esquerda e abaixo de $q$, veja a
 Figura~\ref{fig:parcinetico:eventohorizontalabaixo}.
 O caso em que $q$ está à esquerda de $p$ será tratado de maneira parecida.
-O Algoritmo~\ref{parcinetico:eventohorizontal} implementa a sequência de operações referentes à
+O Algoritmo~\ref{parcinetico:eventohorizontal} implementa a sequência de operações referentes a
 esse tipo de evento.
 
 \input{conteudo/capitulos/par/figuras/cinetico/eventohorizontalabaixo}
@@ -84,28 +86,28 @@ esse tipo de evento.
 Se $p$ está em $\Hits_{up}(q)$, como demonstrado na
 Figura~\ref{fig:parcinetico:eventohorizontalabaixo}, então parte de $\Cands(q)$ terá de passar
 para $\Cands(p)$.
-Para tal, buscamos pelo novo $t = \up(p)$ em $\Cands(q)$ e chamamos a rotina \textit{splay} para o
+Para tal, buscamos pelo novo $t = \up(p)$ em $\Cands(q)$ e chamamos a rotina \textit{splay} no
 nó que contém $t$.
-Após o \textit{splay}, chamamos um \textit{split} na subárvore esquerda desse nó e unimos ela a
+Após o \textit{splay}, chamamos um \textit{split} na subárvore esquerda desse nó e a unimos a
 $\Cands(p)$.
 Se $t$ não for encontrado em $\Cands(q)$, então $t = \up(q)$ e todos os pontos de $\Cands(q)$
 devem ser transferidos para $\Cands(p)$.
-Não podemos esquecer de remover $p$ de $\Hits_{up}(q)$ e adicioná-lo em $\Hits_{up}(t)$, além de
-remover $q$ de $\Hits_{low}(w)$ e adicioná-lo em $\Hits_{low}(p)$.
+Não podemos esquecer de remover $p$ de $\Hits_{up}(q)$ e adicioná-lo a $\Hits_{up}(t)$, além de
+remover $q$ de $\Hits_{low}(w)$ e adicioná-lo a $\Hits_{low}(p)$.
 Se $p$ não está em $\Hits_{up}(q)$, então não haverão mudanças, veja a
 Figura~\ref{fig:parcinetico:eventohorizontalabaixosemmudancas}.
 
 \input{conteudo/capitulos/par/figuras/cinetico/eventohorizontalabaixosemmudancas}
 
 Similarmente, se $q$ está em $\Hits_{low}(p)$, como demonstrado na
-Figura~\ref{fig:parcinetico:eventohorizontalabaixo}, parte de $\Cands(p)$ passará para $\Cands(q)$
+Figura~\ref{fig:parcinetico:eventohorizontalabaixo}, parte de $\Cands(p)$ passará a $\Cands(q)$
 .
 Para realizar tal operação, buscamos pelo novo $t = low(q)$ em $\Cands(p)$, damos um \textit{splay}
-no nó que o contém, separamos a subárvore direita desse nó e unimos ela à $\Cands(q)$.
+no nó que contém $t$, separamos a subárvore direita desse nó e a unimos a $\Cands(q)$.
 Se $t$ não for encontrado em $\Cands(p)$, então $t = low(p)$ e todos os pontos de $\Cands(p)$ devem
 ser passados para $\Cands(q)$.
 Devemos também remover $q$ de $Hits_{low}(p)$ e inseri-lo em $Hits_{low}(t)$, além de remover $p$
-de $Hits_{up}(w)$ e adicioná-lo em $Hits_{up}(q)$.
+de $Hits_{up}(w)$ e adicioná-lo a $Hits_{up}(q)$.
 Se $q$ não está em $Hits_{low}(p)$, então não haverão mudanças, veja a
 Figura~\ref{fig:parcinetico:eventohorizontalabaixosemmudancas}.
 
@@ -137,14 +139,15 @@ Por fim, removemos o ponto $p$ de $\Hits_{low}(q)$ e o inserimos em $\Hits_{low}
 Se $p$ não está em $\Hits_{low}(q)$ não haverão mudanças.
 
 Se $q$ está em $\Cands(p)$, ou seja, $q$ está saindo de $\Dom(p)$ como demonstrado na
-Figura~\ref{fig:parcinetico:eventoup} da direita para esquerda, então a troca afetará o ponto $t$
+Figura~\ref{fig:parcinetico:eventoup} da direita para a esquerda, então a troca afetará o ponto $t$
 tal que $p$ está em $\Hits_{low}(t)$.
 Se o ponto $t$ existe, removemos $p$ de $\Hits_{low}(t)$.
 Devemos agora inserir $p$ em $\Hits_{low}(q)$, já que $q$ é o novo $\low(p)$.
 A mudança também afetará os pontos de $\Hits_{up}(p)$ que agora deverão estar em $\Hits_{up}(q)$.
 Para achar esses pontos, buscamos pelo ponto $v$ em $\Hits_{up}(p)$ mais à direita que não deveria
 estar em $\Hits_{up}(q)$, chamamos \textit{splay} para o nó que contém $v$ e um \textit{split}
-para sua subárvore direita, essa nova árvore deve ser incorporada a $\Hits_{up}(q)$.
+para sua subárvore direita.
+Essa nova árvore deve ser incorporada a $\Hits_{up}(q)$.
 Se tal ponto $v$ não existe, todos os nós de $\Hits_{up}(p)$ devem ser passados para $\Hits_{up}
 (q)$.
 Por fim, devemos achar o novo ponto $u$ tal que $q$ deve estar em $\Cands(u)$.
@@ -217,17 +220,18 @@ Se $q$ não está em $\Cands(p)$, não haverão mudanças.
 
 As análises de desempenho aqui foram extraídas de~\cite{eduardo}.
 
-A estrutura de dados cinética para manter o par de pontos mais próximo é uma estrutura
-\textit{responsiva}, pois o custo de processar um certificado é $O(\lg{n})$.
+A estrutura de dados cinética para manter um par de pontos mais próximo é uma estrutura
+\textit{responsiva}, pois o custo de processar um certificado é $O(\lg{n})$, onde $n$ é o número
+de pontos.
 O custo de processar um certificado é o custo de realizar as trocas necessárias nas listas
-ordenadas que consome tempo $O(\lg{n})$, além disso também há o custo de corrigir as árvores
-$\Cands$, $\Hits_{low}$, $\Hits_{up}$, o torneio e os certificados associados.
+ordenadas, o que consome tempo $O(\lg{n})$.
+Além disso também há o custo de corrigir as árvores $\Cands$, $\Hits_{low}$, $\Hits_{up}$, o
+torneio e os certificados associados.
 Mas, essas operações são realizadas em sequência, consumindo um custo também de $O(\lg{n})$.
 
 A estrutura é \textit{eficiente}, pois a razão entre o total de eventos e os eventos
-\textit{externos}, isto é, as trocas de par mais próximo.
-De acordo com~\cite{eduardo}, essa razão é $O(\epsilon \lg{n})$, resultando em uma estrutura
-eficiente.
+\textit{externos}, isto é, as trocas de par mais próximo, de acordo com~\cite{eduardo}, é
+$O(\epsilon \lg{n})$, resultando em uma estrutura eficiente.
 
 A estrutura é \textit{compacta}, pois teremos $O(n)$ certificados na fila de prioridades
 associados a mudanças nas listas ordenadas e $O(n)$ certificados do torneio cinético, resultando
