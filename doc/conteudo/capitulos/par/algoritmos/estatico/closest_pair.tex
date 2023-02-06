@@ -1,20 +1,20 @@
 \begin{algorithm}
     \caption{Função \textsc{closest\_pair}$(p, n, \theta)$.}
     \label{parestatico:horizontal}
-\begin{algorithmic}[1]
-    \Function{closest\_pair}{$p, n, \theta$}
-        \State $(a,b) \leftarrow (NULL, NULL)$
-        \State \Call{heapsort}{$p, n, \theta$} \Comment{$p.x[1] > \cdots > p.x[n]$}
-        \State $\Maxima \leftarrow \varnothing$
-        \For{$i \leftarrow 1\To n$}
-            \State $\Cands \leftarrow \Maxima\cap \Dom(p_i)$
-            \State $\Maxima \leftarrow (\Maxima \setminus \Cands) \cup \lk p_i\rk$
-            \State $\lcand \leftarrow \Call{min\_x}{\Cands}$
-            \If{$d(p_i, \lcand) < d(a, b)$}
-                \State $(a, b) \leftarrow (p_i, \lcand)$
-            \EndIf
-        \EndFor
-        \State \Return{$(a, b)$}
-    \EndFunction
-\end{algorithmic}
+    \begin{algorithmic}[1]
+        \Function{closest\_pair}{$p, n, \theta$}
+            \State $(a,b) \leftarrow (\nnull, \nnull)$
+            \State \Call{heapsort}{$p, n, \theta$} \Comment{$p.x[1] > \cdots > p.x[n]$}
+            \State $\Maxima \leftarrow \varnothing$
+            \For{$i \leftarrow 1\To n$}
+                \State $\Cands \leftarrow \Maxima\cap \Dom(p_i)$
+                \State $\Maxima \leftarrow (\Maxima \setminus \Cands) \cup \lk p_i\rk$
+                \State $\lcand \leftarrow \Call{min\_x}{\Cands}$
+                \If{$d(p_i, \lcand) < d(a, b)$}
+                    \State $(a, b) \leftarrow (p_i, \lcand)$
+                \EndIf
+            \EndFor
+            \State \Return{$(a, b)$}
+        \EndFunction
+    \end{algorithmic}
 \end{algorithm}

@@ -1,23 +1,24 @@
 \begin{algorithm}
     \caption{Função \textsc{predecessor}$(p)$.}
     \label{parestatico:predecessor}
-\begin{algorithmic}[1]
-    \Function{predecessor}{$p$}
-        \State $x \leftarrow \raiz$
-        \State $low \leftarrow NULL$
-        \While{$x \neq NULL$}
-            \State $y \leftarrow x$
-            \If{$\Call{checkLine}{p, x.key, -\pi/6}\leq 0$}
-                \State $x \leftarrow x.left$
-            \Else
-                \State $low \leftarrow x$
-                \State $x \leftarrow x.right$
+    \begin{algorithmic}[1]
+        \Function{predecessor}{$p$}
+            \State $x \leftarrow \raiz$
+            \State $\low \leftarrow \nnull$
+            \While{$x \neq \nnull$}
+                \State $y \leftarrow x$
+                \If{$\Call{checkLine}{p, x.\key, -\pi/6}\leq 0$}
+                    \State $x \leftarrow x.\esq$
+                \Else
+                    \State $\low \leftarrow x$
+                    \State $x \leftarrow x.\dir$
+                \EndIf
+            \EndWhile
+            \If{$y \neq \nnull$}
+                \Comment{aciona \textsc{splay} no último nó visitado}
+                \State \Call{splay}{$y$}
             \EndIf
-        \EndWhile
-        \If{$y \neq NULL$} \Comment{dá \textsc{splay} no último nó visitado}
-            \State \Call{splay}{$y$}
-        \EndIf
-        \State \Return{$low$}
-    \EndFunction
-\end{algorithmic}
+            \State \Return{$\low$}
+        \EndFunction
+    \end{algorithmic}
 \end{algorithm}

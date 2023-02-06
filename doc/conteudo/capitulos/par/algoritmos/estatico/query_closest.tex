@@ -1,11 +1,12 @@
 \begin{algorithm}
-    \caption{Função \textsc{query\_closest}.} \label{parestatico:closest}
+    \caption{Função \textsc{query\_closest}.} \label{alg:par-estatico:closest}
     \begin{algorithmic}[1]
-        \Function{query\_closest}{\nnull}
-            \State $(m,n) \leftarrow (NULL, NULL)$
+        \Function{query\_closest}{\null}
+            \State $(m,n) \leftarrow (\nnull, \nnull)$
             \State \angulo~$\leftarrow -\frac{\pi}{3}$
             \While{\angulo~$\leq \frac{\pi}{3}$}
-                \State \Call{heapsort}{$\pontos, n, \theta$} \Comment{$\pontos.x[1] > \cdots > \pontos.x[n]$}
+                \State \Call{heapsort}{$\pontos, n, \angulo$} \Comment{$\pontos.x[1] > \cdots >
+                \pontos.x[n]$}
                 \For{$i \leftarrow 1$\To$n$}
                     \State $p \leftarrow $~\pontos$[i]$
                     \State $\lcand \leftarrow $ \Call{lcand}{$p$}
@@ -15,7 +16,7 @@
                     \EndIf
                 \EndFor
                 \State \angulo~$\leftarrow$~\angulo~$ + \frac{\pi}{3}$
-                \State \Call{clearAll}{\nnull} \Comment{esvazia a \textit{splay tree}}
+                \State \Call{clearAll}{\null} \Comment{esvazia a \textit{splay tree}}
             \EndWhile
             \State \Return{$(m,n)$}
         \EndFunction

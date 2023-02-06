@@ -6,23 +6,23 @@
         \coordinate (c) at (2.828, 2.828);
         \coordinate (p) at (1, 2);
         \draw[thick,->] (0,0) -- (4,0)
-            node[anchor=north west] {$x$};
+        node[anchor=north west] {$x$};
         \draw[thick,->] (0,0) -- (0,4)
-            node[anchor=south east] {$y$};
+        node[anchor=south east] {$y$};
         \draw[thick,->, dashed] (0,0) -- (2.828,2.828)
-            node[anchor=north west] {$x'$};
+        node[anchor=north west] {$x'$};
         \draw[thick,->, dashed] (0,0) -- (-2.828,2.828)
-            node[anchor=south east] {$y'$};
+        node[anchor=south east] {$y'$};
         \pic [draw, angle radius = 0.5cm] {angle = b--a--c};
         \node[anchor=west, label={[label distance = 0mm]180:$\theta$}]
-            (angl) at (1, 0.3) {};
+        (angl) at (1, 0.3) {};
         \node[label=90:$p$] at (p) {\textbullet};
         \draw[dashed,->] (a) -- node[above] {$r$} (p);
         \pic [draw, angle radius = 1cm] {angle = b--a--p};
         \node[anchor=west, label={[label distance = -3mm]180:$\phi$}]
-            (angp) at (1.2, 0.7) {};
+        (angp) at (1.2, 0.7) {};
     \end{tikzpicture}
-    \caption{O ponto $p$ está numa inclinação de $\phi - \theta$ graus
+    \caption{O ponto $p$ está numa inclinação de $\phi - \theta$ radianos
     em relação a reta que passa pela origem e por $x'$.}
     \label{fig:parestatico:rotacao}
 \end{figure}

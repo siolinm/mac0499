@@ -1,23 +1,23 @@
 \begin{algorithm}
     \caption{Função lcand$(p)$.} \label{parestatico:lcand}
-\begin{algorithmic}[1]
-    \Function{lcand}{$p$}
-        \State $r \leftarrow root$
-        \State $low \leftarrow \Call{predecessor}{p}$
-        \If{$low \neq NULL$}
-            \State \Call{splay}{$low$}
-            \State $r \leftarrow \Call{split}{low.right}$
-        \EndIf
-        \State $up \leftarrow \Call{successor}{p}$
-        \If{$up \neq NULL$}
-            \State $\Call{splay}{up}$
-            \State $r \leftarrow \Call{split}{up.left}$
-        \EndIf
-        \If{$up \neq NULL$ \AND $low \neq NULL$}
-            \State $low.right \leftarrow up$
-            \State $up.parent \leftarrow low$
-        \EndIf
-        \State \Return{\Call{min\_x}{$r$}}
-    \EndFunction
-\end{algorithmic}
+    \begin{algorithmic}[1]
+        \Function{lcand}{$p$}
+            \State $r \leftarrow \raiz$
+            \State $\low \leftarrow \Call{predecessor}{p}$
+            \If{$\low \neq \nnull$}
+                \State \Call{splay}{$\low$}
+                \State $r \leftarrow \Call{split}{\low.\dir}$
+            \EndIf
+            \State $\up \leftarrow \Call{successor}{p}$
+            \If{$\up \neq \nnull$}
+                \State $\Call{splay}{\up}$
+                \State $r \leftarrow \Call{split}{\up.\esq}$
+            \EndIf
+            \If{$\up \neq \nnull$ \AND $\low \neq \nnull$}
+                \State $\low.\dir \leftarrow \up$
+                \State $\up.\parent \leftarrow \low$
+            \EndIf
+            \State \Return{\Call{min\_x}{$r$}}
+        \EndFunction
+    \end{algorithmic}
 \end{algorithm}
