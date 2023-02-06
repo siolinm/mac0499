@@ -14,7 +14,8 @@ $s_p = (x_p, y_p) = (x_0, y_0)+t\cdot \vec{v}$.
 Queremos saber o conjunto de arestas que define a triangulação de Delaunay desses pontos, num
 instante arbitrário $t \geq 0$.
 
-Por exemplo, se tivermos 8 pontos na coleção, representados na Figura~\ref{fig:delaunay:exemplo}:
+Por exemplo, esta é a triangulação de Delaunay para os 8 pontos na coleção representada na
+Figura~\ref{fig:delaunay:exemplo}:
 %$((-2, -1), \left(\frac{5}{4}, \frac{1}{2}\right))$, $\left((-1, 3), \left(\frac{1}{2}, -1\right)
 %\right)$, $((1, 1), (1, -1))$, $((1, 2), (1, 0))$, $((2, 0), (0, -1))$, $((2, -2), (2, -1))$,
 %$((3, 4), (2,-2))$, $\left((4, 2), \left(-\frac{3}{2}, 1\right)\right)$.
@@ -24,18 +25,21 @@ Por exemplo, se tivermos 8 pontos na coleção, representados na Figura~\ref{fig
 Para entender o que é a triangulação de Delaunay de um conjunto de pontos, precisamos antes
 entender o que é o diagrama de Voronoi.
 
-O diagrama de Voronoi de um conjunto de pontos $P$ é uma partição do plano em regiões que
+O diagrama de Voronoi de um conjunto $P$ de pontos é uma partição do plano em regiões que
 correspondem aos pontos de $p$.
-Cada região $R(p)$ compreende todos os pontos mais próximos de $p$ do que qualquer outro ponto do conjunto $P$.
+Cada região $R(p)$ compreende todos os pontos do plano mais próximos de $p$ do que de qualquer
+outro ponto do conjunto $P$.
 As regiões são polígonos cujas arestas são formadas por pontos que estão equidistantes de dois ou
 mais pontos de $P$.
 Os vértices desse polígono estão equidistantes de três ou mais pontos de $P$.
+Veja a Figura~\ref{fig:delaunay:voronoi}.
 
 A triangulação de Delaunay de um conjunto de pontos $P$ é definida como a triangulação do grafo
 dual do diagrama de Voronoi para $P$.
 Os vértices do grafo dual são os pontos de $P$ e para cada região associada ao ponto no diagrama de
 Voronoi existe uma aresta entre o vértice associado à região e os vértices associados às regiões
-adjacentes, veja a Figura~\ref{fig:delaunay:dual}.
+adjacentes.
+Veja a Figura~\ref{fig:delaunay:dual}.
 O grafo dual é chamado de grafo de Delaunay e a triangulação desse grafo é chamada de triangulação
 de Delaunay.
 
