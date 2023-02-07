@@ -1,23 +1,21 @@
-\begin{figure}[htb]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[thick]
         \edef\pos{0}
-        \foreach \x in {1, 2,..., 5}{
+        \foreach \x in {1, 2,..., 4}{
             \pgfmathparse{\pos+2}
             \xdef\pos{\pgfmathresult}
-            \node[circle,draw, minimum size=1cm] (\x) at
-                (\pos, 0) {$\x$};
             \node  at (\pos, -1) {$\x$};
         }
-        % \foreach \x [evaluate=\x as \y using int(\x + 1)] in {1, 2,..., 4}{
-        %     \ifthenelse{\x==2}{\draw[->, draw=red] (\x) -- (\y);}{\draw[->, draw=black] (\x) -- (\y);}
-        % }
+        \node[circle,draw, minimum size=1cm] (1) at  (2, 0) {$4$};
+        \node[circle,draw, minimum size=1cm] (2) at  (4, 0) {$3$};
+        \node[circle,draw, minimum size=1cm] (3) at  (6, 0) {$2$};
+        \node[circle,draw, minimum size=1cm] (4) at  (8, 0) {$1$};
         \draw[->] (1) -- (2);
-        \draw[->, color=red, dashed] (2) -- (3);
-        \draw[->] (3) -- (4);
-        \draw[->] (4) -- (5);
-        % \draw[->] (1) edge (2) (2) edge (3) (3) edge (4) (4) edge (5)
+        \draw[->] (2) -- (3);
+        \draw[->, color=red, dashed] (3) -- (4);
     \end{tikzpicture}
-    \caption[Expiração de certificado]{\cert[2] expirou.}
+    \caption[Exemplo de expiração de certificado da lista ordenada]{No exemplo da
+    Figura~\ref{fig:ordenacao:exemplo}, \cert[3] expirou no instante $t = 2$.}
     \label{fig:lista:expire}
 \end{figure}

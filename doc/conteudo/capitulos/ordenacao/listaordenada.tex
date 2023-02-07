@@ -12,8 +12,8 @@ elementos dados em ordem decrescente do valor no instante atual.
 Inicialmente o vetor começa com os valores dos elementos no instante
 $t = 0$, ou seja, com o valor $x_0$ de cada elemento, e este vetor é
 ordenado em ordem decrescente.
-Na verdade, o vetor pode armazenar não os valores, mas os índices dos elementos, e fazemos ordenação
-indireta.
+Na verdade, o vetor pode armazenar não os valores, mas os índices dos elementos, e fazemos
+ordenação indireta.
 No caso de empates nos valores dos elementos, o desempate
 será feito pela velocidade, ou seja, se dois elementos, digamos $i$
 e $j$, possuem o mesmo valor $x_0$, mas a velocidade de $i$ é maior
@@ -87,7 +87,7 @@ utilizar um vetor adicional \textit{indQ} que guarda em
 \textit{indQ}$[i]$ a posição em $Q$ do $i$-ésimo certificado.
 
 Com isso, a operação \textsc{advance}$(t)$, implementada no
-Algoritmo~\ref{lista:advance}, segue uma ideia bem simples: enquanto
+Algoritmo~\ref{alg:lista-ordenada:advance}, segue uma ideia bem simples: enquanto
 $t$ for maior que o prazo de validade do próximo evento, avançamos
 \textit{now} para esse prazo de validade e tratamos esse evento.
 Nos problemas seguintes, a operação \textsc{advance}$(t)$ será sempre a
@@ -109,8 +109,8 @@ Na implementação da operação \textsc{event}, utilizaremos a rotina
 \textsc{update}$(i)$ para calcular o novo prazo de validade $t$ do
 $i$-ésimo certificado, se $1 \leq i < n$, e fazer os devidos ajustes
 em~$Q$.
-Ambas as implementações podem ser encontradas nos Algoritmos~\ref{lista:evento}
-e~\ref{lista:update}, respectivamente.
+Ambas as implementações podem ser encontradas nos Algoritmos~\ref{alg:lista-ordenada:evento}
+e~\ref{alg:lista-ordenada:update}, respectivamente.
 Para calcular $t$, utilizaremos uma rotina chamada \textsc{expire}$(i,
 j)$, que calcula o prazo de validade dos certificados entre os
 elementos $i$ e $j$ no instante \now.
@@ -127,10 +127,6 @@ essas rotinas.
 
 \input{conteudo/capitulos/ordenacao/figuras/lista/update}
 
-\input{conteudo/capitulos/ordenacao/algoritmos/lista/query_kth}
-
-\input{conteudo/capitulos/ordenacao/algoritmos/lista/change}
-
 A operação \textsc{query\_kth}$(i)$, implementada no Algoritmo~\ref{lista:query}, consiste em
 devolver \textit{sorted}$[i]$, enquanto que a operação \textsc{change}$(j, v)$ consiste em alterar
 a posição $x_0[j]$ para $x_0[j] + (\mathit{speed}[j] - v)\cdot now$,
@@ -145,6 +141,10 @@ rotina \textsc{update} para fazer
 os devidos acertos em~$Q$ correspondentes a estas modificações.
 As instruções executadas pela operação \textsc{change} estão descritas
 no Algoritmo~\ref{lista:change}.
+
+\input{conteudo/capitulos/ordenacao/algoritmos/lista/query_kth}
+
+\input{conteudo/capitulos/ordenacao/algoritmos/lista/change}
 
 \input{conteudo/capitulos/ordenacao/figuras/lista/after}
 

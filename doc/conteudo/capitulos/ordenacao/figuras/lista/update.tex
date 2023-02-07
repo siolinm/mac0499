@@ -2,27 +2,25 @@
     \centering
     \begin{tikzpicture}[thick]
         \edef\pos{0}
-        \foreach \x in {1, 2,..., 5}{
+        \foreach \x in {1, 2,..., 4}{
             \pgfmathparse{\pos+2}
             \xdef\pos{\pgfmathresult}
             \node  at (\pos, -1) {$\x$};
         }
-        \node[circle,draw, minimum size=1cm] (1) at  (2, 0) {$1$};
+        \node[circle,draw, minimum size=1cm] (1) at  (2, 0) {$4$};
         \node[circle,draw, minimum size=1cm] (2) at  (4, 0) {$3$};
-        \node[circle,draw, minimum size=1cm] (3) at  (6, 0) {$2$};
-        \node[circle,draw, minimum size=1cm] (4) at  (8, 0) {$4$};
-        \node[circle,draw, minimum size=1cm] (5) at
-            (10, 0) {$5$};
+        \node[circle,draw, minimum size=1cm] (3) at  (6, 0) {$1$};
+        \node[circle,draw, minimum size=1cm] (4) at  (8, 0) {$2$};
 
         % \foreach \x [evaluate=\x as \y using int(\x + 1)] in {1, 2,..., 4}{
         %     \ifthenelse{\x==2}{\draw[->, draw=red] (\x) -- (\y);}{\draw[->, draw=black] (\x) -- (\y);}
         % }
-        \draw[->, color=blue, dashdotted] (1) -- (2);
+        \draw[->] (1) -- (2);
         \draw[->, color=blue, dashdotted] (2) -- (3);
         \draw[->, color=blue, dashdotted] (3) -- (4);
-        \draw[->] (4) -- (5);
         % \draw[->] (1) edge (2) (2) edge (3) (3) edge (4) (4) edge (5)
     \end{tikzpicture}
-    \caption[Atualização de certificado]{\sorted[2] e \sorted[3] foram trocados e \cert[1], \cert[2], \cert[3] foram atualizados.}
+    \caption[Exemplo de atualização de certificado da lista ordenada]{\sorted[3] e \sorted[4] foram
+    trocados e \cert[2], \cert[3] foram atualizados.}
     \label{fig:lista:update}
 \end{figure}

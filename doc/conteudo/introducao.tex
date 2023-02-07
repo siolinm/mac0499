@@ -27,8 +27,8 @@ Neste trabalho estudaremos \textit{estruturas de dados cinéticas} (em inglês,
 Problemas \textit{cinéticos} são problemas em que deseja-se manter um
 determinado atributo sobre objetos que estão em movimento contínuo.
 Os objetos nos problemas podem representar entidades do mundo físico: pontos podem
-representar pessoas, aviões, aparelhos móveis, entre outras coisas, retas podem
-representar trajetórias.
+representar pessoas, aviões, aparelhos móveis, entre outras coisas;
+retas podem representar trajetórias.
 Devido à natureza desses problemas é razoável que estudemos problemas clássicos de
 geometria computacional, mas dentro de um contexto cinético.
 Por exemplo, num conjunto dado de pontos em movimento, qual par de pontos possui
@@ -64,9 +64,9 @@ Para tal, é necessário que nenhum certificado esteja vencido no instante $t$, 
 certificado de menor prazo de validade expira após o instante $t$.
 Sendo assim, estamos interessados nos certificados de menor prazo de validade, para que
 possamos realizar os ajustes necessários enquanto existir um certificado que
-expira antes do instante de tempo para o qual desejamos alcançar.
+expira antes do instante de tempo que desejamos alcançar.
 
-Para identificar o instante de vencimento de certificados manteremos uma fila
+Para identificar o instante de vencimento de certificados, manteremos os certificados em uma fila
 com prioridades, utilizando como prioridade o prazo de validade do certificado.
 
 Para calcular o prazo de validade dos certificados, utilizaremos o chamado
@@ -84,8 +84,8 @@ geométrico que desejamos saber num dado instante.
 Uma questão natural a ser feita a respeito destas estruturas é como medir o
 desempenho delas, já que as formas clássicas de determinar a complexidade de
 algoritmos não se enquadram muito bem, por conta da adição da dimensão tempo.
-Basch, Guibas e Hershberger [\cite{BASCH19991}] propuseram algumas formas de analisá-las e
-medi-las.
+Basch, Guibas e Hershberger [\cite{BASCH19991}] propuseram algumas formas de avaliar essas
+estruturas.
 São elas:
 \begin{itemize}
     \item Responsividade: uma estrutura é dita \textit{responsiva} se o custo de
@@ -121,8 +121,8 @@ Neste caso, cada objeto corresponde a um par $(x_0, v)$, onde $x_0$ representa
 o valor inicial do objeto e $v$ é a velocidade atual do objeto.
 
 No Capítulo 1 estudaremos o problema da ordenação cinética.
-Neste problema, os pontos movem-se apenas em uma dimensão $y(t) = x_0 + vt$ e
-desejamos saber qual dos pontos possui o $i$-ésimo maior valor na coleção em
+Neste problema, os pontos movem-se apenas em uma dimensão $x(t) = x_0 + vt$ e
+desejamos saber, para um dado $i$, qual dos pontos possui o $i$-ésimo maior valor na coleção em
 determinado instante $t$.
 As estruturas que consideraremos para resolver o problema são a lista
 ordenada cinética e uma árvore binária balanceada de busca.
@@ -131,7 +131,7 @@ também será capaz de realizar operações \textsc{insert} e \textsc{delete}.
 
 No Capítulo 2 estudaremos o problema do máximo cinético.
 Assim como no problema anterior, os pontos movem-se apenas em uma
-dimensão $y(t) = x_0 + vt$ e desejamos saber qual dos pontos possui o maior valor
+dimensão $x(t) = x_0 + vt$ e desejamos saber qual dos pontos possui o maior valor
 no instante atual.
 Apesar do problema anterior resolver este problema, pois basta buscar pelo primeiro
 maior valor na coleção, veremos que é possível obter essa resposta de forma mais

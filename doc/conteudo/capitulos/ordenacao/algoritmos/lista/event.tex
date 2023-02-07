@@ -1,7 +1,7 @@
-\begin{algorithm}
-    \caption{Função \textsc{event}.} \label{lista:evento}
+\begin{algorithm}[H]
+    \caption{Função \textsc{event}.} \label{alg:lista-ordenada:evento}
     \begin{algorithmic}[1]
-        \Function{event}{\nnull}
+        \Function{event}{\null}
             \State $i \leftarrow $ \Call{minPQ}{$Q$}
             \While{\cert[$i$] = \now}
                 \State \sorted$[i] \leftrightarrow$

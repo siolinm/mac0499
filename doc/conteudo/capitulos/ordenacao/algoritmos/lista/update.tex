@@ -1,11 +1,11 @@
-\begin{algorithm}
-    \caption{Função \textsc{update}.} \label{lista:update}
-\begin{algorithmic}[1]
-    \Function{update}{$i$}
-        \If{$1 \leq i < n$}
-            \State $t \leftarrow $ \Call{expire}{$i,i+1$}
-            \State \Call{updatePQ}{$Q,i,t$}
-        \EndIf
-    \EndFunction
-\end{algorithmic}
+\begin{algorithm}[H]
+    \caption{Função \textsc{update}.} \label{alg:lista-ordenada:update}
+    \begin{algorithmic}[1]
+        \Function{update}{$i$}
+            \If{$1 \leq i < n$}
+                \State $t \leftarrow $ \Call{expire}{$i,i+1$}
+                \State \Call{updatePQ}{$Q,i,t$}
+            \EndIf
+        \EndFunction
+    \end{algorithmic}
 \end{algorithm}
