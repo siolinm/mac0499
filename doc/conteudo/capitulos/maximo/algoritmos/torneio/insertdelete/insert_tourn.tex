@@ -1,4 +1,4 @@
-\begin{algorithm}
+\begin{algorithm}[H]
     \caption{Função \textsc{insertTourn}.} \label{torneioi:inserttourn}
     \begin{algorithmic}[1]
         \Function{insertTourn}{$e$}
@@ -8,7 +8,8 @@
             \State $\torneio[i] \leftarrow e$
             \State $\torneio[i - 1] \leftarrow \torneio[\floor{i/2}]$
             \State $k \leftarrow i - 1$
-            \While{$i > 1$ \AND \Call{compare}{$i, k$}}
+            \While{$i > 1$ \AND \Call{value}{$i$} $\geq$
+                \Call{value}{$k$}}
                 \State $\torneio[\floor{i/2}] \leftarrow \torneio[i]$
                 \State $\torneio[k].\lastmatch \leftarrow k$
                 \State \Call{update}{$\torneio[k]$}
@@ -18,7 +19,5 @@
             \EndWhile
             \State $\torneio[1].\lastmatch \leftarrow 1$
         \EndFunction
-        \LineComment{\Call{compare}{$i, j$} retorna se o
-        valor de $i$ é maior que o valor de $j$.}
     \end{algorithmic}
 \end{algorithm}

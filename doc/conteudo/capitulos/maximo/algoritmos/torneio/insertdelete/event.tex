@@ -1,4 +1,4 @@
-\begin{algorithm}
+\begin{algorithm}[H]
     \caption{Função \textsc{event}.} \label{torneioi:evento}
     \begin{algorithmic}[1]
         \Function{event}{\nnull}
@@ -7,7 +7,8 @@
                 \State $j \leftarrow e.\lastmatch$
                 \State $k \leftarrow 2\cdot \floor{\frac{j}{2}}
                 + ((j + 1)\mod2)$ \Comment{adversário}
-                \While{$j > 1$ \AND \Call{compare}{$j, k$}}
+                \While{$j > 1$ \AND \Call{value}{$j$} $\geq$
+                    \Call{value}{$k$}}
                     \State \torneio[$\floor{\frac{j}{2}}$]
                     $\leftarrow~$\torneio[$j$]
                     \State $\torneio[k].\lastmatch$ $\leftarrow k$
@@ -22,7 +23,7 @@
             \EndWhile
         % \LineComment{swapHeap$(i, \floor{\frac{i}{2}})$ troca \heap[$i$] por \heap$\left[\floor{\frac{i}{2}}\right]$}
         \EndFunction
-        \LineComment{\Call{compare}{$i, j$} retorna se o valor
-        de $i$ é maior que o valor de $j$.}
+%        \LineComment{\Call{compare}{$i, j$} retorna se o valor
+%        de $i$ é maior que o valor de $j$.}
     \end{algorithmic}
 \end{algorithm}
