@@ -158,6 +158,10 @@ A reta $r$ é a reta que passa por $p$ e faz um ângulo de $\theta$ radianos com
 Para $q$ à esquerda de $r$ o retorno é $1$, para $q$ sobre $r$ o retorno é $0$ e para $q$ à
 direita de $r$, o retorno é $-1$.
 
+\input{conteudo/capitulos/par/algoritmos/estatico/sucessor}
+
+\input{conteudo/capitulos/par/algoritmos/estatico/predecessor}
+
 O Algoritmo~\ref{alg:par-estatico:lcand} implementa a função \textsc{lcand}$(p)$.
 Sabemos que $\lcand(p)$ é o elemento de $\Cands(p)$ com menor coordenada $x$ e que $\Cands(p)$ é
 limitado por $\low(p)$ e $\up(p)$.
@@ -172,10 +176,6 @@ raiz dessa nova árvore.
 A rotina \textsc{min\_x}$(z)$ retorna o ponto com menor coordenada $x$ da árvore de raiz~$z$.
 
 \input{conteudo/capitulos/par/figuras/estatico/loweup}
-
-\input{conteudo/capitulos/par/algoritmos/estatico/sucessor}
-
-\input{conteudo/capitulos/par/algoritmos/estatico/predecessor}
 
 \input{conteudo/capitulos/par/algoritmos/estatico/lcand}
 
