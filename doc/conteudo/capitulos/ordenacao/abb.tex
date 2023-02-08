@@ -74,12 +74,12 @@ Se o elemento $i$ não possui predecessor, então o certificado também consiste
 $+\infty$.
 Veja a Figura~\ref{fig:abb:cert}.
 
+\input{conteudo/capitulos/ordenacao/figuras/abb/cert}
+
 Esses $n$ certificados também serão colocados em uma fila com
 prioridades, com o prazo de validade determinando a prioridade.
 A fila com prioridades agora também deverá suportar operações
 como a inserção e remoção de certificados.
-
-\input{conteudo/capitulos/ordenacao/figuras/abb/cert}
 
 Para descrever as implementações das operações, vamos
 estabelecer os nomes dos objetos, variáveis e rotinas
@@ -177,18 +177,22 @@ A operação \textsc{updatePQ}$(Q,e,t)$ pode ser implementada de modo
 a consumir tempo logarítmico no número de elementos em $Q$ graças ao
 atributo \pqpos~dos elementos.
 
+\input{conteudo/capitulos/ordenacao/figuras/abb/expire}
+
 Um evento está associado a um par $(e, t)$ que corresponde ao
-certificado do elemento $e$ que expira no instante $t$.
+certificado do elemento $e$ que expira no instante $t$, veja a Figura~\ref{fig:abb:expire}.
 O tratamento do evento correspondente a esse par $(e, t)$ consiste em trocar de
 lugar o elemento $e$ e seu predecessor, digamos $e'$, na árvore
 binária de busca e na lista ligada, e recalcular o prazo de validade
-de até três certificados:
+de até três certificados, ilustrado na Figura~\ref{fig:abb:after}:
 
 \begin{itemize}
     \item do certificado de $e$;
     \item do certificado de $e'$;
     \item do certificado do novo sucessor de $e'$, caso não seja \textsc{null}.
 \end{itemize}
+
+\input{conteudo/capitulos/ordenacao/figuras/abb/after}
 
 Na implementação da operação \textsc{event}, no Algoritmo~\ref{abb:evento}, utilizaremos a rotina
 $\textsc{update}(e)$, no Algoritmo~\ref{alg:abb:update}, que calcula o novo prazo de validade $t$
@@ -202,10 +206,6 @@ a validade do certificado entre os elementos $e$ e $e'$; se $e'$ é
 
 \input{conteudo/capitulos/ordenacao/algoritmos/abb/event}
 
-\input{conteudo/capitulos/ordenacao/figuras/abb/expire}
-
-\input{conteudo/capitulos/ordenacao/figuras/abb/after}
-
 A operação \textsc{query\_kth}$(i)$ consiste em devolver o $i$-ésimo
 maior elemento da lista ligada, ou seja, o $i$-ésimo da direita para
 a esquerda, pois a árvore está em ordem crescente da esquerda para a
@@ -218,11 +218,11 @@ simula a execução em um exemplo.
 A rotina auxiliar \textsc{rsize}$(r)$ devolve o valor de $r.\dir.\textit{size}$ caso $r.\dir$ seja
 não nulo, caso contrário devolve $0$.
 
-\input{conteudo/capitulos/ordenacao/algoritmos/abb/query_kth}
-
 \input{conteudo/capitulos/ordenacao/figuras/abb/query_structure}
 
 \input{conteudo/capitulos/ordenacao/figuras/abb/query}
+
+\input{conteudo/capitulos/ordenacao/algoritmos/abb/query_kth}
 
 A operação \textsc{change}$(j, v)$, como implementada no Algoritmo~\ref{abb:change}, consiste em
 recuperar o elemento $e$ com identificador $j$, alterar seu atributo \initv~para $x_0 +
@@ -231,11 +231,9 @@ recalcular os eventuais certificados de que $j$ participa, que
 seriam $e.cert$ e $e.next.cert$, se $e.next$ existe.
 A Figura~\ref{fig:abb:change} ilustra um exemplo com os elementos afetados.
 
-\input{conteudo/capitulos/ordenacao/algoritmos/abb/change}
-
 \input{conteudo/capitulos/ordenacao/figuras/abb/change}
 
-\input{conteudo/capitulos/ordenacao/figuras/abb/insert}
+\input{conteudo/capitulos/ordenacao/algoritmos/abb/change}
 
 A operação \textsc{insert}$(v, x_t)$, como ilustrado na Figura~\ref{fig:abb:insert}, consiste em
 criar um novo elemento, inicializando seus atributos com os devidos valores, inseri-lo na
@@ -249,9 +247,9 @@ ${x_t = now\cdot \speed + x_0}$, que implica que ${x_0 = x_t -
 \speed\cdot now}$.
 O Algoritmo~\ref{alg:abb:insert} implementa esta operação.
 
-\input{conteudo/capitulos/ordenacao/algoritmos/abb/insert}
+\input{conteudo/capitulos/ordenacao/figuras/abb/insert}
 
-\input{conteudo/capitulos/ordenacao/figuras/abb/delete}
+\input{conteudo/capitulos/ordenacao/algoritmos/abb/insert}
 
 A operação \textsc{delete}$(i)$ consiste em recuperar o elemento
 $i$, removê-lo da árvore binária balanceada de busca e da estrutura
@@ -260,6 +258,8 @@ prioridades.
 Após isso, basta atualizar o certificado de seu sucessor, caso exista.
 Essa operação é ilustrada na Figura~\ref{fig:abb:delete} e implementada no
 Algoritmo~\ref{abb:delete}.
+
+\input{conteudo/capitulos/ordenacao/figuras/abb/delete}
 
 \input{conteudo/capitulos/ordenacao/algoritmos/abb/delete}
 
