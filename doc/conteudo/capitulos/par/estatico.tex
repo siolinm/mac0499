@@ -60,7 +60,7 @@ na Figura~\ref{fig:parestatico:lcands}.
 
 \input{conteudo/capitulos/par/figuras/estatico/lcands}
 
-O Algoritmo~\ref{parestatico:horizontal} descreve a sequência de operações a serem feitas para
+O Algoritmo~\ref{alg:par-estatico:horizontal} descreve a sequência de operações a serem feitas para
 achar o par mais próximo em alguma das ordens $(-60^\circ, 0^\circ, 60^\circ)$ representadas pelo
 ângulo $\theta$, dado em radianos.
 Antes da rotina ser chamada, os pontos devem ser ordenados de acordo com a sua coordenada $x$.
@@ -68,7 +68,7 @@ Os pontos são então processados da direita para a esquerda.
 No algoritmo, $a$ e $b$ são os pontos que representam o par mais próximo.
 Se $p$ ou $q$ são nulos, $d(p,q)$ retorna $+\infty$.
 
-A cada iteração do Algoritmo~\ref{parestatico:horizontal}, $\Maxima$ é igual a $\Maxima(p)$.
+A cada iteração do Algoritmo~\ref{alg:par-estatico:horizontal}, $\Maxima$ é igual a $\Maxima(p)$.
 Na nossa implementação, $\Maxima$ estará armazenado em uma árvore binária de busca, mais
 especificamente em uma \textit{splay tree} cuja chave é a coordenada $y$ dos pontos, determinada
 de acordo com o valor de $\theta$.
@@ -151,14 +151,14 @@ ponto, contará com as seguintes operações, além das usuais \textsc{insert}$(
 % \textit{splay tree}. Portanto, focaremos em explicar as
 % operações successor$(p)$, predecessor$(p)$ e lcand$(p)$.
 
-No Algoritmo~\ref{parestatico:successor} e no Algoritmo~\ref{parestatico:predecessor}, a rotina
+No Algoritmo~\ref{alg:par-estatico:successor} e no Algoritmo~\ref{alg:par-estatico:predecessor}, a rotina
 \textsc{checkLine}$(p, q, \theta)$ retorna se o ponto$q$ está à esquerda, sobre ou à direita da
 reta $r$.
 A reta $r$ é a reta que passa por $p$ e faz um ângulo de $\theta$ radianos com o eixo $x$.
 Para $q$ à esquerda de $r$ o retorno é $1$, para $q$ sobre $r$ o retorno é $0$ e para $q$ à
 direita de $r$, o retorno é $-1$.
 
-O Algoritmo~\ref{parestatico:lcand} implementa a função \textsc{lcand}$(p)$.
+O Algoritmo~\ref{alg:par-estatico:lcand} implementa a função \textsc{lcand}$(p)$.
 Sabemos que $\lcand(p)$ é o elemento de $\Cands(p)$ com menor coordenada $x$ e que $\Cands(p)$ é
 limitado por $\low(p)$ e $\up(p)$.
 A ideia para retirar $\Cands(p)$ da árvore é reorganizá-la de modo que $\low(p)$ seja a raiz e
