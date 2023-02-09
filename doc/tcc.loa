@@ -26,6 +26,12 @@
 \contentsline {algorithm}{\numberline {3.3}{\ignorespaces Função \textsc {predecessor}$(p)$.\relax }}{40}{algorithm.caption.64}%
 \contentsline {algorithm}{\numberline {3.4}{\ignorespaces Função lcand$(p)$.\relax }}{41}{algorithm.caption.66}%
 \contentsline {algorithm}{\numberline {3.5}{\ignorespaces Função \textsc {query\_closest}.\relax }}{41}{algorithm.caption.67}%
-\contentsline {algorithm}{\numberline {3.6}{\ignorespaces Função \textsc {horizontalEvent}.\relax }}{45}{algorithm.caption.70}%
-\contentsline {algorithm}{\numberline {3.7}{\ignorespaces Função \textsc {upEvent}.\relax }}{46}{algorithm.caption.71}%
-\contentsline {algorithm}{\numberline {3.8}{\ignorespaces Função downEvent.\relax }}{49}{algorithm.caption.74}%
+\contentsline {algorithm}{\numberline {3.6}{\ignorespaces Função \textsc {horizontalEvent}.\relax }}{43}{algorithm.caption.69}%
+\contentsline {algorithm}{\numberline {3.7}{\ignorespaces Função \textsc {horizontalEventLeft}.\relax }}{44}{algorithm.caption.71}%
+\contentsline {algorithm}{\numberline {3.8}{\ignorespaces Função \textsc {horizontalEventRight}.\relax }}{45}{algorithm.caption.72}%
+\contentsline {algorithm}{\numberline {3.9}{\ignorespaces Função \textsc {upEvent}.\relax }}{45}{algorithm.caption.74}%
+\contentsline {algorithm}{\numberline {3.10}{\ignorespaces Função \textsc {upEventLeft}.\relax }}{46}{algorithm.caption.75}%
+\contentsline {algorithm}{\numberline {3.11}{\ignorespaces Função \textsc {upEventRight}.\relax }}{46}{algorithm.caption.76}%
+\contentsline {algorithm}{\numberline {3.12}{\ignorespaces Função downEvent.\relax }}{47}{algorithm.caption.78}%
+\contentsline {algorithm}{\numberline {3.13}{\ignorespaces Função downEventLeft.\relax }}{48}{algorithm.caption.79}%
+\contentsline {algorithm}{\numberline {3.14}{\ignorespaces Função downEventRight.\relax }}{48}{algorithm.caption.80}%

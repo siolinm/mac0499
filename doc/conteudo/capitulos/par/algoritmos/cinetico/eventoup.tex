@@ -4,38 +4,10 @@
     \begin{algorithmic}[1]
         \Function{upEvent}{$p, q, dir$}
             \If{$q = \Call{owner}{p.hitsLow(dir)}$}
-                \State $v \leftarrow \Call{owner}{q.cands(dir)}$
-                \If{$v \neq \nnull$}
-                    \State \Call{delete}{$q, Cands(v, dir)$}
-                \EndIf
-                \State \Call{insert}{$q, Cands(p, dir)$}
-                \State $t \leftarrow \Call{successor}{p, \Hits_{up}(q, dir), H}$
-                \If{$t = \nnull$}
-                    \State $t \leftarrow \Call{owner}{q.hitsLow(dir)}$
-                \EndIf
-                \State $newHits \leftarrow \Call{split}{\nnull, t, \Hits_{up}(q, dir)}$
-                \State $\Call{join}{\Hits_{up}(p, dir), newHits}$
-                \State $\Call{delete}{p, \Hits_{low}(q, dir)}$
-                \If{$t \neq \nnull$}
-                    \State \Call{insert}{$p, \Hits_{low}(t, dir)$}
-                \EndIf
+                \State \Call{upEventLeft}{$p, q, dir$}
             \Else
                 \If{$p = \Call{owner}{q.cands(dir)}$}
-                    \State $t \leftarrow \Call{owner}{p.hitsLow(dir)}$
-                    \If{$t \neq \nnull$}
-                        \State \Call{delete}{$p, \Hits_{low}(t, dir)$}
-                    \EndIf
-                    \State $\Call{insert}{p, \Hits_{low}(q, dir)}$
-                    \State $v \leftarrow \Call{predecessor}{q, \Hits_{up}(p, dir), U}$
-                    \If{$v = \nnull$}
-                        \State $v \leftarrow \Call{owner}{p.cands(dir)}$
-                    \EndIf
-                    \State $newHits \leftarrow \Call{split}{v, \nnull, \Hits_{up}(p,dir)}$
-                    \State $\Call{join}{newHits, \Hits_{up}(q, dir)}$
-                    \State \Call{delete}{$q, Cands(p, dir)$}
-                    \If{$v \neq \nnull$}
-                        \State \Call{insert}{$q, Cands(v, dir)$}
-                    \EndIf
+                    \State \Call{upEventRight}{$p, q, dir$}
                 \EndIf
             \EndIf
         \EndFunction

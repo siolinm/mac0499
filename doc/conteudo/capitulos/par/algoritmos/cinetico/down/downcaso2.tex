@@ -1,0 +1,22 @@
+\begin{algorithm}[H]
+    \caption{Função downEventRight.} \label{alg:par-cinetico:eventodowncaso2}
+    \begin{algorithmic}[1]
+        \Function{downEventRight}{$p, q, dir$}
+            \State $t \leftarrow \Call{owner}{p.hitsUp(dir)}$
+            \If{$t \neq \nnull$}
+                \State \Call{delete}{$p, \Hits_{up}(t, dir)$}
+            \EndIf
+            \State $\Call{insert}{p, \Hits_{up}(q, dir)}$
+            \State $v \leftarrow \Call{predecessor}{q, \Hits_{low}(p, dir), D}$
+            \If{$v = \nnull$}
+                \State $v \leftarrow \Call{owner}{p.cands(dir)}$
+            \EndIf
+            \State $newHits \leftarrow \Call{split}{v, \nnull, \Hits_{low}(p,dir)}$
+            \State $\Call{join}{newHits, \Hits_{low}(q, dir)}$
+            \State \Call{delete}{$q, Cands(p, dir)$}
+            \If{$v \neq \nnull$}
+                \State \Call{insert}{$q, Cands(v, dir)$}
+            \EndIf
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
