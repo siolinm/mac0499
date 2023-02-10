@@ -78,7 +78,7 @@ Os certificados inseridos na fila possuem quatro informações:
 
 Vamos agora falar de um evento em que ocorre uma mudança na ordem horizontal.
 No primeiro caso, $p$ se encontra à esquerda e abaixo de $q$, veja a
-Figura~\ref{fig:parcinetico:eventohorizontalabaixo}.
+Figura~\ref{fig:parcinetico:eventohorizontal}.
 O caso em que $q$ está à esquerda de $p$ será tratado de maneira parecida.
 O Algoritmo~\ref{alg:par-cinetico:eventohorizontal} implementa a sequência de operações referentes
 a esse tipo de evento.
@@ -86,7 +86,7 @@ a esse tipo de evento.
 \input{conteudo/capitulos/par/algoritmos/cinetico/eventohorizontal}
 
 Se $p$ está à esquerda de $q$ e em $\Hits_{up}(q)$, como demonstrado na
-Figura~\ref{fig:parcinetico:eventohorizontalabaixo}, então parte de $\Cands(q)$ terá de passar
+Figura~\ref{fig:parcinetico:eventohorizontal}, então parte de $\Cands(q)$ terá de passar
 para $\Cands(p)$.
 Além disso, também teremos alterações em $\Hits_{low}(q)$, $\Hits_{up}(q)$, $\Hits_{up}(t)$ e
 $\Hits_{low}(w)$, onde $t = \up(p)$ após a troca de ordem entre os pontos e $w = \low(q)$ antes da
@@ -103,7 +103,7 @@ Se $p$ não está em $\Hits_{up}(q)$, então não haverão mudanças, veja a
 Figura~\ref{fig:parcinetico:eventohorizontalabaixosemmudancas}.
 
 Similarmente, se $q$ está em $\Hits_{low}(p)$, como demonstrado na
-Figura~\ref{fig:parcinetico:eventohorizontalabaixo}, parte de $\Cands(p)$ passará a $\Cands(q)$.
+Figura~\ref{fig:parcinetico:eventohorizontal}, parte de $\Cands(p)$ passará a $\Cands(q)$.
 Além disso, também teremos alterações em $\Hits_{low}(q)$, $\Hits_{up}(q)$, $\Hits_{up}(t)$ e
 $\Hits_{low}(w)$, onde $t = \low(q)$ após a troca de ordem entre os pontos e $w = \up(p)$ antes da
 troca de ordem entre os pontos.

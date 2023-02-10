@@ -120,35 +120,7 @@ Um evento está associado a um certificado $(e, t)$ que expira no instante $t$.
 As implementações das operações \textsc{event}, \textsc{query\_max} e \textsc{change} são
 similares às implementações da Seção~\ref{sec:torneio}.
 
-
-%Na implementação da operação \textsc{event}, no Algoritmo~\ref{torneioi:evento}, utilizaremos a
-%rotina \textsc{update}$(e)$, do Algoritmo~\ref{torneioi:update}.
-%Esta calcula a nova validade $t$ do certificado do elemento $e$, e chama a rotina
-%$\textsc{updatePQ}(Q, e, t)$ e a rotina \Call{expire}{$e,e'$}, que calcula a validade do
-%certificado entre os elementos $e$ e $e'$; se $e'$ é \null retorna $+\infty$.
-%
-%\input{conteudo/capitulos/maximo/algoritmos/torneio/insertdelete/update}
-%
-%No trecho das linhas $5 - 11$ do Algoritmo~\ref{torneioi:evento}, o resultado da partida entre o
-%elemento~$j$ e seu adversário que se encontra na posição $k$ de \torneio~é recalculado, e o
-%certificado correspondente é atualizado.
-%Caso o resultado da partida tenha sido alterado, a verificação se propaga para o nível de cima.
-%
-%\input{conteudo/capitulos/maximo/algoritmos/torneio/insertdelete/event}
-%
-%A operação \textsc{query\_max}$()$, no Algoritmo~\ref{torneioi:query}, consiste em devolver
-%\torneio$[1]$, enquanto que a operação \textsc{change}$(j, v)$, no
-%Algoritmo~\ref{torneioi:change}, consiste em recuperar o elemento~$j$, alterar seu atributo
-%\initv~para $x_0+(\speed-v)\cdot now$, \textit{speed} para \textit{v} e recalcular os eventuais
-%certificados de que $j$ participa.
-%Para tanto, a partir da posição $i$ mais alta em que $j$ se encontra no vetor \torneio, podemos
-%recalcular \textit{cert}$[j]$ e então continuamos visitando as partidas em que $j$ participou para
-%atualizar os certificados daqueles que perderam de $j$, acionando a rotina \textsc{update} para
-%fazer os devidos acertos em $Q$ correspondentes a estas modificações.
-%
-%\input{conteudo/capitulos/maximo/algoritmos/torneio/insertdelete/query_max}
-%
-%\input{conteudo/capitulos/maximo/algoritmos/torneio/insertdelete/change}
+\input{conteudo/capitulos/maximo/figuras/torneio/insertdelete/exemplo}
 
 A operação \textsc{insert}$(v, x_t)$, no Algoritmo~\ref{torneioi:insert}, consiste em criar um
 novo elemento, inicializando seus atributos com os devidos valores, inseri-lo no torneio e na
@@ -159,11 +131,9 @@ Para calcular \initv, podemos utilizar a relação $x_t = now\cdot speed + x_0 \
 - speed\cdot\now$.
 Veja o exemplo da Figura~\ref{fig:torneioi:insert}.
 
-\input{conteudo/capitulos/maximo/figuras/torneio/insertdelete/exemplo}
+\input{conteudo/capitulos/maximo/algoritmos/torneio/insertdelete/insert}
 
 \input{conteudo/capitulos/maximo/figuras/torneio/insertdelete/insert}
-
-\input{conteudo/capitulos/maximo/algoritmos/torneio/insertdelete/insert}
 
 Utilizamos a função auxiliar \textsc{insertTourn}$(e)$, do Algoritmo~\ref{torneioi:inserttourn},
 que consiste em criar uma nova partida, usando o elemento que está na posição $n-1$ para completar
@@ -175,8 +145,6 @@ No Algoritmo~\ref{torneioi:inserttourn}, $\textsc{resize}()$ checa se \torneio~�
 a inserção de novos elementos e, se não for, redimensiona \torneio.
 
 \input{conteudo/capitulos/maximo/algoritmos/torneio/insertdelete/insert_tourn}
-
-\input{conteudo/capitulos/maximo/figuras/torneio/insertdelete/delete}
 
 A operação \textsc{delete}$(i)$, no Algoritmo~\ref{torneioi:delete}, consiste em recuperar o
 elemento~$i$, removê-lo da fila de prioridade, do torneio e da estrutura que usamos para
@@ -193,8 +161,9 @@ Essa propagação até a primeira posição é importante para que não hajam re
 removido no torneio.
 Veja o exemplo da Figura~\ref{fig:torneioi:delete}.
 Na implementação, no Algoritmo~\ref{torneioi:deletetourn}, a rotina \textsc{substitute}$(e)$ faz a
-substituição citada retornando a posição da primeira partida de que $e$ participou e a rotina
-\Call{compare}{$i, j$} retorna se o valor de $i$ é maior que o valor de $j$.
+substituição citada retornando a posição da primeira partida de que $e$ participou.
+
+\input{conteudo/capitulos/maximo/figuras/torneio/insertdelete/delete}
 
 \input{conteudo/capitulos/maximo/algoritmos/torneio/insertdelete/delete}
 

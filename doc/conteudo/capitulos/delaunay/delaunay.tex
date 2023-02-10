@@ -34,6 +34,8 @@ mais pontos de $P$.
 Os vértices desse polígono estão equidistantes de três ou mais pontos de $P$.
 Veja a Figura~\ref{fig:delaunay:voronoi}.
 
+%\input{conteudo/capitulos/delaunay/figuras/voronoi}
+
 A triangulação de Delaunay de um conjunto de pontos $P$ é definida como a triangulação do grafo
 dual do diagrama de Voronoi para $P$.
 Os vértices do grafo dual são os pontos de $P$ e para cada região associada ao ponto no diagrama de
@@ -58,7 +60,7 @@ Figura~\ref{fig:delaunay:flip}.
 
 Uma aresta é dita ilegal se após a troca dos vértices, o menor dos ângulos do novo quadrilátero
 formado é maior que o menor dos ângulos do quadrilátero anterior a troca da aresta.
-Em~\cite{computational-geometry} é demonstrado que uma aresta $p_{i}p_{j}$ é ilegal se o ponto
+Em~\cite{computationalgeometry} é demonstrado que uma aresta $p_{i}p_{j}$ é ilegal se o ponto
 $p_{l}$ do quadrilátero convexo $p_{i}p_{k}p_{j}p_{l}$ está no interior do círculo que passa por
 $p_{i}p_{k}p_{j}$.
 Também é demonstrado que uma triangulação que não possui arestas ilegais é uma triangulação de
@@ -159,8 +161,8 @@ A estrutura de dados cinética para manter a triangulação de Delaunay é uma e
 \textit{responsiva}, pois o custo de processar um certificado é $O(\lg{n})$.
 O custo de processar um certificado é o custo de trocar uma aresta e recalcular os certificados dos
 quatro quadriláteros envolvidos nessa troca.
-Nos casos degenerados é mais do que quatro quadriláteros serão envolvidos, mas em~\cite{citaraqui}
-é mostrado que o tempo amortizado continua sendo $O(\lg{n})$.
+Nos casos degenerados é mais do que quatro quadriláteros serão envolvidos, mas
+em~\cite{guibas-mitchell-roos} é mostrado que o tempo amortizado continua sendo $O(\lg{n})$.
 
 A estrutura é \textit{eficiente}, pois todos os eventos processados são eventos \textit{externos},
 isto é, todo vencimento de certificado representa uma troca na descrição combinatória da
