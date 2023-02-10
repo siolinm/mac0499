@@ -1,13 +1,14 @@
 \begin{algorithm}[htb]
-    \caption{Função \textsc{update}.} \label{max:update}
-\begin{algorithmic}[1]
-    \Function{update}{$i$}
-        \If{$1 < i \leq n$}
-            \State $t \leftarrow $
-            \Call{expire}{$i,\floor{\frac{i}{2}}$}
-            \State \Call{updatePQ}{$Q,i,t$}
-        \EndIf
-    \EndFunction
-    % \LineComment{\Call{expire}{$i,j$} calcula a validade do certificado entre os elementos $i$ e $j$}
-\end{algorithmic}
+    \caption[Algoritmo \textsc{update} do heap cinético]{Função \textsc{update}.}
+    \label{alg:heap:update}
+    \begin{algorithmic}[1]
+        \Function{update}{$i$}
+            \If{$1 < i \leq n$}
+                \State $t \leftarrow $
+                \Call{expire}{$i,\floor{\frac{i}{2}}$}
+                \State \Call{updatePQ}{$Q,i,t$}
+            \EndIf
+        \EndFunction
+        % \LineComment{\Call{expire}{$i,j$} calcula a validade do certificado entre os elementos $i$ e $j$}
+    \end{algorithmic}
 \end{algorithm}

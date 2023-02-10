@@ -71,8 +71,8 @@ São elas:
 
 A interface da fila com prioridades que utilizaremos não se altera.
 
-Na implementação da operação \textsc{event}, no Algoritmo~\ref{torneio:evento}, utilizaremos a
-rotina \textsc{update}$(i)$, no Algoritmo~\ref{torneio:update}, que calcula a nova validade $t$ do
+Na implementação da operação \textsc{event}, no Algoritmo~\ref{alg:torneio:evento}, utilizaremos a
+rotina \textsc{update}$(i)$, no Algoritmo~\ref{alg:torneio:update}, que calcula a nova validade $t$ do
 elemento $j$ que se encontra na $i$-ésima posição de \torneio, isto é, $j =~$\torneio[$i$]
 certificado, se $1 \leq i \leq 2n - 1$, e chama a rotina \textsc{updatePQ}$(Q, i, t)$.
 
@@ -80,7 +80,7 @@ certificado, se $1 \leq i \leq 2n - 1$, e chama a rotina \textsc{updatePQ}$(Q, i
 
 \input{conteudo/capitulos/maximo/algoritmos/torneio/event}
 
-No trecho das linhas $5 - 11$ do Algoritmo~\ref{torneio:evento}, o resultado da partida entre o
+No trecho das linhas $5 - 11$ do Algoritmo~\ref{alg:torneio:evento}, o resultado da partida entre o
 elemento~$j$ e seu adversário que se encontra na posição $k$ de \torneio~é recalculado, e o
 certificado correspondente é atualizado.
 Caso o resultado da partida tenha sido alterado, a verificação se propaga para o nível de cima,
@@ -91,9 +91,9 @@ A função $\Call{value}{j}$ retorna ${\speed[j]~\cdot\now + x_0[j]}$.
 
 \input{conteudo/capitulos/maximo/figuras/torneio/after}
 
-A operação \textsc{query\_max}, no Algoritmo~\ref{torn:querymax},
+A operação \textsc{query\_max}, no Algoritmo~\ref{alg:torneio:querymax},
 consiste em devolver \torneio$[1]$, enquanto que a operação \textsc{change}$(j, v)$, no
-Algoritmo~\ref{torn:change}, consiste em alterar a posição $x_0[j]$ para ${x_0[j] +
+Algoritmo~\ref{alg:torneio:change}, consiste em alterar a posição $x_0[j]$ para ${x_0[j] +
 (\mathit{speed}[j] - v)\cdot now}$, a posição \textit{speed}$[j]$ para \textit{v} e recalcular os
 eventuais certificados de que $j$ participa.
 Para tanto, a partir da posição $i$ em que $j$ se encontra no vetor \torneio, podemos recalcular

@@ -1,5 +1,5 @@
 \begin{algorithm}
-    \caption{Função \textsc{update}.} \label{torneio:update}
+    \caption[Algoritmo \textsc{update} do torneio cinético]{Função \textsc{update}.} \label{alg:torneio:update}
     \begin{algorithmic}[1]
         \Function{update}{$i$}
             \If{$i = 1$}
@@ -8,7 +8,7 @@
             \If{$1 < i \leq 2n - 1$}
                 \State $t \leftarrow $
                 \Call{expire}{\torneio$[\floor{\frac{i}{2}}]$,
-                \torneio$[i]$}
+                    \torneio$[i]$}
             \EndIf
             \State $j \leftarrow$ \torneio$[i]$
             \State \Call{updatePQ}{$Q,j,t$}

@@ -1,7 +1,7 @@
 \begin{algorithm}
-    \caption{Função \textsc{event}.} \label{torneio:evento}
+    \caption[Algoritmo \textsc{event} do torneio cinético]{Função \textsc{event}.} \label{alg:torneio:evento}
     \begin{algorithmic}[1]
-        \Function{event}{\nnull}
+        \Function{event}{\null}
             \State $i \leftarrow  $ \Call{minPQ}{$Q$}
             \While{\cert[$i$] = \now}
                 \State $j \leftarrow~$\indt[$i$]

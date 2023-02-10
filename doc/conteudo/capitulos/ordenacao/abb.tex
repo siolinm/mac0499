@@ -194,7 +194,7 @@ de até três certificados, ilustrado na Figura~\ref{fig:abb:after}:
 
 \input{conteudo/capitulos/ordenacao/figuras/abb/after}
 
-Na implementação da operação \textsc{event}, no Algoritmo~\ref{abb:evento}, utilizaremos a rotina
+Na implementação da operação \textsc{event}, no Algoritmo~\ref{alg:abb:evento}, utilizaremos a rotina
 $\textsc{update}(e)$, no Algoritmo~\ref{alg:abb:update}, que calcula o novo prazo de validade $t$
 do certificado do elemento $e$, e chama a rotina~$\textsc{updatePQ}(Q, e, t)$.
 A função $\textsc{swap}(e_1, e_2)$ troca a posição de $e_1$ e $e_2$ na árvore binária balanceada
@@ -213,7 +213,7 @@ direita.
 Para tal, percorreremos a árvore binária balanceada de busca utilizando o atributo $\children$
 para, a cada iteração, decidir em qual subárvore o $i$-ésimo está, ajustando $i$ quando
 necessário.
-O Algoritmo~\ref{abb:query} implementa esta operação e a Figura~\ref{fig:abb:queryexecution}
+O Algoritmo~\ref{alg:abb:query} implementa esta operação e a Figura~\ref{fig:abb:queryexecution}
 simula a execução em um exemplo.
 A rotina auxiliar \textsc{rsize}$(r)$ devolve o valor de $r.\dir.\textit{size}$ caso $r.\dir$ seja
 não nulo, caso contrário devolve $0$.
@@ -224,7 +224,7 @@ não nulo, caso contrário devolve $0$.
 
 \input{conteudo/capitulos/ordenacao/algoritmos/abb/query_kth}
 
-A operação \textsc{change}$(j, v)$, como implementada no Algoritmo~\ref{abb:change}, consiste em
+A operação \textsc{change}$(j, v)$, como implementada no Algoritmo~\ref{alg:abb:change}, consiste em
 recuperar o elemento $e$ com identificador $j$, alterar seu atributo \initv~para $x_0 +
 (\speed - v)\cdot now$, \textit{speed} para \textit{v} e
 recalcular os eventuais certificados de que $j$ participa, que
@@ -257,7 +257,7 @@ que usamos para recuperá-lo, e depois removê-lo da fila com
 prioridades.
 Após isso, basta atualizar o certificado de seu sucessor, caso exista.
 Essa operação é ilustrada na Figura~\ref{fig:abb:delete} e implementada no
-Algoritmo~\ref{abb:delete}.
+Algoritmo~\ref{alg:abb:delete}.
 
 \input{conteudo/capitulos/ordenacao/figuras/abb/delete}
 

@@ -127,7 +127,7 @@ essas rotinas.
 
 \input{conteudo/capitulos/ordenacao/figuras/lista/update}
 
-A operação \textsc{query\_kth}$(i)$, implementada no Algoritmo~\ref{lista:query}, consiste em
+A operação \textsc{query\_kth}$(i)$, implementada no Algoritmo~\ref{alg:lista:query}, consiste em
 devolver \textit{sorted}$[i]$, enquanto que a operação \textsc{change}$(j, v)$ consiste em alterar
 a posição $x_0[j]$ para $x_0[j] + (\mathit{speed}[j] - v)\cdot now$,
 a posição \textit{speed}[j] para \textit{v} e recalcular os
@@ -140,7 +140,7 @@ Para tanto, a partir da posição $i$ em que $j$ se encontra no vetor
 rotina \textsc{update} para fazer
 os devidos acertos em~$Q$ correspondentes a estas modificações.
 As instruções executadas pela operação \textsc{change} estão descritas
-no Algoritmo~\ref{lista:change}.
+no Algoritmo~\ref{alg:lista-ordenada:change}.
 
 \input{conteudo/capitulos/ordenacao/algoritmos/lista/query_kth}
 

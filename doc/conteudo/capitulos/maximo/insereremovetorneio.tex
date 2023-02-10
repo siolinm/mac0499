@@ -122,7 +122,7 @@ similares às implementações da Seção~\ref{sec:torneio}.
 
 \input{conteudo/capitulos/maximo/figuras/torneio/insertdelete/exemplo}
 
-A operação \textsc{insert}$(v, x_t)$, no Algoritmo~\ref{torneioi:insert}, consiste em criar um
+A operação \textsc{insert}$(v, x_t)$, no Algoritmo~\ref{alg:torneioi:insert}, consiste em criar um
 novo elemento, inicializando seus atributos com os devidos valores, inseri-lo no torneio e na
 estrutura que usamos para recuperá-lo, calcular o seu certificado e inseri-lo na fila de
 prioridade.
@@ -135,13 +135,13 @@ Veja o exemplo da Figura~\ref{fig:torneioi:insert}.
 
 \input{conteudo/capitulos/maximo/figuras/torneio/insertdelete/insert}
 
-Utilizamos a função auxiliar \textsc{insertTourn}$(e)$, do Algoritmo~\ref{torneioi:inserttourn},
+Utilizamos a função auxiliar \textsc{insertTourn}$(e)$, do Algoritmo~\ref{alg:torneioi:inserttourn},
 que consiste em criar uma nova partida, usando o elemento que está na posição $n-1$ para completar
 a partida, depois subir para o nível de cima no torneio, corrigindo os vencedores das partidas e
 atualizando os certificados correspondentes.
 O certificado do elemento inserido não será calculado nessa função, mas será calculado
 posteriormente.
-No Algoritmo~\ref{torneioi:inserttourn}, $\textsc{resize}()$ checa se \torneio~é capaz de suportar
+No Algoritmo~\ref{alg:torneioi:inserttourn}, $\textsc{resize}()$ checa se \torneio~é capaz de suportar
 a inserção de novos elementos e, se não for, redimensiona \torneio.
 
 \input{conteudo/capitulos/maximo/algoritmos/torneio/insertdelete/insert_tourn}
@@ -149,7 +149,7 @@ a inserção de novos elementos e, se não for, redimensiona \torneio.
 A operação \textsc{delete}$(i)$, no Algoritmo~\ref{torneioi:delete}, consiste em recuperar o
 elemento~$i$, removê-lo da fila de prioridade, do torneio e da estrutura que usamos para
 recuperá-lo depois.
-Utilizamos a função auxiliar \textsc{deleteTourn}$(e)$, do Algoritmo~\ref{torneioi:deletetourn},
+Utilizamos a função auxiliar \textsc{deleteTourn}$(e)$, do Algoritmo~\ref{alg:torneioi:deletetourn},
 que consiste em usar o perdedor da partida travada entre os elementos que estão nas duas últimas
 posições de \torneio~para substituir o elemento~$e$.
 Além disso, desfazemos essa partida para que os $n$ elementos continuem a ocupar as $2n - 1$
@@ -160,7 +160,7 @@ posição, serão recalculadas com os devidos certificados atualizados.
 Essa propagação até a primeira posição é importante para que não hajam resquícios do elemento
 removido no torneio.
 Veja o exemplo da Figura~\ref{fig:torneioi:delete}.
-Na implementação, no Algoritmo~\ref{torneioi:deletetourn}, a rotina \textsc{substitute}$(e)$ faz a
+Na implementação, no Algoritmo~\ref{alg:torneioi:deletetourn}, a rotina \textsc{substitute}$(e)$ faz a
 substituição citada retornando a posição da primeira partida de que $e$ participou.
 
 \input{conteudo/capitulos/maximo/figuras/torneio/insertdelete/delete}

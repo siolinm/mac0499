@@ -1,7 +1,7 @@
 \begin{algorithm}
-    \caption{Função \textsc{event}.} \label{abb:evento}
+    \caption[Algoritmo \textsc{event} da árvore binária de busca]{Função \textsc{event}.} \label{alg:abb:evento}
     \begin{algorithmic}[1]
-        \Function{event}{\nnull}
+        \Function{event}{\null}
             \State $e_1 \leftarrow  $ \Call{minPQ}{$Q$}
             \While{$e_1.cert$ = \now}
                 \State $e_2 \leftarrow e_1.prev$

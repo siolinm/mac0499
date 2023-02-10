@@ -1,7 +1,7 @@
 \begin{algorithm}
-    \caption{Função \textsc{event}.} \label{max:evento}
+    \caption[Algoritmo \textsc{event} do heap cinético]{Função \textsc{event}.} \label{alg:heap:evento}
     \begin{algorithmic}[1]
-        \Function{event}{}
+        \Function{event}{\null}
             \State $i \leftarrow  $ \Call{minPQ}{$Q$}
             \While{\cert[$i$] = \now}
                 \State \heap[$i$] $\leftrightarrow$
