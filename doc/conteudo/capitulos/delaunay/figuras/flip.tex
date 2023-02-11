@@ -1,0 +1,44 @@
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \coordinate (a) at (-1, 0.5);
+        \coordinate (b) at (4, 0);
+        \coordinate (c) at (4.5, 3);
+        \coordinate (d) at (0, 4);
+        \draw (a) -- (b);
+        \draw (b) -- (c);
+        \draw (c) -- (d);
+        \draw (d) -- (a);
+        \draw (a) -- (c);
+        \pic [draw, angle radius = 1cm] {angle = c--b--a};
+        \pic [draw, angle radius = 1cm] {angle = a--c--b};
+        \pic [draw, angle radius = 1cm] {angle = b--a--c};
+
+        \pic [draw, angle radius = 0.5cm] {angle = c--a--d};
+        \pic [draw, angle radius = 0.5cm] {angle = d--c--a};
+        \pic [draw, angle radius = 0.5cm] {angle = a--d--c};
+
+        \begin{scope}
+            [shift={(7, 0)}]
+            \coordinate (a) at (-1, 0.5);
+            \coordinate (b) at (4, 0);
+            \coordinate (c) at (4.5, 3);
+            \coordinate (d) at (0, 4);
+            \draw (a) -- (b);
+            \draw (b) -- (c);
+            \draw (c) -- (d);
+            \draw (d) -- (a);
+            \draw (b) -- (d);
+            \pic [draw, angle radius = 0.5cm] {angle = c--b--d};
+            \pic [draw, angle radius = 0.5cm] {angle = d--c--b};
+            \pic [draw, angle radius = 0.5cm] {angle = b--d--c};
+
+            \pic [draw, angle radius = 1cm] {angle = b--a--d};
+            \pic [draw, angle radius = 1cm] {angle = d--b--a};
+            \pic [draw, angle radius = 1cm] {angle = a--d--b};
+        \end{scope}
+
+    \end{tikzpicture}
+    \caption[Exemplo troca de aresta]{Após trocar os vértices da aresta do quadrilátero
+    convexo, seis novos ângulos se formaram.}\label{fig:delaunay:flip}
+\end{figure}

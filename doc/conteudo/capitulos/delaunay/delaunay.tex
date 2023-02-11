@@ -34,7 +34,7 @@ mais pontos de $P$.
 Os vértices desse polígono estão equidistantes de três ou mais pontos de $P$.
 Veja a Figura~\ref{fig:delaunay:voronoi}.
 
-%\input{conteudo/capitulos/delaunay/figuras/voronoi}
+\input{conteudo/capitulos/delaunay/figuras/voronoi}
 
 A triangulação de Delaunay de um conjunto de pontos $P$ é definida como a triangulação do grafo
 dual do diagrama de Voronoi para $P$.
@@ -45,10 +45,14 @@ Veja a Figura~\ref{fig:delaunay:dual}.
 O grafo dual é chamado de grafo de Delaunay e a triangulação desse grafo é chamada de triangulação
 de Delaunay.
 
+\input{conteudo/capitulos/delaunay/figuras/dual}
+
 Em geral, o grafo de Delaunay já é uma triangulação.
 Somente no caso em que existem quatro ou mais pontos co-circulares é possível que existam faces no
 grafo de Delaunay com quatro ou mais arestas, veja a
 Figura~\ref{fig:delaunay:grafo-vs-triangulacao}.
+
+\input{conteudo/capitulos/delaunay/figuras/grafo}
 
 Considere uma aresta $e$ de uma triangulação $T$ de $P$.
 Se $e$ não faz parte do fecho convexo de $P$, então faz parte de dois triângulos adjacentes na
@@ -57,6 +61,8 @@ Se esses triângulos formam um quadrilátero convexo, então os vértices da are
 pelos outros dois vértices do quadrilátero, gerando uma nova triangulação.
 Essa troca na aresta gera seis novos ângulos na triangulação, veja a
 Figura~\ref{fig:delaunay:flip}.
+
+\input{conteudo/capitulos/delaunay/figuras/flip}
 
 Uma aresta é dita ilegal se após a troca dos vértices, o menor dos ângulos do novo quadrilátero
 formado é maior que o menor dos ângulos do quadrilátero anterior a troca da aresta.
@@ -71,8 +77,10 @@ triangulação qualquer e trocar arestas que identificarmos como ilegais.
 Uma possível forma de gerar uma triangulação inicial é utilizando o algoritmo de Graham, veja o
 Algoritmo~\ref{alg:delaunay:delaunay-inicial}.
 
-As rotinas utilizadas no Algoritmo~\ref{alg:delaunay:delaunay-inicial} são os testes \textsc{left}
-e \textsc{incircle}.
+\input{conteudo/capitulos/delaunay/algoritmos/graham}
+
+As primitivas utilizadas no Algoritmo~\ref{alg:delaunay:delaunay-inicial} são os testes
+\textsc{left} e \textsc{incircle}.
 O teste \textsc{left} é un teste bem conhecido na geometria computacional e consiste em avaliar o
 valor do seguinte determinante:
 $$\textsc{left}(p_i, p_j, p_k) =
@@ -110,9 +118,13 @@ uma aresta, veja a Figura~\ref{fig:delaunay:incircle}.
 Um detalhe que vale ser ressaltado é que a troca só deve ser realizada se o quadrilátero em
 questão é convexo.
 
+\input{conteudo/capitulos/delaunay/figuras/incircle}
+
 Um evento associado ao vencimento de um certificado do tipo \textsc{left} resulta na adição ou
 remoção de um vértice ao fecho convexo dos pontos e na remoção ou adição de um novo triângulo na
 triangulação, veja a Figura~\ref{fig:delaunay:left}.
+
+\input{conteudo/capitulos/delaunay/figuras/left}
 
 Na verdade, utilizaremos uma técnica muito comum na geometria computacional para facilitar a
 computação dos eventos.
@@ -175,3 +187,5 @@ $O(n)$ certificados na fila de prioridades num determinado instante.
 
 A estrutura não é \textit{local}, pois um ponto pode estar envolvido em até $O(n)$
 certificados, veja a Figura~\ref{fig:delaunay:naolocal}.
+
+\input{conteudo/capitulos/delaunay/figuras/naolocal}

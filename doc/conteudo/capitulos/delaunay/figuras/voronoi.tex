@@ -1,62 +1,41 @@
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}
-        \node[label={[label distance = -3mm]160:$a$}] at
-        (-2.00, -1.00) {\textbullet};
-        \node[label={[label distance = -3mm]160:$b$}] at
-        (-1.00, 3.00) {\textbullet};
-        \node[label={[label distance = -6mm]180:$c$}] at
-        (1.00, 1.00) {\textbullet};
-        \node[label={[label distance = -3mm]120:$d$}] at
-        (1.00, 2.00) {\textbullet};
-        \node[label={[label distance = -3mm]340:$e$}] at
-        (2.00, 0.00) {\textbullet};
-        \node[label={[label distance = -3mm]270:$f$}] at
-        (2.00, -2.00) {\textbullet};
-        \node[label={[label distance = -3mm]160:$g$}] at
-        (3.00, 4.00) {\textbullet};
-        \node[label={[label distance = -3mm]0:$h$}] at
-        (4.00, 2.00) {\textbullet};
+    \begin{tikzpicture}[scale=0.7]
+        \node[label={[label distance = -3mm]160:$a$}] at (-3.0, 0) {\textbullet};
+        \node[label={[label distance = -3mm]160:$b$}] at (1, 1) {\textbullet};
+        \node[label={[label distance = -3mm]160:$c$}] at (3.5, 4.0) {\textbullet};
+        \node[label={[label distance = -3mm]160:$d$}] at (0, 3) {\textbullet};
+        \node[label={[label distance = -3mm]160:$e$}] at (1, 5) {\textbullet};
+        \node[label={[label distance = -3mm]160:$f$}] at (-2.0, 4) {\textbullet};
+        \node[label={[label distance = -3mm]160:$g$}] at (-4, 6) {\textbullet};
 
-        \draw (-2.00, -1.00) -- (-1.00, 3.00); % a -- b
-        \draw (-2.00, -1.00) -- (1.00, 1.00); % a -- c
-        \draw (-2.00, -1.00) -- (2.00, 0.00); % a -- e
-        \draw (-2.00, -1.00) -- (2.00, -2.00); % a -- f
-%        \draw (-1.00, 3.00) -- (1.00, 1.00); % b -- c
-        \draw (-1.00, 3.00) -- (1.00, 2.00); % b -- d
-        \draw (-1.00, 3.00) -- (3.00, 4.00); % b -- g
-        \draw (1.00, 1.00) -- (1.00, 2.00); % c -- d
-        \draw (1.00, 1.00) -- (2.00, 0.00); % c -- e
-%        \draw (1.00, 2.00) -- (2.00, 0.00); % d -- e
-        \draw (1.00, 2.00) -- (3.00, 4.00); % d -- g
-        \draw (1.00, 2.00) -- (4.00, 2.00); % d -- h
-        \draw (2.00, 0.00) -- (2.00, -2.00); % e -- f
-        \draw (2.00, 0.00) -- (4.00, 2.00); % e -- h
-        \draw (2.00, -2.00) -- (4.00, 2.00); % f -- h
-        \draw (3.00, 4.00) -- (4.00, 2.00); % g -- h
-
-        \node (abc) at (-0.5, 1.5) {\textbullet}; % a-b-c
-        \node (bcd) at (-0.5, 1.5) {\textbullet}; % b-c-d
-        \node (bdg) at (0.8333333333333334, 4.166666666666667) {\textbullet}; % b-d-g
-        \node (dhg) at (2.5, 2.5) {\textbullet}; % d-h-g
-        \node (ced) at (2.5, 1.5) {\textbullet}; % c-e-d
-        \node (deh) at (2.5, 1.5) {\textbullet}; % d-e-h
-        \node (fhe) at (5.0, -1.0) {\textbullet}; % f-h-e
-        \node (aec) at (-0.5, -1.5) {\textbullet}; % a-e-c
-        \node (afe) at (-0.375, -1.0) {\textbullet}; % a-f-e
-        
-        \draw (abc) -- (aec);
-        \draw (bcd) -- (bdg);
-        \draw (bcd) -- (ced);
-        \draw (bdg) -- (dhg);
-        \draw (dhg) -- (deh);
-        \draw (deh) -- (ced);
-        \draw (deh) -- (fhe);
-        \draw (fhe) -- (afe);
-        \draw (afe) -- (aec);
-        \draw (aec) -- (ced);
+        \node (abd) at (-1.1666666666666667, 1.1666666666666667) {\textbullet}; % a-b-d
+        \draw (-1.1666666666666667, 1.1666666666666667) -- (-1.8333333333333333, 1.8333333333333333); %abd--afd
+        \draw (-1.1666666666666667, 1.1666666666666667) -- (1.96875, 2.734375); %abd--dbc
+% a -- b
+        \draw (-1.1666666666666667, 1.1666666666666667) -- (-0.6815954165940006, -0.773618333623997);
+        \node (afd) at (-1.8333333333333333, 1.8333333333333333) {\textbullet}; % a-f-d
+        \draw (-1.8333333333333333, 1.8333333333333333) -- (-0.5, 4.5); %afd--fed
+        \draw (-1.8333333333333333, 1.8333333333333333) -- (-5.3, 2.7); %afd--afg
+        \node (dbc) at (1.96875, 2.734375) {\textbullet}; % d-b-c
+% b -- c
+        \draw (1.96875, 2.734375) -- (3.505192559194752, 1.4540062006710404);
+        \node (afg) at (-5.3, 2.7) {\textbullet}; % a-f-g
+% g -- a
+        \draw (-5.3, 2.7) -- (-7.272787847664287, 2.3712020253892856);
+        \node (fge) at (-1.25, 6.75) {\textbullet}; % f-g-e
+        \draw (-1.25, 6.75) -- (-0.5, 4.5); %fge--fed
+        \draw (-1.25, 6.75) -- (-5.3, 2.7); %fge--afg
+% e -- g
+        \draw (-1.25, 6.75) -- (-0.8577677297236319, 8.71116135138184);
+        \node (fed) at (-0.5, 4.5) {\textbullet}; % f-e-d
+        \node (edc) at (1.7916666666666667, 3.3541666666666665) {\textbullet}; % e-d-c
+        \draw (1.7916666666666667, 3.3541666666666665) -- (-0.5, 4.5); %edc--fed
+        \draw (1.7916666666666667, 3.3541666666666665) -- (1.96875, 2.734375); %edc--dbc
+% c -- e
+        \draw (1.7916666666666667, 3.3541666666666665) -- (2.534448019374874, 5.211120048437185);
 
 
     \end{tikzpicture}
-    \caption[Exemplo triangulação de Delaunay]{Exemplo.}\label{fig:delaunay:voronoi}
+    \caption[Exemplo diagrama de Voronoi]{Exemplo diagrama de Voronoi.}\label{fig:delaunay:voronoi}
 \end{figure}

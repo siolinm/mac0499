@@ -1,3 +1,7 @@
+import random
+from random import choice
+from string import ascii_lowercase
+
 from dcel import *
 import numpy as np
 from ordena import *
@@ -204,12 +208,27 @@ def LegalTriangulation(d, V):
                 # PlotIllegal(d, V, e)
                 illegal = True
     print(c)
+    dic = {}
+    for i, v in enumerate(d.V):
+        print(f"\\node[label={{[label distance = -3mm]160:${ascii_lowercase[i]}$}}] at {v.Coordinates} {{\\textbullet}};")
+        dic[ascii_lowercase[i]] = v.Coordinates
+    i = 0
+    for e in d.E:
+        if i % 2:
+            i = 0
+            continue
+        print(e)
+        i += 1
+    print(dic)
+
     PlotIllegal(d, V, None)
+
 
 def ApplyVelocity(p, v, t):
     if p is None:
         return None
     return p[0] + t * v[0], p[1] + t * v[1]
+
 
 def ApplyVelocities(P, v, t):
     newP = []
@@ -219,8 +238,17 @@ def ApplyVelocities(P, v, t):
     return newP
 
 
-V = [None, (-2, -1), (-1, 3), (1, 1), (1, 2), (2, 0), (2, -2), (3, 4), (4, 2)]
-t = 2
+def GenerateRandomPoint():
+    return random.randint(-9, 9), random.randint(-9, 9)
+
+
+# V = [None, (-2, -1), (-1, 3), (1, 1), (1, 2), (2, 0), (2, -2), (3, 4), (4, 2)]
+V = [None, (2, 3), (1, 4), (-2, 3), (-1, 4), (-1, -1), (1, -2), (0, 2)]
+# V = [None]
+# for i in range(8):
+#     V.append(GenerateRandomPoint())
+print(V)
+t = 0
 v = [None, (1.25, 0.5), (0.5, -1), (1, -1), (1, 0), (0, -1), (2, -1), (2, -2), (-1.5, 1)]
 # V = [None, (-2, -1), (-1, 3), (1, 1), (1, 2), (2, 0)]
 # V = [None, (-2, -1), (-1, 3), (1, 1), (1, 2), (2, 0), (2, -2), (6, 4), (4, 2)]

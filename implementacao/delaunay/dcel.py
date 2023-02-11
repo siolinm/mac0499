@@ -23,6 +23,7 @@ class DCEL():
     def AddEdge(self, e):
         self.E.append(e)
 
+
 class Vertex():
     def __init__(self, Coordinates=None, IncidentEdge=None, Index=None):
         self.Coordinates = Coordinates
@@ -30,15 +31,17 @@ class Vertex():
         self.Index = Index
 
     def __str__(self):
-        return f"{self.Index}"
+        return f"{self.Coordinates}"
 
     def __repr__(self):
         return str(self)
+
 
 class Face():
     def __init__(self, OuterComponent=None, InnerComponents=None):
         self.OuterComponent = OuterComponent
         self.InnerComponents = InnerComponents
+
 
 class Edge():
     def __init__(self, Origin=None, Twin=None, IncidentFace=None,
@@ -58,7 +61,7 @@ class Edge():
             Prev.Next = self
 
     def __str__(self):
-        return "(" + str(self.Origin) + " --> " + str(self.Twin.Origin) + ")"
+        return "\\draw " + str(self.Origin) + " -- " + str(self.Twin.Origin) + ";"
 
     def __repr__(self):
         return str(self)

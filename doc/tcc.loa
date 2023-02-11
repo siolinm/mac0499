@@ -35,3 +35,4 @@
 \contentsline {algorithm}{\numberline {3.12}{\ignorespaces Algoritmo \textsc {downEvent} do par mais próximo cinético}}{47}{algorithm.caption.76}%
 \contentsline {algorithm}{\numberline {3.13}{\ignorespaces Algoritmo \textsc {downEventLeft} do par mais próximo cinético}}{48}{algorithm.caption.77}%
 \contentsline {algorithm}{\numberline {3.14}{\ignorespaces Algoritmo \textsc {downEventRight} do par mais próximo cinético}}{48}{algorithm.caption.78}%
+\contentsline {algorithm}{\numberline {4.1}{\ignorespaces Algoritmo \textsc {delaunay} da triangulação de delaunay}}{54}{algorithm.caption.84}%

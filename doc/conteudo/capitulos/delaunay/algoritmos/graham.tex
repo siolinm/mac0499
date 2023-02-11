@@ -1,0 +1,33 @@
+\begin{algorithm}[H]
+    \caption[Algoritmo \textsc{delaunay} da triangulação de delaunay]{Função \textsc{delaunay}$(P)$.}
+    \label{alg:delaunay:delaunay-inicial}
+    \begin{algorithmic}[1]
+        \Function{delaunay}{$P$}
+            \State \Call{ordena}{$P$}
+            \State \Call{adicionaAresta}{$E, P[1], P[2]$}
+            \State $H[1] \leftarrow P[1]$
+            \State $H[2] \leftarrow P[2]$
+            \State $h \leftarrow 2$
+            \For{$i \leftarrow \lk 3, \dots, n \rk$}
+                \State \Call{adicionaAresta}{$E, P[i], P[1]$}
+                \State \Call{adicionaAresta}{$E, H[h], P[i]$}
+                \While{$h > 1~\AND~\Call{left}{H[h], H[h-1], P[i]}$}
+                    \State $h \leftarrow h -1$
+                    \State \Call{adicionaAresta}{$E, H[h], P[i]$}
+                \EndWhile
+                \State $h \leftarrow h + 1$
+                \State $H[h] \leftarrow P[i]$
+            \EndFor
+            \State $l \leftarrow 1$
+            \While{$l = 1$}
+                \State $l \leftarrow 0$
+                \For{$e \leftarrow E$}
+                    \If{\Call{illegal}{$e$}}
+                        \State $l \leftarrow 1$
+                        \State \Call{flip}{$e$}
+                    \EndIf
+                \EndFor
+            \EndWhile
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
