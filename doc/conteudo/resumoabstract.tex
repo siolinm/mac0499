@@ -37,8 +37,8 @@
     Os certificados serão mantidos numa fila de prioridades com o seu prazo de
     validade como prioridade.
     O vencimento de um certificado significa que a estrutura ficou inválida e é necessário realizar
-    mudanças para que ela volte a se tornar válida, removendo os certificados vencidos e gerando novos
-    certificados no processo.
+    mudanças para que ela volte a se tornar válida, removendo os certificados vencidos e gerando
+    novos certificados no processo.
 
     Com a inclusão da dimensão tempo, a forma tradicional de analisar algoritmos não
     é adequada para a análise dessas estruturas. Por isso, Basch, Guibas e
@@ -57,35 +57,35 @@
 
 \abstract{
 
-    Kinetic data structures are a model proposed by Basch, Guibas and Hershberger to
-    efficiently solve kinetic problems. Kinetic problems are problems in which the
+    Kinetic data structures are a model proposed by Basch, Guibas, and Hershberger to
+    efficiently solve kinetic problems. These are problems in which the
     objects involved are in continuous motion and we want to know a certain
     attribute about these objects at the current moment. For example, we would like to
     query the closest pair of points at the moment, in a set of moving points.
 
     The proposed interface for the data structures supports three operations: query,
-    that returns the maintained attribute, advance, that adjusts the current moment to a given instant in
-    the future, and changing the object motion, given by updates on a function called flight
-    plan.
+    that returns the maintained attribute, advance, that adjusts the current moment to a given
+    instant in the future, and changing the object motion, given by updates on a function called
+    flight plan.
     The flight plan is necessary to maintain the attribute of interest over
-    the elements, it defines the object motion through time and will be used for
+    the elements; it defines the object motion through time and it will be used for
     computing the so called certificates.
-    The certificates are objects that ensure the internal state of our data structure is correct until a
-    certain instant of time: the certificate's expiration time.
-    Our data structures will be event driven where the events are the expirations of certificates.
+    The certificates are objects that ensure that the internal state of our data structure is
+    correct until a certain instant of time: the certificate's expiration time.
+    Our data structures will be event driven where the events are the certificates expiration times.
     The certificates will be kept in a priority queue with their expiration time as priority.
-    The expiration of a certificate means the data structure has become invalid and we need to change it
-    in order to be in a correct state again, deleting the expired certificates and generating
-    new ones in the process.
+    The expiration of a certificate means the data structure has become invalid and we need to
+    update it in order to be in a correct state again, deleting the expired certificates and
+    generating new ones in the process.
 
     The traditional way of analyzing algorithms does not work well with these
     structures.
-    Because of that, Basch, Guibas and Hershberger also proposed four
+    Because of that, Basch, Guibas, and Hershberger also proposed four
     criteria to determine the quality of the structures: responsiveness, efficiency,
     locality, and compactness.
 
-    In this work, we address four problems: sorting, maximum, closest pair
-    and Delaunay triangulation, all in a kinetic context.
+    In this work, we address four problems: sorting, maximum, closest pair, and Delaunay
+    triangulation, all in a kinetic context.
     We study the respective kinetic data structures used to solve these problems and discuss
     the quality criteria for each one of them.
     For some of the structures we also consider a kinetic-dynamic scenario,

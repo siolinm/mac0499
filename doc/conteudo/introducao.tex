@@ -71,15 +71,16 @@ com prioridades, utilizando como prioridade o prazo de validade do certificado.
 
 Para calcular o prazo de validade dos certificados, utilizaremos o chamado
 \textit{plano de vôo} dos objetos.
-O plano de vôo de um objeto é uma função que, dado o instante de tempo atual, determina sua trajetória.
+O plano de vôo de um objeto é uma função que, dado o instante de tempo atual, determina a posição
+corrente do objeto.
 Assim como na vida real, o plano de vôo pode sofrer mudanças.
 Essas mudanças no plano de vôo geram a necessidade de atualização de certificados
 e de ajustes nas estruturas.
 A operação \textsc{change} será utilizada para atualizar o plano de vôo dos
 objetos e realizar as mudanças necessárias para manter a estrutura correta.
 
-Por fim, a operação \textsc{query} ficará responsável por responder o atributo
-geométrico que desejamos saber num dado instante.
+Por fim, a operação \textsc{query} ficará responsável por retornar o valor do atributo
+geométrico em questão no instante atual.
 
 Uma questão natural a ser feita a respeito destas estruturas é como medir o
 desempenho delas, já que as formas clássicas de determinar a complexidade de
@@ -88,23 +89,24 @@ Basch, Guibas e Hershberger [\cite{BASCH19991}] propuseram algumas formas de ava
 estruturas.
 São elas:
 \begin{itemize}
-    \item Responsividade: uma estrutura é dita \textit{responsiva} se o custo de
+    \item \textbf{Responsividade}: uma estrutura é dita \textit{responsiva} se o custo de
     processar um certificado, isto é, o custo de atualizar os certificados e as
-    outras estruturas necessárias é pequeno;
+    outras estruturas necessárias, é pequeno;
 
-    \item Eficiência: uma estrutura é dita \textit{eficiente} se a razão entre a
+    \item \textbf{Eficiência}: uma estrutura é dita \textit{eficiente} se a razão entre a
     quantidade total de eventos processados e a quantidade de eventos
     \textit{externos} é pequena.
-    Um evento diz respeito ao vencimento de um certificado, os eventos chamados
-    \textit{externos} são eventos que geram mudanças na descrição combinatória do atributo,
-    enquanto eventos chamados \textit{internos} não geram mudanças na descrição combinatória
-    do atributo, mas ainda são necessários para manter a estrutura.
+    Um evento diz respeito ao vencimento de um certificado.
+    Os eventos chamados \textit{externos} são os que geram mudanças na descrição combinatória
+    do atributo, enquanto os eventos chamados \textit{internos} não geram mudanças na descrição
+    combinatória do atributo, mas ainda são necessários para manter a estrutura.
     O total de eventos processados é a soma da quantidade de eventos externos e internos;
 
-    \item Compacidade: uma estrutura é dita \textit{compacta} se a quantidade máxima de
-    certificados que podem estar na fila com prioridades em um determinado instante é linear;
+    \item \textbf{Compacidade}: uma estrutura é dita \textit{compacta} se a quantidade máxima de
+    certificados que podem estar na fila com prioridades em um determinado instante é linear no
+    número de objetos;
 
-    \item Localidade: uma estrutura é dita \textit{local} se a quantidade máxima
+    \item \textbf{Localidade}: uma estrutura é dita \textit{local} se a quantidade máxima
     de certificados na fila que estão relacionados com um determinado objeto é
     pequena.
 \end{itemize}
@@ -112,7 +114,7 @@ São elas:
 O custo de uma operação é dito pequeno se o custo é assintoticamente
 polilogarítmico no número de objetos ou polinomial para um valor pequeno no expoente.
 
-Neste trabalho estudaremos alguns problema cinéticos e as estruturas utilizadas
+Neste trabalho estudaremos alguns problemas cinéticos e as estruturas utilizadas
 para resolvê-los.
 Apesar do modelo proposto por Basch, Guibas e Hershberger [\cite{BASCH19991}]
 funcionar para trajetórias não-lineares, nos restringiremos apenas a trajetórias
@@ -122,29 +124,41 @@ o valor inicial do objeto e $v$ é a velocidade atual do objeto.
 
 No Capítulo 1 estudaremos o problema da ordenação cinética.
 Neste problema, os pontos movem-se apenas em uma dimensão $x(t) = x_0 + vt$ e
-desejamos saber, para um dado~$i$, qual dos pontos possui o $i$-ésimo maior valor na coleção em
+desejamos saber, para um dado~$i$, qual dos pontos possui o $i$-ésimo maior $x$ valor na coleção em
 determinado instante $t$.
 As estruturas que consideraremos para resolver o problema são a lista
 ordenada cinética e uma árvore binária balanceada de busca.
-A árvore binária balanceada de busca além de suportar as operação já citadas
+A árvore binária balanceada de busca, além de suportar as operação já citadas,
 também será capaz de realizar operações \textsc{insert} e \textsc{delete}.
 
 No Capítulo 2 estudaremos o problema do máximo cinético.
 Assim como no problema anterior, os pontos movem-se apenas em uma
-dimensão $x(t) = x_0 + vt$ e desejamos saber qual dos pontos possui o maior valor
+dimensão $x(t) = x_0~+~vt$ e desejamos saber qual dos pontos possui o maior valor
 no instante atual.
-Apesar do problema anterior resolver este problema, pois basta buscar pelo primeiro
-maior valor na coleção, veremos que é possível obter essa resposta de forma mais
+Apesar deste ser um caso particular do problema anterior, pois basta buscar pelo primeiro
+maior valor $x$ na coleção, veremos que é possível obter essa resposta de forma mais
 eficiente utilizando outras estruturas.
 
-No Capítulo 3 estudaremos o problema do par mais próximo cinético, em que
+No Capítulo 3 estudaremos o problema do par mais próximo cinético, cuja resolução
 utilizaremos estruturas vistas nos dois capítulos anteriores.
-Diferentemente dos problemas anteriores, os pontos movem-se em duas dimensões
+Diferentemente dos problemas anteriores, os pontos dados movem-se em duas dimensões
 de acordo com uma função $\gamma(t) = (x(t), y(t))$, sendo que $x(t) = x_0 + v_x t$ e
 $y(t) = y_0 + v_y t$.
-Desejamos saber qual dos pares possíveis de pontos possui distância mínima.
+Desejamos saber qual dos pares possíveis dos pontos dados possui distância mínima.
 
-No Capítulo 4 estudaremos o problema da triangulação de Delaunay cinética.
+No Capítulo 4 estudaremos o problema da triangulação de Delaunay cinética no plano.
 Assim como no problema do par mais próximo, os pontos movem-se em duas dimensões de acordo com uma
 função $\gamma(t) = (x(t), y(t))$, sendo que $x(t) = x_0 + v_x t$ e $y(t) = y_0 + v_y t$.
-Desejamos manter uma descrição da triangulação de Delaunay dos pontos.
+Desejamos manter uma descrição da triangulação de Delaunay dos pontos, dados.
+
+O material apresentado nos Capítulos 1, 2, 3 e 4 baseou-se inicialmente na dissertação de Eduardo
+Freitas~[\cite{eduardo}].
+O material do Capítulo 3 baseou-se também no artigo de Basch, Guibas e
+Hershberger~[\cite{BASCH19991}] e na tese de Basch [\cite{basch-thesis}].
+Já o material do Capítulo 4 baseou-se em~\cite{computationalgeometry}.
+
+Alguns dos algoritmos discutidos neste trabalho foram implementados em linguagem C\@.
+As implementações estão acessíveis em
+\href{https://github.com/siolinm/mac0499/tree/main/implementacao}{github.com/siolinm/mac0499}.
+
+
