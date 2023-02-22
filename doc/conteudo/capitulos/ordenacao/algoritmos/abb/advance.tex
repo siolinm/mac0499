@@ -1,0 +1,18 @@
+\begin{algorithm}
+    \caption[Algoritmo \textsc{advance} da árvore binária de busca]{Função \textsc{advance}.}
+    \label{alg:abb:advance}
+    \begin{algorithmic}[1]
+        \Function{advance}{\null}
+            \If{$t < \now$}
+                \State \Return
+            \EndIf
+            \State $e \leftarrow \Call{minPQ}{Q}$
+            \While{$t \geq e.\cert$}
+                \State $\now \leftarrow e.\cert$
+                \State $\Call{event}{e}$
+                \State $e \leftarrow \Call{minPQ}{Q}$
+            \EndWhile
+            \State $\now \leftarrow t$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}

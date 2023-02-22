@@ -1,16 +1,13 @@
 \begin{algorithm}
     \caption[Algoritmo \textsc{event} da árvore binária de busca]{Função \textsc{event}.} \label{alg:abb:evento}
     \begin{algorithmic}[1]
-        \Function{event}{\null}
-            \State $e_1 \leftarrow  $ \Call{minPQ}{$Q$}
-            \While{$e_1.cert$ = \now}
-                \State $e_2 \leftarrow e_1.prev$
-                \State \Call{swap}{$e_1, e_2$}
-                \State \Call{update}{$e_1$}
-                \State \Call{update}{$e_2$}
-                \State \Call{update}{$e_2.next$}
-                \State $e_1 \leftarrow $ \Call{minPQ}{$Q$}
-            \EndWhile
+        \Function{event}{$e$}
+            \State $e_p \leftarrow e.prev$
+            \State \Call{swap}{$e, e_p$}
+            \State \Call{update}{$e$}
+            \State \Call{update}{$e_p$}
+            \State \Call{update}{$e_p.next$}
+            \State $e \leftarrow $ \Call{minPQ}{$Q$}
         \EndFunction
     \end{algorithmic}
 \end{algorithm}

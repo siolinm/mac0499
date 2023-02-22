@@ -15,12 +15,14 @@ ordenado em ordem decrescente.
 Na verdade, o vetor pode armazenar não os valores, mas os índices dos elementos, e fazemos
 ordenação indireta.
 No caso de empates nos valores dos elementos, o desempate
-será feito pela velocidade, ou seja, se dois elementos, digamos $i$
+será feito pela velocidade: se dois elementos, digamos $i$
 e $j$, possuem o mesmo valor $x_0$, mas a velocidade de $i$ é maior
 que a de $j$, então $i$ será tratado como se possuísse maior valor
 que $j$ no instante inicial.
-Esse mesmo critério de desempate será aplicado em todos os instantes e também em todos os problemas daqui
-em diante.
+Esse mesmo critério de desempate será aplicado em todos os instantes e também em todos os
+problemas daqui em diante.
+
+\input{conteudo/capitulos/ordenacao/figuras/lista/vetores}
 
 Uma vez de posse do vetor ordenado com os valores iniciais
 decrescentemente, construímos um certificado para cada par de
@@ -30,13 +32,13 @@ O valor $t$ consiste no instante de tempo em que o $i$-ésimo elemento
 deixará de ter um valor maior que o valor do $(i + 1)$-ésimo
 elemento do vetor, se esse instante for maior ou igual a 0, ou em
 geral ao instante atual.
-Do contrário, o valor $t$ consiste em$+\infty$.
+Do contrário, o valor $t$ consiste em $+\infty$.
 O valor $t$ do certificado é o seu \textit{prazo de
 validade}.
 
 Esses prazos de validade determinam os \textit{eventos} que
 potencialmente causarão modificações no vetor que mantém os
-elementos ordenados pelo seu valor e consequentemente em alguns
+elementos ordenados pelo seu valor e, consequentemente, em alguns
 certificados.
 
 Esses $n - 1$ certificados são colocados em uma fila com
@@ -58,14 +60,16 @@ São elas:
     argumento;
     \item \textit{sorted}: vetor com os índices dos $n$ elementos em
     ordem decrescente do seu valor no instante \textit{now};
-    \item \textit{indS}: vetor de $n$ posições; \textit{indS}[$j$]
-    guarda a posição em \textit{sorted} do elemento $j$;
+%    \item \textit{indS}: vetor de $n$ posições; \textit{indS}[$j$]
+%    guarda a posição em \textit{sorted} do elemento $j$;
     \item \textit{cert}: vetor com os $n-1$ certificados;
-    \textit{cert}$[i]$ guarda o $i$-ésimo, ou seja, o certificado
+    \textit{cert}$[i]$ guarda o $i$-ésimo certificado, ou seja, o certificado
     entre $\sorted[i]$ e ${\sorted[i+1]}$, para~$1\leq i < n$;
     \item \textit{Q}: fila que guarda os inteiros $1, \ldots, n-1$,
-    sendo \textit{cert}[$i$] a prioridade de cada elemento da fila.
+    sendo \textit{cert}[$i$] a prioridade do inteiro $i$ na fila.
 \end{enumerate}
+
+\input{conteudo/capitulos/ordenacao/figuras/lista/variaveis}
 
 A interface da fila com prioridades que utilizaremos inclui as duas
 seguintes operações:
@@ -76,23 +80,26 @@ seguintes operações:
     $i$-ésimo certificado para $t$ e ajusta $Q$ de acordo.
 \end{enumerate}
 
-O vetor $\textit{indS}$ nos permite implementar a operação
-\textsc{change} de maneira eficiente, pois, dado um elemento $j$,
-precisamos saber a posição $i$ do elemento $j$ em $\sorted$ para
-recalcular os certificados relacionados com a posição $i$.
+Note que não usaremos inserção ou remoção da fila com prioridades.
 
-Para implementar a operação \textsc{updatePQ}$(Q, i, t)$ em tempo
-logarítmico no número de elementos na fila $Q$, é necessário
-utilizar um vetor adicional \textit{indQ} que guarda em
+Para implementar a operação \textsc{change} de maneira eficiente, utilizaremos um vetor adicional
+$\sorted$ que guarda em $\textit{indS}[j]$ a posição em $\sorted$ do elemento $j$.
+Utilizaremos $\textit{indS}$ pois, dado um elemento $j$, precisamos saber a posição $i$ do
+elemento $j$ em $\sorted$ para recalcular os certificados relacionados com a posição $i$.
+Para implementar a operação \textsc{updatePQ}$(Q, i, t)$ em tempo logarítmico no número de
+elementos na fila $Q$, é necessário utilizar um vetor adicional \textit{indQ} que guarda em
 \textit{indQ}$[i]$ a posição em $Q$ do $i$-ésimo certificado.
 
 Com isso, a operação \textsc{advance}$(t)$, implementada no
 Algoritmo~\ref{alg:lista-ordenada:advance}, segue uma ideia bem simples: enquanto
 $t$ for maior que o prazo de validade do próximo evento, avançamos
 \textit{now} para esse prazo de validade e tratamos esse evento.
-Nos problemas seguintes, a operação \textsc{advance}$(t)$ será sempre a
+Nos problemas seguintes, a operação \textsc{advance}$(t)$ será essencialmente a
 mesma;
 as únicas mudanças ocorrerão no tratamento de um evento.
+
+\input{conteudo/capitulos/ordenacao/algoritmos/lista/advance}
+
 Um evento está associado a um certificado $(i, t)$ que expira quando
 $\now = t$.
 O tratamento do evento correspondente ao certificado $(i, t)$ consiste em trocar de lugar os
@@ -103,21 +110,18 @@ O $i$-ésimo certificado também deve ser ajustado para $+\infty$.
 Finalmente, é necessário fazer ajustes em $Q$, nas chaves dos certificados que sofreram
 alteração.
 
-\input{conteudo/capitulos/ordenacao/algoritmos/lista/advance}
-
 Na implementação da operação \textsc{event}, utilizaremos a rotina
 \textsc{update}$(i)$ para calcular o novo prazo de validade $t$ do
 $i$-ésimo certificado, se $1 \leq i < n$, e fazer os devidos ajustes
 em~$Q$.
-Ambas as implementações podem ser encontradas nos Algoritmos~\ref{alg:lista-ordenada:evento}
-e~\ref{alg:lista-ordenada:update}, respectivamente.
 Para calcular $t$, utilizaremos uma rotina chamada \textsc{expire}$(i,
 j)$, que calcula o prazo de validade dos certificados entre os
 elementos $i$ e $j$ no instante \now.
 A rotina auxiliar \textsc{expire}$(i, j)$ não mudará para outros problemas, mantendo a
 mesma definição.
-As Figuras~\ref{fig:lista:expire} e~\ref{fig:lista:update} ilustram as atualizações feitas por
-essas rotinas.
+As implementações estão nos Algoritmos~\ref{alg:lista-ordenada:update}
+e~\ref{alg:lista-ordenada:evento} e as Figuras~\ref{fig:lista:expire} e~\ref{fig:lista:update}
+ilustram as atualizações feitas por essas rotinas.
 
 \input{conteudo/capitulos/ordenacao/algoritmos/lista/update}
 
@@ -129,12 +133,12 @@ essas rotinas.
 
 A operação \textsc{query\_kth}$(i)$, implementada no Algoritmo~\ref{alg:lista:query}, consiste em
 devolver \textit{sorted}$[i]$, enquanto que a operação \textsc{change}$(j, v)$ consiste em alterar
-a posição $x_0[j]$ para $x_0[j] + (\mathit{speed}[j] - v)\cdot now$,
+a posição $x_0[j]$ para $x_0[j] + (\textit{speed}[j] - v)\cdot now$,
 a posição \textit{speed}[j] para \textit{v} e recalcular os
 eventuais certificados de que $j$ participa.
 O novo valor da posição $x_0[j]$ corresponde à posição inicial do elemento caso ele tivesse
 começado com essa velocidade e estivesse na posição atual agora.
-Para tanto, a partir da posição $i$ em que $j$ se encontra no vetor
+Além disso, a partir da posição $i$ em que $j$ se encontra no vetor
 \textit{sorted}, podemos recalcular \textit{cert}$[i - 1]$ se $i >
 1$ e \textit{cert}$[i]$ se $i < n$, como ilustrado na Figura~\ref{fig:lista:after}, acionando a
 rotina \textsc{update} para fazer
@@ -151,11 +155,8 @@ no Algoritmo~\ref{alg:lista-ordenada:change}.
 \subsection{Análise de desempenho}\label{subsec:analise-de-desempenho}
 
 A lista ordenada cinética é uma estrutura \textit{responsiva}, pois o custo de
-processar um certificado é $O(\lg{n})$.
-O custo de processar um certificado corresponde a uma iteração da linha $3$ na operação
-\textsc{event}, que atualiza o vetor que guarda o índice dos elementos em $O(1)$ e realiza
-alterações na fila de certificados em tempo $O(\lg{n})$, por isso o custo total $O(\lg{n})$ para
-processar um certificado.
+processar um certificado é exatamente o custo da rotina \textsc{event}, que é $O(\lg{n})$ pois a
+rotina \textsc{update} consome $O(\lg{n})$ para atualizar a fila de prioridade dos certificados.
 
 A lista ordenada cinética é uma estrutura \textit{eficiente}, pois todos os eventos
 processados são eventos \textit{externos}, isto é, todo vencimento de
@@ -164,7 +165,7 @@ mudança na descrição combinatória do problema.
 
 A lista ordenada cinética é uma estrutura \textit{compacta}, pois como cada
 certificado está associado à relação de ordem entre um elemento e seu
-predecessor, teremos no máximo $n$ certificados na fila de prioridades num
+predecessor, teremos no máximo $n-1$ certificados na fila de prioridades num
 determinado instante.
 
 A lista ordenada cinética é uma estrutura \textit{local}, pois cada elemento

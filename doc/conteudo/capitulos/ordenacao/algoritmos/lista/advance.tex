@@ -8,7 +8,7 @@
         \State $i \leftarrow \Call{minPQ}{$Q$}$
         \While{$t \geq$ \cert[$i$]}
             \State \now $~\leftarrow$ \cert[i]
-            \State $\Call{event}$
+            \State $\Call{event}{i}$
             \State $i \leftarrow \Call{minPQ}{$Q$}$
         \EndWhile
         \State \now $~\leftarrow$ $t$
