@@ -63,15 +63,16 @@ nomes dos objetos, variáveis e rotinas auxiliares utilizados:
         \item \initv: é o valor que o elemento possuía no
         instante $t = 0$;
 
-        \item \cert: o tempo de validade do certificado do
+        \item \cert: o prazo de validade do certificado do
         elemento;
 
-        \item \pqpos: atributo que aponta para a posição do elemento
-        na fila com prioridades;
+        \item \pqpos: posição do elemento
+        na fila com prioridades $Q$;
 
-        \item \lastmatch: atributo que aponta para a posição do
+        \item \lastmatch: posição do
         vetor \torneio~em que o elemento disputou sua última
         partida.
+        É o equivalente do vetor $\textit{indT}$.
     \end{enumerate}
     \item \torneio: vetor, de $2n - 1$ posições, que guarda
     apontadores para os elementos formando um torneio de acordo com
@@ -81,24 +82,23 @@ nomes dos objetos, variáveis e rotinas auxiliares utilizados:
     elemento com certificado de menor valor à frente;
 
     \item \textsc{insertTourn}$(e) \rightarrow$ insere $e$, que é um
-    elemento, no torneio e atualiza os certificados necessários no
+    elemento, no torneio armazenado em $\torneio$ e atualiza os certificados necessários no
     processo;
 
     \item \textsc{deleteTourn}$(e) \rightarrow$ remove $e$, que é um
-    elemento, do torneio e atualiza os certificados necessários no
+    elemento, do torneio armazenado em $\torneio$ e atualiza os certificados necessários no
     processo.
 \end{enumerate}
 Para a implementação das operações \textsc{change}$(j, v)$ e \textsc{delete}$(i)$, precisamos de
 alguma maneira recuperar um elemento baseado no seu \id.
-Para tal, podemos utilizar estruturas como uma árvore binária balanceada de busca ou uma tabela de
-dispersão.
+Para tal, podemos utilizar uma tabela de símbolos.
 A seguir~estão três operações que nos ajudarão a recuperar os elementos:
 \begin{enumerate}
     \item \textsc{getObject}$(i)\rightarrow$ retorna o elemento $i$;
     \item \textsc{insertObject}$(e) \rightarrow$ insere $e$, que é
-    um elemento, na estrutura;
+    um elemento, na tabela de símbolos;
     \item \textsc{deleteObject}$(e) \rightarrow$ remove $e$, que é
-    um elemento, da estrutura.
+    um elemento, da tabela de símbolos.
 \end{enumerate}
 Para permitir a inserção e remoção de certificados, a interface da fila com prioridades será
 reformulada, contando com duas operações extras:
@@ -126,29 +126,29 @@ A operação \textsc{insert}$(v, x_t)$, no Algoritmo~\ref{alg:torneioi:insert}, 
 novo elemento, inicializando seus atributos com os devidos valores, inseri-lo no torneio e na
 estrutura que usamos para recuperá-lo, calcular o seu certificado e inseri-lo na fila de
 prioridade.
-Uma importante observação é que se \now~$\neq 0$, então $x_t \neq$~\initv.
-Para calcular \initv, podemos utilizar a relação $x_t = now\cdot speed + x_0 \Rightarrow x_0 = x_t
-- speed\cdot\now$.
+Lembre-se que se \now~$\neq 0$, então $x_t \neq$~\initv.
+Para calcular \initv, utilizamos novamente a relação $x_t = now\cdot speed + x_0 \Rightarrow x_0 =
+x_t - speed\cdot\now$.
+A rotina \textsc{insertTourn} é explicada a seguir.
 Veja o exemplo da Figura~\ref{fig:torneioi:insert}.
 
 \input{conteudo/capitulos/maximo/algoritmos/torneio/insertdelete/insert}
 
 \input{conteudo/capitulos/maximo/figuras/torneio/insertdelete/insert}
 
-Utilizamos a função auxiliar \textsc{insertTourn}$(e)$, do Algoritmo~\ref{alg:torneioi:inserttourn},
+Utilizamos a função auxiliar \textsc{insertTourn}$(e)$, do
+Algoritmo~\ref{alg:torneioi:inserttourn},
 que consiste em criar uma nova partida, usando o elemento que está na posição $n-1$ para completar
 a partida, depois subir para o nível de cima no torneio, corrigindo os vencedores das partidas e
 atualizando os certificados correspondentes.
-O certificado do elemento inserido não será calculado nessa função, mas será calculado
-posteriormente.
+O certificado do elemento inserido é calculado ao final função.
 No Algoritmo~\ref{alg:torneioi:inserttourn}, $\textsc{resize}()$ checa se \torneio~é capaz de suportar
 a inserção de novos elementos e, se não for, redimensiona \torneio.
 
 \input{conteudo/capitulos/maximo/algoritmos/torneio/insertdelete/insert_tourn}
 
 A operação \textsc{delete}$(i)$, no Algoritmo~\ref{torneioi:delete}, consiste em recuperar o
-elemento~$i$, removê-lo da fila de prioridade, do torneio e da estrutura que usamos para
-recuperá-lo depois.
+elemento~$i$, removê-lo da fila de prioridade, do torneio e da tabela de símbolos.
 Utilizamos a função auxiliar \textsc{deleteTourn}$(e)$, do Algoritmo~\ref{alg:torneioi:deletetourn},
 que consiste em usar o perdedor da partida travada entre os elementos que estão nas duas últimas
 posições de \torneio~para substituir o elemento~$e$.

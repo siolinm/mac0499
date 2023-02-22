@@ -35,8 +35,8 @@ valor $x_0$ de cada elemento.
 
 Uma vez montado o torneio, construímos um certificado para cada elemento no torneio.
 O $i$-ésimo certificado se refere ao par formado pelo $i$-ésimo elemento da entrada e quem o
-venceu, digamos $j$, na última partida que disputou, e consiste no instante de tempo em que o $i$-
-ésimo elemento passará a ter um valor maior que o valor do $j$-ésimo elemento, se esse instante
+venceu, digamos $j$, na última partida que disputou, e consiste no instante de tempo em que o
+$i$-ésimo elemento passará a ter um valor maior que o valor do $j$-ésimo elemento, se esse instante
 for maior que o instante atual.
 Do contrário, o certificado consiste em $+\infty$.
 Veja a Figura~\ref{fig:torneio:certificados}.
@@ -69,12 +69,12 @@ São elas:
     Se $i$ não perde nenhuma partida, \indt[$i$] é igual a $-1$.
 \end{enumerate}
 
-A interface da fila com prioridades que utilizaremos não se altera.
+A interface da fila com prioridades $Q$ que utilizaremos não se altera.
 
-Na implementação da operação \textsc{event}, no Algoritmo~\ref{alg:torneio:evento}, utilizaremos a
-rotina \textsc{update}$(i)$, no Algoritmo~\ref{alg:torneio:update}, que calcula a nova validade $t$ do
-elemento $j$ que se encontra na $i$-ésima posição de \torneio, isto é, $j =~$\torneio[$i$]
-certificado, se $1 \leq i \leq 2n - 1$, e chama a rotina \textsc{updatePQ}$(Q, i, t)$.
+Na implementação da operação \textsc{event}$(i)$, no Algoritmo~\ref{alg:torneio:evento},
+utilizaremos a rotina \textsc{update}$(i)$, no Algoritmo~\ref{alg:torneio:update}, que calcula a
+nova validade $t$ do certificado do elemento $j$ que se encontra na $i$-ésima posição de \torneio,
+isto é, $j=~$\torneio[$i$] e chama a rotina \textsc{updatePQ}$(Q, i, t)$.
 
 \input{conteudo/capitulos/maximo/algoritmos/torneio/update}
 
@@ -83,8 +83,8 @@ certificado, se $1 \leq i \leq 2n - 1$, e chama a rotina \textsc{updatePQ}$(Q, i
 No trecho das linhas $5 - 11$ do Algoritmo~\ref{alg:torneio:evento}, o resultado da partida entre o
 elemento~$j$ e seu adversário que se encontra na posição $k$ de \torneio~é recalculado, e o
 certificado correspondente é atualizado.
-Caso o resultado da partida tenha sido alterado, a verificação se propaga para o nível de cima,
-veja as Figuras~\ref{fig:torneio:evento} e~\ref{fig:torneio:after}.
+Caso o resultado da partida tenha sido alterado, a verificação se propaga para o nível de cima.
+Veja as Figuras~\ref{fig:torneio:evento} e~\ref{fig:torneio:after}.
 A função $\Call{value}{j}$ retorna ${\speed[j]~\cdot\now + x_0[j]}$.
 
 \input{conteudo/capitulos/maximo/figuras/torneio/expire}
@@ -116,7 +116,7 @@ Veja a Figura~\ref{fig:torneio:change}.
 
 O torneio cinético é uma estrutura \textit{responsiva}, pois o custo de
 processar um certificado é $O(\lg^2{n})$, onde $n$ é o número de elementos.
-De fato, o custo de processar um certificado corresponde a uma iteração da linha $3$ da operação
+De fato, o custo de processar um certificado corresponde a uma execução da operação
 \textsc{event}, que troca o resultado da partida entre os dois elementos envolvidos no certificado
 e atualiza o certificado em tempo $O(\lg{n})$.
 Além disso, existem $O(\lg{n})$ certificados a serem alterados com a propagação da verificação
@@ -124,8 +124,8 @@ para o nível de cima, resultando no custo $O(\lg^2{n})$.
 
 O torneio cinético é uma estrutura \textit{eficiente}, pois a quantidade de eventos internos é
 $O(n\lg{n})$ para trajetórias lineares, como mostraremos abaixo.
-Como a quantidade de eventos externos é $\Theta(n)$ temos uma razão $O(\lg{n})$, que é logarítmica
-em $n$, tornando o torneio cinético uma estrutura eficiente em trajetórias lineares.
+Como a quantidade de eventos externos é $\Theta(n)$, temos uma razão $O(\lg{n})$, que é logarítmica
+em $n$, tornando o torneio cinético uma estrutura eficiente para trajetórias lineares.
 
 Vamos mostrar que a quantidade de eventos internos é $O(n\lg{n})$.
 Cada evento do torneio é ocasionado pela troca do resultado de uma partida.
@@ -135,19 +135,14 @@ vezes que o valor de um nó se altera.
 folhas da subárvore com raiz naquele nó.
 Se uma subárvore enraizada num nó possui $k$ folhas, então podem ocorrer no máximo $k-1$ trocas
 naquele nó.
-O número de folhas que a subárvore enraizada no nó possui é $k = 2^h$, sendo $h$ a altura do nó.
+O número de folhas que a subárvore enraizada no nó possui é no máximo $k = 2^h$, sendo $h$ a
+altura do nó.
 Como o torneio é uma árvore binária balanceada, sua altura é $\left\lceil \lg{n}\right\rceil$.
 Temos $\left\lfloor \frac{n}{2^h}\right\rfloor$ nós de altura $h$.
 Logo, sendo $q$ a quantidade de eventos:
-\begin{align*}
-    q & \leq \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} \dfrac{n}{2^h}\cdot (2^h -
-    1) \\\nonumber
-    & \leq \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} n - \displaystyle\sum_{h =
-    0}^{\left\lceil \lg{n}\right\rceil} \dfrac{n}{2^h} \\ \nonumber
-    & \leq \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} n \\ \nonumber
-    & \leq n\left\lceil \lg{n}\right\rceil + n \\\nonumber
-    & = O(n \lg{n}).\nonumber
-\end{align*}
+$$q \leq \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} \dfrac{n}{2^h}\cdot (2^h -
+1) \leq \displaystyle\sum_{h = 0}^{\left\lceil \lg{n}\right\rceil} n \leq n\left\lceil
+\lg{n}\right\rceil + n = O(n \lg{n}).\nonumber$$
 
 O torneio cinético é uma estrutura \textit{compacta}, pois tem no máximo $n$
 certificados na fila com prioridades, um para cada objeto.

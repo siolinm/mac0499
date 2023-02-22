@@ -5,12 +5,12 @@
 Um bom jeito de resolver o problema do máximo cinético é manter uma fila de
 prioridades com os elementos da coleção tendo como prioridade o valor corrente
 do elemento.
-Dessa maneira, o elemento que se encontra na raiz da fila será o que possui o maior valor da
+Dessa maneira, o elemento que se encontra na raiz da heap será o que possui o maior valor da
 coleção.
-Para implementar a fila utilizaremos um vetor organizado como um heap.
+Para implementar a fila, utilizaremos um vetor organizado como um heap de máximo.
 
-Inicialmente o vetor começa com os índices dos elementos e o reorganizamos como um
-heap usando como chave o valor de cada elemento no instante $t = 0$, ou seja, o
+Inicialmente esse vetor começa com os índices dos elementos e o reorganizamos como um
+heap de máximo usando como chave o valor de cada elemento no instante $t = 0$, ou seja, o
 valor $x_0$ de cada elemento.
 
 Uma vez montado o heap, construímos um certificado para cada par $($filho,
@@ -22,21 +22,22 @@ Do contrário, o certificado consiste em $+\infty$.
 
 Esses $n - 1$ certificados são colocados em uma fila com prioridades $Q$, com o
 prazo de validade como chave.
-Estamos interessados nos certificados com menor prazo de validade.
+Estamos interessados nos certificados com menor prazo de validade, portanto $Q$ será um heap de
+mínimo.
 
-Para descrever a implementação das três operações, precisamos estabelecer o nome
-das novas variáveis usadas.
-São elas:
+Para descrever a implementação das três operações, além das variáveis descritas na
+Seção~\ref{sec:lista}, precisamos estabelecer o nome de uma nova variável usada e a redefinição do
+vetor $\cert$:
 \begin{enumerate}
     \item \textit{heap}: vetor com os índices dos $n$ elementos
-    formando um heap de acordo com o seu valor no instante
+    formando um heap de máximo de acordo com o seu valor no instante
     \textit{now};
     \item \textit{cert}: vetor com os certificados, onde
     \textit{cert}$[i]$ guarda o certificado entre $i$ e
     $\floor{\frac{i}{2}}$, para $1 < i \leq n$.
 \end{enumerate}
 
-A interface da fila com prioridades que utilizaremos não se altera.
+A interface para a fila com prioridades $Q$ que utilizaremos não se altera.
 
 Um evento está associado a um certificado $(i, t)$ que expira no instante $t$,
 como pode ser visto na Figura~\ref{fig:maxdevent}.
@@ -60,7 +61,7 @@ alteração.
 
 %\input{conteudo/capitulos/maximo/tabelas/heap/updateandexpire}
 
-Novamente, na implementação da operação \textsc{event}, no Algoritmo~\ref{alg:heap:evento},
+Novamente, na implementação da operação \textsc{event}$(i)$, no Algoritmo~\ref{alg:heap:evento},
 utilizaremos a rotina \textsc{update}$(i)$, do Algoritmo~\ref{alg:heap:update}, que calcula a nova
 validade $t$ do $i$-ésimo certificado, se $1 < i \leq n$, e chama a rotina \textsc{updatePQ}$(Q, i,
 t)$.
@@ -93,19 +94,19 @@ Veja a Figura~\ref{fig:predeventheap}.
 
 O heap cinético é uma estrutura \textit{responsiva}, pois o custo de processar
 um certificado é $O(\lg{n})$, onde $n$ é a quantidade de pontos.
-O custo de processar um certificado corresponde a uma iteração da linha $3$ da operação
-\textsc{event}, que troca de posição os dois elementos envolvidos no certificado em $O(1)$ e
-atualiza os cinco certificados afetados em $O(\lg{n})$.
+O custo de processar um certificado corresponde ao custo da operação \textsc{event}, que troca de
+posição os dois elementos envolvidos no certificado em $O(1)$ e atualiza os cinco certificados
+afetados em $O(\lg{n})$.
 
 O heap cinético é uma estrutura \textit{eficiente}, pois a quantidade de eventos
-internos é $O(n\lg^2{n})$ para trajetórias lineares, mostrado em~\cite{basch-thesis}.
+internos é $O(n\lg^2{n})$ para trajetórias lineares, conforme mostrado em~\cite{basch-thesis}.
 Como a quantidade de eventos externos é $\Theta(n)$ temos uma razão $O(\lg^2{n})$, que é
-polilogarítmica em $n$, tornando o heap cinético uma estrutura eficiente em trajetórias lineares.
+polilogarítmica em $n$, tornando o heap cinético uma estrutura eficiente para trajetórias lineares.
 
 O heap cinético é uma estrutura \textit{compacta}, pois há no máximo $n$
-certificados na fila com prioridades, um para cada objeto.
+certificados na fila com prioridades $Q$, um para cada objeto.
 
 O heap cinético é uma estrutura \textit{local}, pois um elemento está envolvido
-em no máximo três certificados da fila ao mesmo tempo.
+em no máximo três certificados da fila $Q$ ao mesmo tempo.
 
 
