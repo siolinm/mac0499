@@ -2,16 +2,16 @@
     \caption[Algoritmo \textsc{downEventRight} do par mais próximo cinético]{Função downEventRight.} \label{alg:par-cinetico:eventodowncaso2}
     \begin{algorithmic}[1]
         \Function{downEventRight}{$p, q, dir$}
-            \State $t \leftarrow \Call{owner}{p.hitsUp(dir)}$
+            \State $t \leftarrow \Call{owner}{p.\hitsup(dir)}$ \Comment{$p \in \Hits_{up}(t)$}
             \If{$t \neq \nnull$}
                 \State \Call{delete}{$p, \Hits_{up}(t, dir)$}
             \EndIf
             \State $\Call{insert}{p, \Hits_{up}(q, dir)}$
             \State $v \leftarrow \Call{predecessor}{q, \Hits_{low}(p, dir), D}$
             \If{$v = \nnull$}
-                \State $v \leftarrow \Call{owner}{p.cands(dir)}$
+                \State $v \leftarrow \Call{owner}{p.cands(dir)}$ \Comment{$p \in \Cands(v)$}
             \EndIf
-            \State $newHits \leftarrow \Call{split}{v, \nnull, \Hits_{low}(p,dir)}$
+            \State $newHits \leftarrow \Call{split}{v, \nnull, \Hits_{low}(p,dir)}$ \Comment{posteriores a $v$ em $\Hits_{low}(p)$}
             \State $\Call{join}{newHits, \Hits_{low}(q, dir)}$
             \State \Call{delete}{$q, Cands(p, dir)$}
             \If{$v \neq \nnull$}

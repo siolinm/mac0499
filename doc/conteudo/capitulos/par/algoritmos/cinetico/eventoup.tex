@@ -4,9 +4,11 @@
     \begin{algorithmic}[1]
         \Function{upEvent}{$p, q, dir$}
             \If{$q = \Call{owner}{p.hitsLow(dir)}$}
+                \Comment{$p$ está em $\Hits_{low}(q)$}
                 \State \Call{upEventLeft}{$p, q, dir$}
             \Else
                 \If{$p = \Call{owner}{q.cands(dir)}$}
+                    \Comment{$q \in \Cands(p)$}
                     \State \Call{upEventRight}{$p, q, dir$}
                 \EndIf
             \EndIf

@@ -2,10 +2,12 @@
     \caption[Algoritmo \textsc{downEvent} do par mais próximo cinético]{Função downEvent.} \label{alg:par-cinetico:eventodown}
     \begin{algorithmic}[1]
         \Function{downEvent}{$p, q, dir$}
-            \If{$q = \Call{owner}{p.hitsUp(dir)}$}
+            \If{$q = \Call{owner}{p.\hitsup(dir)}$}
+                \Comment{$p \in \Hits_{up}(q)$}
                 \State \Call{downEventLeft}{$p, q, dir$}
             \Else
                 \If{$p = \Call{owner}{q.cands(dir)}$}
+                    \Comment{$q \in \Cands(p)$}
                     \State \Call{downEventRight}{$p,q, dir$}
                 \EndIf
             \EndIf

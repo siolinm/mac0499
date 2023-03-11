@@ -23,8 +23,8 @@ Por exemplo, uma troca na ordem dos pontos pode acarretar numa mudança nos conj
 $\Cands(q)$.
 Mudanças nesses conjuntos ocorrerão quando $q = \up(p)$, $q = \low(p)$ ou $q \in \Cands(p)$.
 Portanto, para que consigamos manter $\lcand(p)$ de maneira eficiente, cada ponto terá três árvores
-binárias de busca associadas a ele com os conjuntos $\Cands(p)$, $\Hits_{up}(p)$ e $\Hits_{low}(p)
-$.
+binárias de busca associadas a ele com os conjuntos $\Cands(p)$ e os chamados $\Hits_{up}(p)$ e
+$\Hits_{low}(p)$.
 A árvore $\Cands(p)$ guarda os pontos que pertencem ao conjunto $\Cands(p)$ ordenados pela
 coordenada $y$.
 A árvore $\Hits_{up}(p)$ guarda os pontos $q$ tais que $\up(q) = p$, ordenados pela coordenada $x$.
@@ -54,12 +54,12 @@ Quando todos os pares forem inseridos no torneio, realizamos as partidas e calcu
 certificados.
 O par $(p, q)$ da partida que possuir menor distância é considerado o vencedor.
 
-Todos os certificados são colocados em uma fila de prioridade $Q$.
+Todos os certificados são colocados em uma fila com prioridade $Q$.
 Os certificados inseridos na fila possuem quatro informações:
 \begin{itemize}
     \item $t~\rightarrow$ instante de tempo em que o certificado
     expira.
-    É utilizado como chave para a fila de prioridade.
+    É utilizado como chave para a fila com prioridades.
     Desempates são tratados de maneira especial e serão explicados
     mais adiante;
     \item $p~\rightarrow$ um dos pontos envolvidos no evento
@@ -82,6 +82,11 @@ Figura~\ref{fig:parcinetico:eventohorizontal}.
 O caso em que $q$ está à esquerda de $p$ será tratado de maneira parecida.
 O Algoritmo~\ref{alg:par-cinetico:eventohorizontal} implementa a sequência de operações referentes
 a esse tipo de evento.
+A rotina \textsc{owner} acha em tempo logarítmico na quantidade de nós da árvore o ponto para o
+qual a raiz aponta.
+Os atributos $\hitsup$ e $\hitslow$ são apontadores para o nó do ponto na respectiva árvore da
+direção especificada.
+Note que, numa direção, $q$ só pode estar no $\Hits_{up}$ de um ponto da direita para a esquerda.
 
 \input{conteudo/capitulos/par/algoritmos/cinetico/eventohorizontal}
 
@@ -93,10 +98,6 @@ $\Hits_{low}(w)$, onde $t = \up(p)$ após a troca de ordem entre os pontos e $w 
 troca de ordem entre os pontos.
 O Algoritmo~\ref{alg:par-cinetico:eventohorizontalcaso1} implementa a sequência de operações
 necessárias para corrigir as estruturas afetadas pela troca.
-A rotina \textsc{owner} acha em tempo logarítmico na quantidade de nós da árvore o ponto para o
-qual a raiz aponta.
-Os atributos $\hitsup$ e $\hitslow$ são apontadores para o nó do ponto na respectiva árvore da
-direção especificada.
 Por exemplo, $q.\hitsup(U)$ é o apontador para o nó de $q$ numa árvore $\Hits_{up}$ de algum
 ponto, na direção \textsc{up}.
 Se $p$ não está em $\Hits_{up}(q)$, então não haverão mudanças, veja a
@@ -136,8 +137,9 @@ evento.
 Se $p$ está em $\Hits_{low}(q)$, ou seja, $q$ está entrando em $\Dom(p)$ como demonstrado na
 Figura~\ref{fig:parcinetico:eventoup} da esquerda para direita, então a troca na $60^\circ$-ordem
 afetará o ponto $v$ tal que $q$ está em $\Cands(v)$.
-A mudança também afetará todos os pontos que estão à esquerda de $p$ e estão em $\Hits_{up}(q)$,
-incluindo o ponto $t$ em $\Hits_{up}(q)$ mais à esquerda que está à direita de $p$.
+A mudança também afetará todos os pontos que estão à esquerda de $p$ e estão em $\Hits_{up}(q)$
+(como os pontos $c$ e $e$ na Figura~\ref{fig:parcinetico:eventoup}),
+bem como o ponto $t$ em $\Hits_{up}(q)$ mais à esquerda que está à direita de $p$.
 Se esse ponto $t$ não existe, buscamos pelo ponto $t$ tal que $q$ está em $\Hits_{low}(t)$.
 Buscamos por $t$ para que possamos remover o ponto $p$ de $\Hits_{low}(q)$ e o inseri-lo em
 $\Hits_{low}(t)$.
@@ -157,7 +159,7 @@ porém reversas ao outro caso, como demonstrado no Algoritmo~\ref{alg:par-cineti
 
 Um evento em que ocorre uma mudança na $-60^\circ$-ordem, a ordem dos pontos projetados no eixo $x
 - 60^\circ$, é simétrico a um evento na $60^\circ$-ordem.
-Os pontos envolvidos no evento serão $p$e $q$ e vamos assumir que $p$ é o ponto mais à esquerda e
+Os pontos envolvidos no evento serão $p$ e $q$ e vamos assumir que $p$ é o ponto mais à esquerda e
 abaixo de $q$.
 O evento pode provocar a entrada ou saída do ponto $q$ de $\Cands(p)$, veja a
 Figura~\ref{fig:parcinetico:eventodown}.
@@ -167,16 +169,16 @@ evento.
 \input{conteudo/capitulos/par/algoritmos/cinetico/eventodown}
 
 Se $p$ está em $\Hits_{up}(q)$ ($q$ está entrando em $Dom(p)$), como demonstrado na
-Figura~\ref{fig:parcinetico:eventodown}, então a troca na $-60^\circ$-ordem afetará o ponto $v$ tal
-que $q$ está em $\Cands(v)$.
-Além disso, afetará $\Cands(p)$, todos os pontos que estão à esquerda de $p$ e estão em
-$\Hits_{low}(q)$, incluindo o ponto $t$ em $\Hits_{low}(q)$ mais à esquerda que está a
+Figura~\ref{fig:parcinetico:eventodown} da esquerda para a direita, então a troca na $-60^\circ$-ordem
+afetará o ponto $v$ tal que $q$ está em $\Cands(v)$.
+Além disso, afetará $\Cands(p)$ e todos os pontos que estão à esquerda de $p$ e estão em
+$\Hits_{low}(q)$, bem como o ponto $t$ em $\Hits_{low}(q)$ mais à esquerda que está a
 direita de $p$.
 Se não existe ponto que satisfaça essas condições, então buscamos pelo ponto $t$ tal que $q$ está
 em $\Hits_{up}(t)$.
 Buscamos por $t$ porque precisamos remover o ponto $p$ de $\Hits_{up}(q)$ e o inserimos em
 $\Hits_{up}(t)$.
-Se $p$ não está em $\Hits_{up}(q)$ não haverão mudanças.
+Se $p$ não está em $\Hits_{up}(q)$, não haverão mudanças.
 As operações necessárias para corrigir as estruturas envolvidas estão descritas no
 Algoritmo~\ref{alg:par-cinetico:eventoupcaso1}.
 
@@ -195,19 +197,20 @@ caso, como demonstrado no Algoritmo~\ref{alg:par-cinetico:eventodowncaso2}.
 As análises de desempenho aqui foram extraídas de~\cite{eduardo}.
 
 A estrutura de dados cinética para manter um par de pontos mais próximo é uma estrutura
-\textit{responsiva}, pois o custo de processar um certificado é $O(\lg{n})$, onde $n$ é o número
-de pontos.
+\textit{responsiva}, pois o custo amortizado de processar um certificado é $O(\lg{n})$, onde $n$ é
+o número de pontos.
 O custo de processar um certificado é o custo de realizar as trocas necessárias nas listas
-ordenadas, o que consome tempo $O(\lg{n})$.
+ordenadas, o que consome tempo amortizado $O(\lg{n})$.
 Além disso também há o custo de corrigir as árvores $\Cands$, $\Hits_{low}$, $\Hits_{up}$, o
 torneio e os certificados associados.
-Mas, essas operações são realizadas em sequência, consumindo um custo também de $O(\lg{n})$.
+Mas, essas operações são realizadas em sequência, consumindo um custo amortizado também de
+$O(\lg{n})$.
 
 A estrutura é \textit{eficiente}, pois a razão entre o total de eventos e os eventos
 \textit{externos}, isto é, as trocas de par mais próximo, de acordo com~\cite{eduardo}, é
 $O(\epsilon \lg{n})$, resultando em uma estrutura eficiente.
 
-A estrutura é \textit{compacta}, pois teremos $O(n)$ certificados na fila de prioridades
+A estrutura é \textit{compacta}, pois teremos $O(n)$ certificados na fila com prioridades
 associados a mudanças nas listas ordenadas e $O(n)$ certificados do torneio cinético, resultando
 em $O(n)$ certificados na fila com prioridades num determinado instante.
 

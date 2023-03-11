@@ -3,16 +3,17 @@
     \label{alg:par-cinetico:eventoupcaso2}
     \begin{algorithmic}[1]
         \Function{upEventRight}{$p, q, dir$}
-            \State $t \leftarrow \Call{owner}{p.hitsLow(dir)}$
+            \State $t \leftarrow \Call{owner}{p.hitsLow(dir)}$ \Comment{$p \in \Hits_{low}(t)$}
             \If{$t \neq \nnull$}
                 \State \Call{delete}{$p, \Hits_{low}(t, dir)$}
             \EndIf
             \State $\Call{insert}{p, \Hits_{low}(q, dir)}$
             \State $v \leftarrow \Call{predecessor}{q, \Hits_{up}(p, dir), U}$
             \If{$v = \nnull$}
-                \State $v \leftarrow \Call{owner}{p.cands(dir)}$
+                \State $v \leftarrow \Call{owner}{p.cands(dir)}$ \Comment{$p \in \Cands(v)$}
             \EndIf
             \State $newHits \leftarrow \Call{split}{v, \nnull, \Hits_{up}(p,dir)}$
+            \Comment{posteriores a $v$ em $\Hits_{up}(p)$}
             \State $\Call{join}{newHits, \Hits_{up}(q, dir)}$
             \State \Call{delete}{$q, Cands(p, dir)$}
             \If{$v \neq \nnull$}

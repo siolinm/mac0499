@@ -4,6 +4,7 @@
     \begin{algorithmic}[1]
         \Function{horizontalEvent}{$p,q, dir$}
             \If{$q = \Call{owner}{p.\hitsup(dir)}$}
+                \Comment{$p$ está em $\Hits_{up}(q)$}
                 \State \Call{horizontalEventLeft}{$p,q, dir$}
             \Else
                 \If{$p = \Call{owner}{q.\hitslow(p, dir)}$}

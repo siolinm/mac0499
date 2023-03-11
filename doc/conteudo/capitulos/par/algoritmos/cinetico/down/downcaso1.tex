@@ -2,16 +2,16 @@
     \caption[Algoritmo \textsc{downEventLeft} do par mais próximo cinético]{Função downEventLeft.} \label{alg:par-cinetico:eventodowncaso1}
     \begin{algorithmic}[1]
         \Function{downEventLeft}{$p, q, dir$}
-            \State $v \leftarrow \Call{owner}{q.cands(dir)}$
+            \State $v \leftarrow \Call{owner}{q.cands(dir)}$ \Comment{$q \in \Cands(v)$}
             \If{$v \neq \nnull$}
-                \State \Call{delete}{$q, Cands(v, dir)$}
+                \State \Call{delete}{$q, \Cands(v, dir)$}
             \EndIf
-            \State \Call{insert}{$q, Cands(p, dir)$}
+            \State \Call{insert}{$q, \Cands(p, dir)$}
             \State $t \leftarrow \Call{successor}{p, \Hits_{low}(q, dir), H}$
             \If{$t = \nnull$}
-                \State $t \leftarrow \Call{owner}{q.hitsUp(dir)}$
+                \State $t \leftarrow \Call{owner}{q.\hitsup(dir)}$ \Comment{$q \in \Hits_{up}(t)$}
             \EndIf
-            \State $newHits \leftarrow \Call{split}{\nnull, t, \Hits_{low}(q, dir)}$
+            \State $newHits \leftarrow \Call{split}{\nnull, t, \Hits_{low}(q, dir)}$ \Comment{anteriores a $t$ em $\Hits_{low}(q)$}
             \State $\Call{join}{\Hits_{low}(p, dir), newHits}$
             \State $\Call{delete}{p, \Hits_{up}(q, dir)}$
             \If{$t \neq \nnull$}

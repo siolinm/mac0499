@@ -5,7 +5,8 @@
         \Function{horizontalEventRight}{$p, q, dir$}
             \State $t \leftarrow$ \Call{predecessor}{$q, \Cands(p, dir), D$}
             \If{$t = \nnull$}
-                \State $t \leftarrow$ \Call{owner}{$p.\hitslow(dir)$}
+                \State $t \leftarrow$ \Call{owner}{$p.\hitslow(dir)$} \Comment{$p$ está em
+                    $\Hits_{low}(t)$}
             \EndIf
             \State $newCands \leftarrow \Call{split}{t, \nnull, \Cands(p,
             dir)}$
@@ -14,7 +15,8 @@
             \If{$t \neq \nnull$}
                 \State \Call{insert}{$q, \Hits_{low}(t, dir)$}
             \EndIf
-            \State $w \leftarrow \Call{owner}{p.\hitsup(dir)}$
+            \State $w \leftarrow \Call{owner}{p.\hitsup(dir)}$ \Comment{$p$ está em
+                $\Hits_{up}(w)$}
             \If{$w \neq \nnull$}
                 \State \Call{delete}{$p, \Hits_{up}(w, dir)$}
             \EndIf
