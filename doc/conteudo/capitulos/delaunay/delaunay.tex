@@ -7,40 +7,40 @@
 
 Considere o seguinte problema cinético.
 São dados $n$ pontos movendo-se linearmente no plano.
-Cada ponto é representado por um par $(s_0, \vec{v})$ onde $s_0 = (x_0, y_0)$ é a sua posição
-inicial e $\vec{v} = (v_x, v_y)$ um vetor velocidade.
-A posição de um determinado ponto $p$, num instante arbitrário $t \geq 0$, é
-$s_p = (x_p, y_p) = (x_0, y_0)+t\cdot \vec{v}$.
+Cada um destes pontos é representado por um par $(s_0, \vec{v})$ onde $s_0 = (x_0, y_0)$ é a sua
+posição inicial e $\vec{v} = (v_x, v_y)$ um vetor velocidade.
+Como no Capítulo~\ref{ch:par-mais-proximo-cinetico}, a posição de um determinado ponto $p$ representado por $(s_0, \vec{v})$, num instante arbitrário $t \geq 0$, é $s_p = (x_p, y_p) = (x_0,
+y_0)+t\cdot \vec{v}$.
 Queremos saber o conjunto de arestas que define a triangulação de Delaunay desses pontos, num
 instante arbitrário $t \geq 0$.
 
-Por exemplo, esta é a triangulação de Delaunay para os 8 pontos na coleção representada na
-Figura~\ref{fig:delaunay:exemplo}:
+Por exemplo, esta é a triangulação de Delaunay para os oito pontos na coleção representada na
+Figura~\ref{fig:delaunay:exemplo} em dois instantes distintos:
 %$((-2, -1), \left(\frac{5}{4}, \frac{1}{2}\right))$, $\left((-1, 3), \left(\frac{1}{2}, -1\right)
 %\right)$, $((1, 1), (1, -1))$, $((1, 2), (1, 0))$, $((2, 0), (0, -1))$, $((2, -2), (2, -1))$,
 %$((3, 4), (2,-2))$, $\left((4, 2), \left(-\frac{3}{2}, 1\right)\right)$.
 
 \input{conteudo/capitulos/delaunay/figuras/exemplo}
 
-Para entender o que é a triangulação de Delaunay de um conjunto de pontos, precisamos antes
-entender o que é o diagrama de Voronoi.
+Para entender o que é a triangulação de Delaunay de um conjunto de pontos, vamos antes descrever o
+que é o diagrama de Voronoi.
 
-O diagrama de Voronoi de um conjunto $P$ de pontos é uma partição do plano em regiões que
-correspondem aos pontos de $p$.
-Cada região $R(p)$ compreende todos os pontos do plano mais próximos de $p$ do que de qualquer
-outro ponto do conjunto $P$.
+O \textit{diagrama de Voronoi} de um conjunto $P$ de pontos é uma partição do plano em regiões que
+correspondem aos pontos de $P$.
+Para $p \in P$, cada região $R(p)$ compreende todos os pontos do plano mais próximos de $p$ do que
+de qualquer outro ponto do conjunto $P$.
 As regiões são polígonos cujas arestas são formadas por pontos que estão equidistantes de dois ou
 mais pontos de $P$.
-Os vértices desse polígono estão equidistantes de três ou mais pontos de $P$.
+Os vértices desse polígono estão equidistantes a três ou mais pontos de $P$.
 Veja a Figura~\ref{fig:delaunay:voronoi}.
 
 \input{conteudo/capitulos/delaunay/figuras/voronoi}
 
-A triangulação de Delaunay de um conjunto de pontos $P$ é definida como a triangulação do grafo
-dual do diagrama de Voronoi para $P$.
-Os vértices do grafo dual são os pontos de $P$ e para cada região associada ao ponto no diagrama de
-Voronoi existe uma aresta entre o vértice associado à região e os vértices associados às regiões
-adjacentes.
+A \textit{triangulação de Delaunay} de um conjunto $P$ de pontos é definida como a triangulação do
+grafo dual do diagrama de Voronoi de $P$.
+Os vértices do grafo dual são os pontos de $P$ e, para cada região associada ao ponto no diagrama
+de Voronoi, existe uma aresta entre o vértice associado à região e os vértices associados às
+regiões adjacentes.
 Veja a Figura~\ref{fig:delaunay:dual}.
 O grafo dual é chamado de grafo de Delaunay e a triangulação desse grafo é chamada de triangulação
 de Delaunay.
@@ -48,14 +48,14 @@ de Delaunay.
 \input{conteudo/capitulos/delaunay/figuras/dual}
 
 Em geral, o grafo de Delaunay já é uma triangulação.
-Somente no caso em que existem quatro ou mais pontos co-circulares é possível que existam faces no
-grafo de Delaunay com quatro ou mais arestas, veja a
+Somente no caso em que existem quatro ou mais pontos co-circulares em $P$ é possível que existam
+faces no grafo de Delaunay com quatro ou mais arestas, veja a
 Figura~\ref{fig:delaunay:grafo-vs-triangulacao}.
 
 \input{conteudo/capitulos/delaunay/figuras/grafo}
 
 Considere uma aresta $e$ de uma triangulação $T$ de $P$.
-Se $e$ não faz parte do fecho convexo de $P$, então faz parte de dois triângulos adjacentes na
+Se $e$ não faz parte do fecho convexo de $P$, então $e$ faz parte de dois triângulos adjacentes na
 triangulação.
 Se esses triângulos formam um quadrilátero convexo, então os vértices da aresta podem ser trocados
 pelos outros dois vértices do quadrilátero, gerando uma nova triangulação.
@@ -64,16 +64,17 @@ Figura~\ref{fig:delaunay:flip}.
 
 \input{conteudo/capitulos/delaunay/figuras/flip}
 
-Uma aresta é dita ilegal se após a troca dos vértices, o menor dos ângulos do novo quadrilátero
-formado é maior que o menor dos ângulos do quadrilátero anterior a troca da aresta.
-Em~\cite{computationalgeometry} é demonstrado que uma aresta $p_{i}p_{j}$ é ilegal se o ponto
-$p_{l}$ do quadrilátero convexo $p_{i}p_{k}p_{j}p_{l}$ está no interior do círculo que passa por
-$p_{i}p_{k}p_{j}$.
+Uma aresta é dita \textit{ilegal} se após a troca dos vértices, o menor dos ângulos do novo
+quadrilátero formado é maior que o menor dos ângulos do quadrilátero anterior à troca da aresta.
+No Lema~$9.4$ de~\cite{computationalgeometry} é demonstrado que uma aresta $p_{i}p_{j}$ é ilegal
+se o ponto $p_{l}$ do quadrilátero convexo $p_{i}p_{k}p_{j}p_{l}$ está no interior do círculo que
+passa por $p_{i}p_{k}p_{j}$.
 Também é demonstrado que uma triangulação que não possui arestas ilegais é uma triangulação de
 Delaunay.
 
-Isso nos dá um algoritmo para calcular a triangulação de Delaunay, podemos começar com uma
-triangulação qualquer e trocar arestas que identificarmos como ilegais.
+Isso nos dá um algoritmo para calcular a triangulação de Delaunay.
+Podemos começar com uma triangulação qualquer e trocar arestas que identificarmos como ilegais,
+até que não haja aresta ilegal.
 Uma possível forma de gerar uma triangulação inicial é utilizando o algoritmo de Graham, veja o
 Algoritmo~\ref{alg:delaunay:delaunay-inicial}.
 
@@ -110,8 +111,8 @@ Guibas, Mitchell e Roos [\cite{guibas-mitchell-roos}] propuseram uma estrutura d
 para manter a triangulação de Delaunay.
 Os certificados da estrutura serão os testes de \textsc{left} e \textsc{incircle} utilizados para
 assegurar que não existem arestas ilegais.
-Os momentos em que ocorre uma inversão no valor desses determinantes definem o prazo de validade
-destes certificados.
+Os momentos em que ocorre uma inversão no sinal do valor desses determinantes definem o prazo de
+validade destes certificados.
 
 Um evento associado ao vencimento de um certificado do tipo \textsc{incircle} resulta na troca de
 uma aresta, veja a Figura~\ref{fig:delaunay:incircle}.
@@ -126,11 +127,11 @@ triangulação, veja a Figura~\ref{fig:delaunay:left}.
 
 \input{conteudo/capitulos/delaunay/figuras/left}
 
-Na verdade, utilizaremos uma técnica muito comum na geometria computacional para facilitar a
+Na verdade, utilizaremos uma técnica muito comum em geometria computacional para facilitar a
 computação dos eventos.
 Adicionaremos um ponto no infinito e uma aresta entre cada ponto no fecho convexo e esse ponto no
 infinito.
-Dessa forma, poderemos tratar todos eventos da mesma forma, cada evento consiste na troca de uma
+Dessa forma, poderemos tratar todos os eventos da mesma forma: cada evento consiste na troca de uma
 aresta do quadrilátero formado pelos quatro vértices que participam do evento.
 Eventos envolvendo o ponto no infinito ainda devem ter o prazo de validade
 calculado através da rotina \textsc{left} com os três pontos que não são o infinito.
@@ -141,39 +142,41 @@ Esses são os casos em que o grafo de Delaunay não corresponde à triangulaçã
 faces que são polígonos com mais de três lados.
 Isso ocorre quando mais de quatro pontos numa vizinhança se tornam co-circulares e são casos que
 devem ser tratados de forma especial.
-Esses casos são identificados quando os eventos da fila de prioridades ocorrem no mesmo instante,
-envolvendo quadriláteros adjacentes.
+Esses casos são identificados quando dois ou mais eventos da fila de prioridades ocorrem no mesmo
+instante, envolvendo quadriláteros adjacentes.
 A solução proposta em~\cite{aggarwal-guibas-saxe-shor} calcula uma triangulação para o
 instante~$t + \epsilon$ em tempo linear, sendo $t$ o instante de ocorrência do evento.
-Assim, após o processamento desses eventos a estrutura permanece correta.
+Assim, após o processamento desses eventos, a estrutura permanece correta.
 
-A estrutura de dado cinética pode ser construída da seguinte forma:
+A estrutura de dados cinética pode ser construída da seguinte forma:
 \begin{enumerate}
-    \item Calcular a triangulação de Delaunay de $P$ para os pontos na posição inicial.
-    \item Para cada quadrilátero formado por triângulos adjacentes na triangulação calcular os
-    prazos de validade dos certificados e inseri-los numa fila com prioridades.
-    Isso inclui os quadriláteros que tem o ponto no infinito como vértice, que terão seus prazos
-    de validade calculados de acordo com o zero da função \textsc{left}, e não da função
+    \item Calcular a triangulação de Delaunay de $P$ para os pontos na posição inicial, incluindo
+    o ponto no infinito.
+    \item Para cada quadrilátero formado por triângulos adjacentes na triangulação inicial,
+    calcular os prazos de validade dos certificados e montar uma fila com prioridades com eles.
+    Isso inclui os quadriláteros que têm o ponto no infinito como vértice, que terão seus prazos
+    de validade calculados de acordo com a função \textsc{left}, e não com a função
     \textsc{incircle} como os demais.
 \end{enumerate}
 
 Note que a estrutura de dados pode ser gerada independentemente do algoritmo utilizado para
 calcular a triangulação de Delaunay inicial.
 Isso nos permite utilizar um algoritmo mais eficiente para calcular a triangulação inicial, como o
-algoritmo incremental que consome tempo $O(n\lg{n})$.
-O segundo passo também consome tempo $O(n\lg{n})$, já que calcular os prazos de validade toma
-tempo constante e a inserção na fila com prioridades $O(\lg{n})$.
+algoritmo incremental que consome tempo $O(n\lg{n})$, onde $n$ é o número de pontos.
+O segundo passo consome tempo $O(n)$, já que o número de quadriláteros é o número de arestas da
+triangulação, que é $O(n)$, logo o número de certificados é $O(n)$, e a construção da fila com
+prioridades leva tempo $O(n)$.
 
 
 \section{Análise de desempenho}\label{sec:delaunay:analise-de-desempenho}
 
 As análises de desempenho aqui foram extraídas de~\cite{eduardo}.
 
-A estrutura de dados cinética para manter a triangulação de Delaunay é uma estrutura
+A estrutura de dados cinética para manter a triangulação de Delaunay de $n$ pontos é uma estrutura
 \textit{responsiva}, pois o custo de processar um certificado é $O(\lg{n})$.
 O custo de processar um certificado é o custo de trocar uma aresta e recalcular os certificados dos
 quatro quadriláteros envolvidos nessa troca.
-Nos casos degenerados é mais do que quatro quadriláteros serão envolvidos, mas
+Nos casos degenerados, mais do que quatro quadriláteros serão envolvidos, mas
 em~\cite{guibas-mitchell-roos} é mostrado que o tempo amortizado continua sendo $O(\lg{n})$.
 
 A estrutura é \textit{eficiente}, pois todos os eventos processados são eventos \textit{externos},
@@ -182,8 +185,8 @@ triangulação de Delaunay.
 De acordo com~\cite{eduardo}, no caso de movimentos lineares, o número total de eventos é
 $O(n^3)$.
 
-A estrutura é \textit{compacta}, pois cada certificado está associado a uma aresta, teremos
-$O(n)$ certificados na fila de prioridades num determinado instante.
+A estrutura é \textit{compacta}, pois cada certificado está associado a uma aresta, assim teremos
+$O(n)$ certificados na fila com prioridades num determinado instante.
 
 A estrutura não é \textit{local}, pois um ponto pode estar envolvido em até $O(n)$
 certificados, veja a Figura~\ref{fig:delaunay:naolocal}.
