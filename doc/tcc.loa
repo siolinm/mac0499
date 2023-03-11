@@ -24,16 +24,16 @@
 \contentsline {algorithm}{\numberline {2.12}{\ignorespaces Algoritmo \textsc {deleteTourn} do torneio cinético}}{32}{algorithm.caption.56}%
 \contentsline {algorithm}{\numberline {3.1}{\ignorespaces Algoritmo \textsc {closest\_pair} do par mais próximo}}{38}{algorithm.caption.62}%
 \contentsline {algorithm}{\numberline {3.2}{\ignorespaces Algoritmo \textsc {successor} do par mais próximo}}{40}{algorithm.caption.64}%
-\contentsline {algorithm}{\numberline {3.3}{\ignorespaces Algoritmo \textsc {predecessor} do par mais próximo}}{40}{algorithm.caption.65}%
-\contentsline {algorithm}{\numberline {3.4}{\ignorespaces Algoritmo \textsc {lcand} do par mais próximo}}{41}{algorithm.caption.67}%
-\contentsline {algorithm}{\numberline {3.5}{\ignorespaces Algoritmo \textsc {query\_closest} do par mais próximo}}{41}{algorithm.caption.68}%
-\contentsline {algorithm}{\numberline {3.6}{\ignorespaces Algoritmo \textsc {horizontalEvent} do par mais próximo cinético}}{43}{algorithm.caption.70}%
-\contentsline {algorithm}{\numberline {3.7}{\ignorespaces Algoritmo \textsc {horizontalEventLeft} do par mais próximo cinético}}{44}{algorithm.caption.72}%
-\contentsline {algorithm}{\numberline {3.8}{\ignorespaces Algoritmo \textsc {horizontalEventRight} do par mais próximo cinético}}{45}{algorithm.caption.73}%
-\contentsline {algorithm}{\numberline {3.9}{\ignorespaces Algoritmo \textsc {upEvent} do par mais próximo cinético}}{45}{algorithm.caption.75}%
-\contentsline {algorithm}{\numberline {3.10}{\ignorespaces Algoritmo \textsc {upEventLeft} do par mais próximo cinético}}{46}{algorithm.caption.76}%
-\contentsline {algorithm}{\numberline {3.11}{\ignorespaces Algoritmo \textsc {upEventRight} do par mais próximo cinético}}{46}{algorithm.caption.77}%
-\contentsline {algorithm}{\numberline {3.12}{\ignorespaces Algoritmo \textsc {downEvent} do par mais próximo cinético}}{47}{algorithm.caption.79}%
-\contentsline {algorithm}{\numberline {3.13}{\ignorespaces Algoritmo \textsc {downEventLeft} do par mais próximo cinético}}{48}{algorithm.caption.80}%
-\contentsline {algorithm}{\numberline {3.14}{\ignorespaces Algoritmo \textsc {downEventRight} do par mais próximo cinético}}{48}{algorithm.caption.81}%
+\contentsline {algorithm}{\numberline {3.3}{\ignorespaces Algoritmo \textsc {predecessor} do par mais próximo}}{41}{algorithm.caption.65}%
+\contentsline {algorithm}{\numberline {3.4}{\ignorespaces Algoritmo \textsc {lcand} do par mais próximo}}{42}{algorithm.caption.67}%
+\contentsline {algorithm}{\numberline {3.5}{\ignorespaces Algoritmo \textsc {query\_closest} do par mais próximo}}{42}{algorithm.caption.68}%
+\contentsline {algorithm}{\numberline {3.6}{\ignorespaces Algoritmo \textsc {horizontalEvent} do par mais próximo cinético}}{44}{algorithm.caption.70}%
+\contentsline {algorithm}{\numberline {3.7}{\ignorespaces Algoritmo \textsc {horizontalEventLeft} do par mais próximo cinético}}{45}{algorithm.caption.72}%
+\contentsline {algorithm}{\numberline {3.8}{\ignorespaces Algoritmo \textsc {horizontalEventRight} do par mais próximo cinético}}{46}{algorithm.caption.73}%
+\contentsline {algorithm}{\numberline {3.9}{\ignorespaces Algoritmo \textsc {upEvent} do par mais próximo cinético}}{46}{algorithm.caption.75}%
+\contentsline {algorithm}{\numberline {3.10}{\ignorespaces Algoritmo \textsc {upEventLeft} do par mais próximo cinético}}{47}{algorithm.caption.76}%
+\contentsline {algorithm}{\numberline {3.11}{\ignorespaces Algoritmo \textsc {upEventRight} do par mais próximo cinético}}{47}{algorithm.caption.77}%
+\contentsline {algorithm}{\numberline {3.12}{\ignorespaces Algoritmo \textsc {downEvent} do par mais próximo cinético}}{48}{algorithm.caption.79}%
+\contentsline {algorithm}{\numberline {3.13}{\ignorespaces Algoritmo \textsc {downEventLeft} do par mais próximo cinético}}{49}{algorithm.caption.80}%
+\contentsline {algorithm}{\numberline {3.14}{\ignorespaces Algoritmo \textsc {downEventRight} do par mais próximo cinético}}{49}{algorithm.caption.81}%
 \contentsline {algorithm}{\numberline {4.1}{\ignorespaces Algoritmo \textsc {delaunay} da triangulação de delaunay}}{54}{algorithm.caption.87}%

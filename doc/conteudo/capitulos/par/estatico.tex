@@ -8,6 +8,8 @@
 O algoritmo que será aqui apresentado foi proposto por Basch, Guibas
 e Hershberger [\cite{BASCH19991}] e admite uma boa cinetização, usando a ideia de linha
 de varredura.
+A descrição aqui apresentada baseia-se tanto no artigo original como na dissertação de Freitas
+[\cite{eduardo}].
 
 O algoritmo é baseado na ideia de dividir o plano, para cada ponto, em seis cones iguais.
 Os cones são delimitados pela reta paralela ao eixo $y$ que passa pelo ponto e pelas retas $x \pm
@@ -16,21 +18,22 @@ Figura~\ref{fig:parestatico:cones}.
 
 \input{conteudo/capitulos/par/figuras/estatico/cones}
 
-Tendo dividido o plano em cones, a ideia é achar o ponto mais próximo de $p$ dentro de cada um
-desses cones.
-Se assim o fizermos para todos os pontos, um desses pares possui a menor distância entre si e será
-um par mais próximo que buscamos.
+Tendo dividido o plano nestes seis cones em torno de um ponto $p$, a ideia é achar o ponto mais
+próximo de $p$ dentro de cada um desses cones.
+Se assim o fizermos para todos os pontos da coleção, um desses pares possui a menor distância
+entre si e será um par mais próximo que buscamos.
 
-Se $(p, q)$ formam um par mais próximo, então $(q, p)$ também forma um par mais próximo;
+Se $(p, q)$ é um par mais próximo, então $(q, p)$ também é um par mais próximo;
 na verdade, são o mesmo par.
-Dessa maneira, não precisamos dos seis cones para buscar os pares, somente de três deles.
+Dessa maneira, não precisamos dos seis cones para buscar um tal pares, mas somente de três deles.
 Para uma varredura da direita para a esquerda, apenas buscaremos os pares mais próximos nos três
-cones à direita de p.
+cones à direita de $p$.
 
 Vamos começar analisando o cone cujo eixo central é paralelo ao eixo $x$.
 Chamaremos esse cone de \textit{dominância de p} e o representaremos por $\Dom(p)$.
-Consideraremos que um ponto em cima da linha $x + 30^\circ$ pertence a $\Dom(p)$ e um ponto em cima de
-$x - 30^\circ$ não pertence a $\Dom(p)$ como mostra a Figura~\ref{fig:parestatico:dominancia}.
+Consideraremos que um ponto distinto de $p$ em cima da linha $x + 30^\circ$ pertence a $\Dom(p)$ e um
+ponto em cima de $x - 30^\circ$ não pertence a $\Dom(p)$ como mostra a
+Figura~\ref{fig:parestatico:dominancia}.
 O mesmo algoritmo poderá ser aplicado aos outros dois cones se rotacionarmos o sistema de
 coordenadas~$\pm 60^\circ$.
 
@@ -38,17 +41,17 @@ coordenadas~$\pm 60^\circ$.
 
 A Figura~\ref{fig:parestatico:conjuntos}, inspirada em~\cite{BASCH19991}, ilustra cada uma das
 definições a seguir.
-Definiremos como $\Maxima(p)$ o conjunto dos pontos à direita de $p$ que não pertencem à
-dominância de nenhum ponto à direita de $p$.
+Definiremos como $\Maxima(p)$ o conjunto dos pontos da coleção à direita de $p$ que não pertencem à
+dominância de nenhum ponto da coleção à direita de $p$.
 Isso nos permite definir o conjunto de \textit{candidatos} de $p$ representado por $\Cands(p)$:
-$\Cands(p) = \Dom(p) \cap\Maxima(p)$, ou seja, os candidatos de $p$ são aqueles pontos à
-direita de $p$ que não pertencem à dominância de nenhum ponto à direita de $p$ e
+$\Cands(p) = \Dom(p) \cap\Maxima(p)$, ou seja, os candidatos de $p$ são aqueles pontos da coleção à
+direita de $p$ que não pertencem à dominância de nenhum ponto da coleção à direita de $p$ e
 pertencem à dominância de $p$.
 Chamaremos o ponto de $\Maxima$ de menor ordenada que está acima de $\Dom(p)$ de $\up(p)$ e
 chamaremos o ponto de $\Maxima$ de maior ordenada que está abaixo de $\Dom(p)$ de $\low(p)$.
 Caso não existam tais pontos, $\up(p)$ e $\low(p)$ são \nnull.
 Os pontos de $\Maxima$ estritamente entre $\low(p)$ e $\up(p)$ são justamente os de $\Cands(p)$.
-Dentre os candidatos de $p$, chamaremos o ponto com menor coordenada $x$ de $\lcand(p)$.
+Dentre os candidatos de $p$, chamaremos um ponto com menor coordenada $x$ de $\lcand(p)$.
 
 \input{conteudo/capitulos/par/figuras/estatico/conjuntos}
 
@@ -61,25 +64,27 @@ na Figura~\ref{fig:parestatico:lcands}.
 \input{conteudo/capitulos/par/figuras/estatico/lcands}
 
 O Algoritmo~\ref{alg:par-estatico:horizontal} descreve a sequência de operações a serem feitas para
-achar o par mais próximo em alguma das ordens $(-60^\circ, 0^\circ, 60^\circ)$ representadas pelo
-ângulo $\theta$, dado em radianos.
-Antes da rotina ser chamada, os pontos devem ser ordenados de acordo com a sua coordenada $x$.
-Os pontos são então processados da direita para a esquerda.
-No algoritmo, $a$ e $b$ são os pontos que representam o par mais próximo.
-Se $p$ ou $q$ são nulos, $d(p,q)$ retorna $+\infty$.
+achar um par mais próximo em algum dos cones representados pelo ângulo $\theta$, dado em radianos,
+onde~$\theta \in \lk -60^\circ, 0^\circ, 60^\circ \rk$.
+Primeiramente, os pontos devem ser ordenados de acordo com a sua coordenada $x$, considerando a
+inclinação de $\theta$.
+Os pontos são então processados da direita para a esquerda, considerando a inclinação de $\theta$.
+No algoritmo, $a$ e $b$ são os pontos que representam um par mais próximo.
+Se $p$ ou $q$ são nulos, $d(p,q)$ retorna~$+\infty$.
 
-A cada iteração do Algoritmo~\ref{alg:par-estatico:horizontal}, $\Maxima$ é igual a $\Maxima(p)$.
+A cada iteração do Algoritmo~\ref{alg:par-estatico:horizontal}, $\Maxima$ é igual a
+$\Maxima(p[i])$.
 Na nossa implementação, $\Maxima$ estará armazenado em uma árvore binária de busca, mais
-especificamente em uma \textit{splay tree} cuja chave é a coordenada $y$ dos pontos, determinada
-de acordo com o valor de $\theta$.
-Com isso, podemos buscar por $\up(p)$ e $\low(p)$ em tempo logarítmico, bem como podemos retirar
-$\Cands(p)$ de $\Maxima$ em tempo logarítmico, isto é, atualizar $\Maxima$ de maneira que $\Maxima
-= \Maxima \setminus \Cands(p)$.
+especificamente em uma \textit{splay tree} usando como chave a coordenada $y$ dos pontos,
+considerando uma rotação de $\theta$ em torno de $p[i]$.
+Com isso, podemos buscar por $\up(p[i])$ e $\low(p[i])$ em tempo logarítmico, bem como podemos
+separar $\Cands(p[i])$ de $\Maxima$ em tempo logarítmico, isto é, determinar $\Cands(p[i])$ e
+atualizar $\Maxima$ de maneira que $\Maxima = \Maxima \setminus \Cands(p[i])$.
 
 \input{conteudo/capitulos/par/algoritmos/estatico/closest_pair}
 
 Para descrever a implementação do algoritmo, já considerando as versões rotacionadas dele, iremos
-antes precisar estabelecer os nomes das variáveis e rotinas auxiliares utilizadas.
+precisar estabelecer os nomes das variáveis e rotinas auxiliares utilizadas.
 São elas:
 \begin{enumerate}
     \item $n$: o número de pontos dados;
@@ -92,10 +97,10 @@ São elas:
     \item \no: objeto que compõe a árvore binária de busca,
     atributos:
     \begin{enumerate}
-        \item \esq$:$ aponta para a raiz da subárvore esquerda do nó.
+        \item \esq$:$ raiz da subárvore esquerda do nó.
         A subárvore esquerda é composta apenas por pontos que possuem
         \textit{value}~com menor ordenada que a \textit{value}~do nó;
-        \item \dir$:$ aponta para a raiz da subárvore direita do nó.
+        \item \dir$:$ raiz da subárvore direita do nó.
         A subárvore direita é composta apenas por pontos que possuem
         \textit{value}~com ordenada maior ou igual que a \textit{value}~do nó;
         \item \pai$:$ aponta para o nó que é pai deste nó;
@@ -133,13 +138,14 @@ A interface da \textit{splay tree} que vai armazenar $\Maxima$, e cuja chave é 
 ponto, contará com as seguintes operações, além das usuais \textsc{insert}$(p)$ e
 \textsc{splay}$(x)$:
 \begin{enumerate}
-    \item \textsc{successor}$(p) \rightarrow$ busca pelo nó
+    \item \textsc{successor}$(p) \rightarrow$ devolve o nó
     cuja chave é $\up(p)$ na \textit{splay tree}.
     Esse nó corresponde ao sucessor de $p$ na árvore;
-    \item \textsc{predecessor}$(p) \rightarrow$ busca pelo nó cuja chave é $low(p)$ na \textit{splay tree}.
+    \item \textsc{predecessor}$(p) \rightarrow$ devolve o nó cuja chave é $low(p)$ na
+    \textit{splay tree}.
     Esse nó corresponde ao predecessor de $p$ na árvore;
     % \item \textsc{splay}$(x) \rightarrow$ dá um \textit{splay} no nó $x$;
-    \item \textsc{lcand}$(p) \rightarrow$ calcula $\Cands(p)$, remove da
+    \item \textsc{lcand}$(p) \rightarrow$ remove $\Cands(p)$ da
     \textit{splay tree} e determina $\lcand(p)$, que pode ser \nnull;
     % \item \textsc{clearAll}$() \rightarrow$ remove todos os nós
     % da \textit{splay tree}.
@@ -151,10 +157,9 @@ ponto, contará com as seguintes operações, além das usuais \textsc{insert}$(
 % \textit{splay tree}. Portanto, focaremos em explicar as
 % operações successor$(p)$, predecessor$(p)$ e lcand$(p)$.
 
-No Algoritmo~\ref{alg:par-estatico:successor} e no Algoritmo~\ref{alg:par-estatico:predecessor}, a rotina
-\textsc{checkLine}$(p, q, \theta)$ retorna se o ponto$q$ está à esquerda, sobre ou à direita da
-reta $r$.
-A reta $r$ é a reta que passa por $p$ e faz um ângulo de $\theta$ radianos com o eixo $x$.
+No Algoritmo~\ref{alg:par-estatico:successor} e no Algoritmo~\ref{alg:par-estatico:predecessor}, a
+rotina \textsc{checkLine}$(p, q, \theta)$ retorna se o ponto $q$ está à esquerda, sobre ou à
+direita da reta $r$, que passa por $p$ e faz um ângulo de $\theta$ radianos com o eixo $x$.
 Para $q$ à esquerda de $r$ o retorno é $1$, para $q$ sobre $r$ o retorno é $0$ e para $q$ à
 direita de $r$, o retorno é $-1$.
 
@@ -179,7 +184,7 @@ A rotina \textsc{min\_x}$(z)$ retorna o ponto com menor coordenada $x$ da árvor
 
 \input{conteudo/capitulos/par/algoritmos/estatico/lcand}
 
-O Algoritmo~\ref{alg:par-estatico:closest} implementa a função \textsc{query\_closest} que retorna um
-par $(a,b)$ que possui distância mínima em \pontos.
+O Algoritmo~\ref{alg:par-estatico:closest} implementa a função \textsc{query\_closest} que retorna
+um par $(a,b)$ que possui distância mínima em \pontos.
 
 \input{conteudo/capitulos/par/algoritmos/estatico/query_closest}

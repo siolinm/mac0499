@@ -3,7 +3,7 @@
     \label{alg:par-estatico:predecessor}
     \begin{algorithmic}[1]
         \Function{predecessor}{$p$}
-            \State $x \leftarrow \raiz$
+            \State $x \leftarrow \raiz$ \Comment{raiz da \textit{splay tree}}
             \State $\low \leftarrow \nnull$
             \While{$x \neq \nnull$}
                 \State $y \leftarrow x$

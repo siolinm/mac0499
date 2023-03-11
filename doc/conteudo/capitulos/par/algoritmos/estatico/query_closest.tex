@@ -9,7 +9,7 @@
                 \pontos.x[n]$}
                 \For{$i \leftarrow 1$\To$n$}
                     \State $p \leftarrow $~\pontos$[i]$
-                    \State $\lcand \leftarrow $ \Call{lcand}{$p$}
+                    \State $\lcand \leftarrow $ \Call{lcand}{$p$} \Comment{remove $\Cands(p)$ da \textit{splay tree} e devolve $\lcand(p)$}
                     \State \Call{insert}{$p$}
                     \If{$d(p, \lcand) < d(a, b)$}
                         \State $(a, b) \leftarrow (p, \lcand)$

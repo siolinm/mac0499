@@ -5,12 +5,12 @@
 
 Considere o seguinte problema cinético.
 São dados $n$ pontos movendo-se linearmente no plano.
-Cada ponto é representado por um par $(s_0, \vec{v})$ onde $s_0 = (x_0, y_0)$ é a sua posição
-inicial e $\vec{v} = (v_x, v_y)$ um vetor velocidade.
-A posição de um determinado ponto $p$, num instante arbitrário $t \geq 0$, é $s_p = (x_p, y_p) = (x_0,
-y_0)+t\cdot \vec{v}$.
-Queremos saber o par $(p,q)$ cuja distância $d(p, q) = \sqrt{(x_p - x_q)^2 +
-    (y_p - y_q)^2}$é~mínima, num instante arbitrário $t \geq 0$.
+Cada um destes pontos é representado por um par $(s_0, \vec{v})$ onde $s_0 = (x_0, y_0)$ é a sua
+posição inicial e $\vec{v} = (v_x, v_y)$ um vetor velocidade.
+A posição de um determinado ponto $p$ representado por $(s_0, \vec{v})$ num instante $t$, é
+$s_p = (x_p, y_p) = (x_0, y_0) + t\cdot \vec{v}$.
+Queremos num instante arbitrário $t \geq 0$ determinar um par $(p,q)$ dos $n$ pontos dados cuja
+distância $d(p, q) = \sqrt{(x_p - x_q)^2 + (y_p - y_q)^2}$ é mínima.
 
 Por exemplo, considere cinco pontos na coleção, representados na
 Figura~\ref{fig:parestatico:exemplo}: $((1, 0), (2, 1))$, $((5, -1),
@@ -26,7 +26,7 @@ Queremos dar suporte às seguintes operações:
     \item \textsc{change}$(j, \vec{v})$ $\rightarrow$ altera a
     velocidade do ponto $j$ para $\vec{v}$;
     \item \textsc{query\textunderscore closest}$()$ $\rightarrow$
-    devolve os pontos que formam um par mais próximo no instante
+    devolve dois pontos que formam um par mais próximo no instante
     atual.
 \end{itemize}
 

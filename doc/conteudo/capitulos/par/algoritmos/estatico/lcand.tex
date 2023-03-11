@@ -4,11 +4,11 @@
         \Function{lcand}{$p$}
             \State $r \leftarrow \raiz$
             \State $\low \leftarrow \Call{predecessor}{p}$
+            \State $\up \leftarrow \Call{successor}{p}$
             \If{$\low \neq \nnull$}
                 \State \Call{splay}{$\low$}
                 \State $r \leftarrow \Call{split}{\low.\dir}$
             \EndIf
-            \State $\up \leftarrow \Call{successor}{p}$
             \If{$\up \neq \nnull$}
                 \State $\Call{splay}{\up}$
                 \State $r \leftarrow \Call{split}{\up.\esq}$
