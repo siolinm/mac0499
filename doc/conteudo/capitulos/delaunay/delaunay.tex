@@ -75,37 +75,56 @@ Delaunay.
 Isso nos dá um algoritmo para calcular a triangulação de Delaunay.
 Podemos começar com uma triangulação qualquer e trocar arestas que identificarmos como ilegais,
 até que não haja aresta ilegal.
-Uma possível forma de gerar uma triangulação inicial é utilizando o algoritmo de Graham, veja o
+Uma possível forma de gerar uma triangulação inicial é baseando-se no algoritmo de Graham para
+calcular o fecho convexo de um conjunto de pontos [\cite{Graham1972AnEA}], veja o
 Algoritmo~\ref{alg:delaunay:delaunay-inicial}.
+
+O Algoritmo~\ref{alg:delaunay:delaunay-inicial} mantém a triangulação de Delaunay numa
+\textit{Doubly-Connected Edge List} (DCEL), descrita na Seção~2.2 de~\cite{computationalgeometry}.
+No Algoritmo~\ref{alg:delaunay:delaunay-inicial}, $E$ é a DCEL, $H$ é um vetor que armazena os
+pontos da coleção que fazem parte do fecho e $h$ é o tamanho de $H$.
+A rotina \textsc{adicionaAresta}$(E, p_i, p_j)$ adiciona as duas meia-arestas referentes à aresta
+$(p_i, p_j)$ em $E$.
+A rotina \textsc{ordena}$(P)$, acha o ponto sentinela $p_0$ do algoritmo de Graham e ordena o
+conjunto de pontos em relação ao ângulo polar que esses pontos formam ao redor do ponto $p_0$.
+A rotina \textsc{ilegal}$(e)$ verifica se a meia-aresta $e$ é ilegal, primeiro verificando se a
+face à qual ela pertence é convexa e depois chamando a primitiva \textsc{incircle}, explicada mais
+adiante.
+A rotina \textsc{flip}$(e)$ troca a meia-aresta e a sua gêmea nas faces, como demonstrado na
+Figura~\ref{fig:delaunay:flip}.
 
 \input{conteudo/capitulos/delaunay/algoritmos/graham}
 
 As primitivas utilizadas no Algoritmo~\ref{alg:delaunay:delaunay-inicial} são os testes
 \textsc{left} e \textsc{incircle}.
-O teste \textsc{left} é un teste bem conhecido na geometria computacional e consiste em avaliar o
+O teste \textsc{left} é um teste bem conhecido em geometria computacional e consiste em avaliar o
 valor do seguinte determinante:
-$$\textsc{left}(p_i, p_j, p_k) =
+$$
 \begin{vmatrix}
     x_{p_i} & y_{p_i} & 1 \\
     x_{p_j} & y_{p_j} & 1 \\
     x_{p_k} & y_{p_k} & 1
-\end{vmatrix}$$
-em que um valor maior que zero significa que $p_k$ está à esquerda da reta orientada que passa por
-$p_i$ e $p_j$, zero significa que $p_k$ está sobre a reta e um valor menor que zero significa que
-$p_k$ está à direita da reta.
+\end{vmatrix}.$$
+Se o valor for maior que zero significa que $p_k$ está à esquerda da reta orientada que passa por
+$p_i$ e $p_j$ e a função \textsc{left}$(p_i, p_j, p_k)$ vale \textsc{true}.
+Se o valor for zero significa que $p_k$ está sobre a reta e se o valor for menor que zero
+significa que $p_k$ está à direita da reta;
+nos dois últimos casos, \textsc{left}$(p_i, p_j, p_k) = \textsc{false}$.
 
 Guibas e Stolfi [\cite{guibas-stolfi}] mostram que para determinar se um ponto $p_l$ está dentro
 do círculo que passa por $p_{i}p_{j}p_{k}$ podemos avaliar o valor do seguinte determinante:
-$$\textsc{incircle}(p_i, p_j, p_k, p_l) =
+$$
 \begin{vmatrix}
     x_{p_i} & y_{p_i} & x_{p_i}^2 + y_{p_i}^2 & 1 \\
     x_{p_j} & y_{p_j} & x_{p_j}^2 + y_{p_j}^2 & 1 \\
     x_{p_k} & y_{p_k} & x_{p_k}^2 + y_{p_k}^2 & 1 \\
     x_{p_l} & y_{p_l} & x_{p_l}^2 + y_{p_l}^2 & 1
-\end{vmatrix}$$
-
-em que um valor maior que zero significa que $p_l$ está dentro do círculo, zero significa que $p_l$
-está na borda do círculo e um valor menor que zero significa que $p_l$ está fora do círculo.
+\end{vmatrix}.$$
+Se o valor for maior que zero significa que $p_l$ está dentro do círculo e função
+\textsc{incircle}$(p_i, p_j, p_k, p_l)$ vale \textsc{true}.
+Se o valor for zero significa que $p_l$ está na borda do círculo e se o valor for menor que zero
+significa que $p_l$ está fora do círculo;
+nestes casos, $\textsc{incircle}(p_i, p_j, p_k, p_l)$ é \textsc{false}.
 
 Guibas, Mitchell e Roos [\cite{guibas-mitchell-roos}] propuseram uma estrutura de dados cinética
 para manter a triangulação de Delaunay.

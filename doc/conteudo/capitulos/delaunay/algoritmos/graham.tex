@@ -4,11 +4,12 @@
     \begin{algorithmic}[1]
         \Function{delaunay}{$P$}
             \State \Call{ordena}{$P$}
+            \State $E \leftarrow \varnothing$
             \State \Call{adicionaAresta}{$E, P[1], P[2]$}
             \State $H[1] \leftarrow P[1]$
             \State $H[2] \leftarrow P[2]$
             \State $h \leftarrow 2$
-            \For{$i \leftarrow \lk 3, \dots, n \rk$}
+            \For{$i \leftarrow \lk 3, \dots, |P| \rk$}
                 \State \Call{adicionaAresta}{$E, P[i], P[1]$}
                 \State \Call{adicionaAresta}{$E, H[h], P[i]$}
                 \While{$h > 1~\AND~\Call{left}{H[h], H[h-1], P[i]}$}
@@ -18,16 +19,17 @@
                 \State $h \leftarrow h + 1$
                 \State $H[h] \leftarrow P[i]$
             \EndFor
-            \State $l \leftarrow 1$
-            \While{$l = 1$}
-                \State $l \leftarrow 0$
+            \State $\flipped \leftarrow \True$
+            \While{$\flipped = \True$}
+                \State $\flipped \leftarrow \False$
                 \For{$e \leftarrow E$}
                     \If{\Call{illegal}{$e$}}
-                        \State $l \leftarrow 1$
+                        \State $\flipped \leftarrow \True$
                         \State \Call{flip}{$e$}
                     \EndIf
                 \EndFor
             \EndWhile
+            \State \Return $E$
         \EndFunction
     \end{algorithmic}
 \end{algorithm}

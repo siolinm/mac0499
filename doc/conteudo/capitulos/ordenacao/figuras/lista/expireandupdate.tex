@@ -4,7 +4,7 @@
         \node at (0.5,0 cm) {$4$};
         \node at (0.5,0.5 cm) {$3$};
         \node at (0.5,1 cm) {$2$};
-        \node at (0.5,1.5 cm) {1};
+        \node at (0.5,1.5 cm) {\textbf{1}};
 
         \draw (0.75,-0.5) -- (0.75, 2);
         \draw (1.25,-0.5) -- (1.25, 2);
@@ -12,8 +12,8 @@
         \draw (0.75, 2) -- (1.25, 2);
         \node at (1,0 cm) {$4$};
         \node at (1,0.5 cm) {$3$};
-        \node at (1,1 cm) {$\textbf{1}$};
-        \node at (1,1.5 cm) {$2$};
+        \node at (1,1 cm) {$\textbf{2}$};
+        \node at (1,1.5 cm) {$\textbf{1}$};
 
         \draw[->, shorten >= 0.1pt, shorten <= 0.1pt, >=stealth, line width=0.25mm]
         (1.25, 0) to[out=0,in=-30] node[right=1pt] {$\frac{36}{13}$} (1.25, 0.5);
@@ -35,8 +35,8 @@
         \draw (2.75,0) -- (3.25,0);
         \draw (2.75, 2) -- (3.25, 2);
         \node at (3,0.5 cm) {$\frac{36}{13}$};
-        \node at (3,1 cm) {$\frac{36}{11}$};
-        \node at (3,1.5 cm) {$\infty$};
+        \node at (3,1 cm) {$8$};
+        \node at (3,1.5 cm) {$\textbf{2}$};
 
         \node at (3,2.25 cm) {$\cert$};
 
@@ -44,7 +44,7 @@
             [shift={(5,0)}]
             \node at (0.5,0 cm) {$4$};
             \node at (0.5,0.5 cm) {$3$};
-            \node at (0.5,1 cm) {$\textbf{2}$};
+            \node at (0.5,1 cm) {$2$};
             \node at (0.5,1.5 cm) {$1$};
 
             \draw (0.75,-0.5) -- (0.75, 2);
@@ -54,7 +54,7 @@
             \node at (1,0 cm) {$4$};
             \node at (1,0.5 cm) {$3$};
             \node at (1,1 cm) {$\textbf{1}$};
-            \node at (1,1.5 cm) {$2$};
+            \node at (1,1.5 cm) {$\textbf{2}$};
 
             \draw[->, shorten >= 0.1pt, shorten <= 0.1pt, >=stealth, line width=0.25mm]
             (1.25, 0) to[out=0,in=-30] node[right=1pt] {$\infty$} (1.25, 0.5);
@@ -76,16 +76,15 @@
             \draw (2.75,0) -- (3.25,0);
             \draw (2.75, 2) -- (3.25, 2);
             \node at (3,0.5 cm) {$\frac{36}{13}$};
-            \node at (3,1 cm) {$\bm{\infty}$};
-            \node at (3,1.5 cm) {$\bm{3}$};
+            \node at (3,1 cm) {$\bm{\frac{36}{11}}$};
+            \node at (3,1.5 cm) {$\bm{\infty}$};
 
             \node at (3,2.25 cm) {$\cert$};
 
         \end{scope}
     \end{tikzpicture}
-    \caption[Exemplo após atualização de certificados da lista ordenada]{No exemplo da
-    Figura~\ref{fig:ordenacao:exemplo}, situação quando $\now = 2$ e alterações caso tivéssemos
-    feito uma alteração de velocidade do elemento $1$ para $\frac{1}{2}$ com $t = 2.5$. Como
-        $\inds[1] = 2$, os certificados \cert[1] e \cert[2] foram atualizados.}
-    \label{fig:lista:after}
+    \caption[Exemplo de expiração de certificado da lista ordenada]{No exemplo da
+    Figura~\ref{fig:ordenacao:exemplo}, \cert[1] expirou no instante $\now = 2$, por isso
+        $\sorted[1]$ e $\sorted[2]$ foram trocados e \cert[1] e \cert[2] foram atualizados.}
+    \label{fig:lista:expire}
 \end{figure}

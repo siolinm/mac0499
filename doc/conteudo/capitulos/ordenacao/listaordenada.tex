@@ -120,16 +120,14 @@ elementos $i$ e $j$ no instante \now.
 A rotina auxiliar \textsc{expire}$(i, j)$ não mudará para outros problemas, mantendo a
 mesma definição.
 As implementações estão nos Algoritmos~\ref{alg:lista-ordenada:update}
-e~\ref{alg:lista-ordenada:evento} e as Figuras~\ref{fig:lista:expire} e~\ref{fig:lista:update}
+e~\ref{alg:lista-ordenada:evento} e a Figura~\ref{fig:lista:expire}
 ilustram as atualizações feitas por essas rotinas.
 
 \input{conteudo/capitulos/ordenacao/algoritmos/lista/update}
 
 \input{conteudo/capitulos/ordenacao/algoritmos/lista/event}
 
-\input{conteudo/capitulos/ordenacao/figuras/lista/expire}
-
-\input{conteudo/capitulos/ordenacao/figuras/lista/update}
+\input{conteudo/capitulos/ordenacao/figuras/lista/expireandupdate}
 
 A operação \textsc{query\_kth}$(i)$, implementada no Algoritmo~\ref{alg:lista:query}, consiste em
 devolver \textit{sorted}$[i]$, enquanto que a operação \textsc{change}$(j, v)$ consiste em alterar
