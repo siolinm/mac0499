@@ -83,7 +83,7 @@ seguintes operações:
 Note que não usaremos inserção ou remoção da fila com prioridades.
 
 Para implementar a operação \textsc{change} de maneira eficiente, utilizaremos um vetor adicional
-$\sorted$ que guarda em $\textit{indS}[j]$ a posição em $\sorted$ do elemento $j$.
+$\inds$ que guarda em $\inds[j]$ a posição em $\sorted$ do elemento $j$.
 Utilizaremos $\textit{indS}$ pois, dado um elemento $j$, precisamos saber a posição $i$ do
 elemento $j$ em $\sorted$ para recalcular os certificados relacionados com a posição $i$.
 Para implementar a operação \textsc{updatePQ}$(Q, i, t)$ em tempo logarítmico no número de
@@ -121,7 +121,7 @@ A rotina auxiliar \textsc{expire}$(i, j)$ não mudará para outros problemas, ma
 mesma definição.
 As implementações estão nos Algoritmos~\ref{alg:lista-ordenada:update}
 e~\ref{alg:lista-ordenada:evento} e a Figura~\ref{fig:lista:expire}
-ilustram as atualizações feitas por essas rotinas.
+ilustra as atualizações feitas por essas rotinas.
 
 \input{conteudo/capitulos/ordenacao/algoritmos/lista/update}
 

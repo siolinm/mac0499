@@ -173,7 +173,7 @@ extras:
     $Q$.
 \end{enumerate}
 
-A operação \textsc{updatePQ}$(Q,e,t)$ pode ser implementada de modo
+As operações \textsc{updatePQ}$(Q,e,t)$ e \textsc{deletePQ}$(Q,e)$ podem ser implementadas de modo
 a consumir tempo logarítmico no número de elementos em $Q$ graças ao
 atributo \pqpos~dos elementos.
 
@@ -289,6 +289,6 @@ mesma operação em $O(1)$.
 O desempenho pior na operação \textsc{query-kth} é justificado pelo ganho de
 desempenho nas operações \textsc{insert} e \textsc{delete}, que também são
 realizadas em tempo $O(\lg{n})$, enquanto que na lista ordenada cinética o tempo
-gasto é seria$O(n)$, pois precisaríamos mover $O(n)$ objetos para posicionar o novo
+gasto é seria $O(n)$, pois precisaríamos mover $O(n)$ objetos para posicionar o novo
 elemento na posição correta ou para reorganizar o vetor de forma a ocupar a
 posição que ficou vazia após a remoção de um elemento.
