@@ -2,12 +2,13 @@
 
 \unnumberedchapter{Conclusão}\label{cap:conclusao}
 
-Este trabalho se propõe a apresentar de forma simplificada as estruturas de dados cinéticas, analisar o seu desempenho e
-também implementar as estruturas.
+Neste trabalho, apresentamos de forma simplificada as estruturas de dados cinéticas, analisamos o seu desempenho e
+implementamos as estruturas.
 
-O plano inicial era implementar e explicar com mais detalhes todas as estruturas, porém a estrutura para manter a
-triangulação de Delaunay, apresentada no Capítulo~\ref{ch:triangulacao-de-delaunay-cinetica},
-não foi implementada por restrições de tempo e por este motivo também não foi detalhada neste trabalho.
+O plano inicial era implementar e explicar com mais detalhes a implementação de cada uma das estruturas.
+Porém, a estrutura para manter a triangulação de Delaunay, que é apresentada no
+Capítulo~\ref{ch:triangulacao-de-delaunay-cinetica}, não foi implementada e por este motivo não foram apresentados
+tantos detalhes de implementação como nas outras.
 
 As estruturas de dados descritas no Capítulo~\ref{ch:ordenacao-cinetica},
 Capítulo~\ref{ch:maximo-cinetico} e Capítulo~\ref{ch:par-mais-proximo-cinetico} foram implementadas
@@ -16,7 +17,10 @@ em linguagem C e estão disponíveis em \href{https://github
 Para o algoritmo do Capítulo~\ref{ch:par-mais-proximo-cinetico}, foi construída uma animação
 utilizando a biblioteca \href{https://www.cairographics.org/}{cairo}.
 
-Um grande obstáculo durante o estudo do Capítulo~\ref{ch:par-mais-proximo-cinetico} foram casos degenerados em que $2$
-ou mais pontos
-
+Um grande obstáculo que tentamos superar durante o estudo do Capítulo~\ref{ch:par-mais-proximo-cinetico}
+foi o de casos degenerados em que $2$ ou mais pontos assumem a mesma coordenada em um determinado instante de tempo.
+Dependendo da ordem em que os eventos eram processados, as estruturas entravam em um estado inconsistente para
+o instante $t + \epsilon$.
+Após algum tempo, não conseguimos adaptar o algoritmo para conseguir lidar com esses casos, e por isso seguimos para
+outros assuntos sem resolver esse problema.
 
